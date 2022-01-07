@@ -14,7 +14,7 @@ main =
     a = point 2 # Even seed ~ x==6
     b = point 4 # Even seed ~ x==6
     c = point 6 # Even seed, but...
-        |> Random.andThen point # ... odd seed ~ x==5 (seed increments on each use)
+        |> Random.next point # ... odd seed ~ x==5 (seed increments on each use)
     d = point 7 # Odd seed ~ x==5
     _ <- await (line (Num.toStr a.value.x)) # 6
     _ <- await (line (Num.toStr b.value.x)) # 6

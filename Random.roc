@@ -3,8 +3,8 @@ interface Random
         Generation,
         Generator,
         Seed,
-        andThen,
         int,
+        next,
         step,
     ]
     imports []
@@ -15,6 +15,9 @@ Generator a : Seed -> Generation a
 # TODO: Can we simplify this type? `x.value` is awkward.
 Generation a : { value : a, seed : Seed }
 
+
+next : Generation *, Generator a -> Generation a
+next = \x, g -> g x.seed
 
 step : Seed, Generator a -> Generation a
 step = \seed, g -> g seed
@@ -28,7 +31,3 @@ int = \a, b ->
             { value: a, seed: seed + 1 }
         else
             { value: b, seed: seed + 1 }
-
-
-andThen : Generation *, Generator a -> Generation a
-andThen = \x, g -> g x.seed
