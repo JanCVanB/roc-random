@@ -4,7 +4,6 @@ interface Random
         Generator,
         Seed,
         andThen,
-        init,
         int,
         step,
     ]
@@ -16,12 +15,6 @@ Generator a : Seed -> Generation a
 # TODO: Can we simplify this type? `x.value` is awkward.
 Generation a : { value : a, seed : Seed }
 
-
-# TODO: Can we automate seed caching/passing?
-#       How does Elm do it?
-#       This is not currently an abstraction above `step`.
-init : ({} -> Seed) -> (Generator a -> Generation a)
-init = \getSeed -> (\g -> g (getSeed {}))
 
 step : Seed, Generator a -> Generation a
 step = \seed, g -> g seed
