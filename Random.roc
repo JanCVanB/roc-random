@@ -15,13 +15,28 @@ Seed : U64
 Generator a : Seed -> Generation a
 # TODO: Can we simplify this type? `x.value` is awkward.
 Generation a : { value : a, seed : Seed }
+Generate a : Generator a -> Generation a
 
 
 # TODO: Can we automate seed caching/passing?
 #       How does Elm do it?
 #       This is not currently an abstraction above `step`.
-init : ({} -> Seed) -> (Generator a -> Generation a)
-init = \getSeed -> (\g -> g (getSeed {}))
+# init : ({} -> Seed) -> Generate *
+StatefulGenerator a o : StatelessGenerator a -> StatefulGeneration a o
+StatefulGeneration a o : { value : a, seed: Seed, pfOutput : o }
+InitConfig o : {
+    getInitialSeed : {} -> Seed,
+    postUpdatedSeed : Seed -> o,
+    }
+init : InitConfig o -> StatefulGenerator * o
+init = \config ->
+    initialSeed = config.getInitialSeed {}
+    \g ->
+        { value, seed } = g initialSeed
+        pfOutput = config.postUpdatedSeed seed
+        { value, seed, pfOutput }
+
+
 
 step : Seed, Generator a -> Generation a
 step = \seed, g -> g seed

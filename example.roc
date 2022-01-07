@@ -16,14 +16,18 @@ main =
     c = point 6 # Even seed, but...
         |> Random.andThen point # ... odd seed ~ x==5 (seed increments on each use)
     d = point 7 # Odd seed ~ x==5
-    getSeed = \_ -> 8
+    nextSeed = 8
+    getInitialSeed = \_ -> nextSeed
+    postUpdatedSeed = \_ ->
+        # Uhhh, can't mutate the cache...
+        {}
     # TODO: When https://github.com/rtfeldman/roc/issues/2322 is resolved, use these lines instead:
     # generate = Random.init getSeed
     # e = generate point # Even seed ~ x==6
     # f = generate point # Even seed, but...
     #     |> Random.andThen point # ... odd seed ~ x==5 (seed increments on each use)
-    e = (Random.init getSeed) point # Even seed ~ x==6
-    f = (Random.init getSeed) point # Even seed, but...
+    e = (Random.init {getInitialSeed:getInitialSeed,postUpdatedSeed:postUpdatedSeed}) point # Even seed ~ x==6
+    f = (Random.init {getInitialSeed:getInitialSeed,postUpdatedSeed:postUpdatedSeed}) point # Even seed, but...
         |> Random.andThen point # ... odd seed ~ x==5 (seed increments on each use)
     _ <- await (line (Num.toStr a.value.x)) # 6
     _ <- await (line (Num.toStr b.value.x)) # 6
