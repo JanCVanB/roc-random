@@ -2,6 +2,12 @@
 
 A [Roc](https://roc-lang.org) library for random number generation
 
+## Status
+
+This is a work in progress.
+
+Contributions & feedback are very welcome! :)
+
 ## Goals
 
 * An external API that is similar to that of
