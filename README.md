@@ -1,2 +1,3 @@
 # roc-random
-A Roc library for random number generation
+
+A [Roc](https://roc-lang.org) library for random number generation
