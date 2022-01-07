@@ -4,7 +4,9 @@ interface Random
         Generator,
         Seed,
         int,
+        last,
         next,
+        one,
         step,
     ]
     imports []
@@ -12,12 +14,25 @@ interface Random
 
 Seed : U64
 Generator a : Seed -> Generation a
-# TODO: Can we simplify this type? `x.value` is awkward.
-Generation a : { value : a, seed : Seed }
+Generation a : [ Tuple a Seed ]
 
+
+one : Generator a, Seed -> a
+one = \g, s ->
+    when g s is
+        Tuple value _ -> value
+
+last : Generation *, Generator a -> a
+last = \x, g ->
+    when x is
+        Tuple _ seed ->
+            when g seed is
+                Tuple value _ -> value
 
 next : Generation *, Generator a -> Generation a
-next = \x, g -> g x.seed
+next = \x, g ->
+    when x is
+        Tuple _ seed -> g seed
 
 step : Seed, Generator a -> Generation a
 step = \seed, g -> g seed
@@ -28,6 +43,6 @@ int = \a, b ->
     \seed ->
         # TODO: Replace this placeholder implementation with PCG.
         if (seed % 2 |> Result.withDefault 0) == 0 then
-            { value: a, seed: seed + 1 }
+            Tuple a (seed + 1)
         else
-            { value: b, seed: seed + 1 }
+            Tuple b (seed + 1)

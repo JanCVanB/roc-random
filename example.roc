@@ -6,18 +6,20 @@ app "example"
     provides [ main ] to pf
 
 main =
-    point = \seed ->
-        x = Random.step seed (Random.int 6 5) # Even/odd seed chooses x==6 vs. x==5
-        y = Random.step x.seed (Random.int 4 3)
-        z = Random.step y.seed (Random.int 2 1)
-        { value: { x: x.value, y: y.value, z: z.value }, seed: z.seed }
-    a = point 2 # Even seed ~ x==6
-    b = point 4 # Even seed ~ x==6
-    c = point 6 # Even seed, but...
-        |> Random.next point # ... odd seed ~ x==5 (seed increments on each use)
-    d = point 7 # Odd seed ~ x==5
-    _ <- await (line (Num.toStr a.value.x)) # 6
-    _ <- await (line (Num.toStr b.value.x)) # 6
-    _ <- await (line (Num.toStr c.value.x)) # 5
-    _ <- await (line (Num.toStr d.value.x)) # 5
+    Point : { x : Int *, y : Int *, z : Int * }
+    point : Random.Generator Point
+    point = \seed0 ->
+        Tuple x seed1 = Random.step seed0 (Random.int 6 5) # Even/odd seed chooses x==6 vs. x==5
+        Tuple y seed2 = Random.step seed1 (Random.int 4 3)
+        Tuple z seed3 = Random.step seed2 (Random.int 2 1)
+        Tuple { x, y, z } seed3
+    a = Random.one point 2 # Even seed ~ x==6
+    b = Random.one point 3 # Odd seed ~ x==5
+    c = Random.one point 4 # Even seed ~ x==6
+    d = Random.step 6 point # Even seed, but...
+        |> Random.last point # ... odd seed ~ x==5 (seed increments on each use)
+    _ <- await (line (Num.toStr a.x)) # 6
+    _ <- await (line (Num.toStr b.x)) # 5
+    _ <- await (line (Num.toStr c.x)) # 6
+    _ <- await (line (Num.toStr d.x)) # 5
     line ":)"
