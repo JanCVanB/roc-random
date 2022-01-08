@@ -13,9 +13,19 @@ interface Random
 
 
 Seed : U64
-Generator a : Seed -> Generation a
+Generator a : [ @Generator (Seed -> Generation a) ]
 Generation a : [ Tuple a Seed ]
 
+
+after : Generator a, (a -> Generator b) -> Generator b
+after = \@Generator generatorA, callback ->
+    @Generator \seed1 ->
+        Tuple value seed2 = generatorA seed1
+        @Generator generatorB = callback value
+        generatorB seed2
+
+constant : a -> Generator a
+constant = \x -> @Generator \seed -> Tuple x seed
 
 one : Generator a, Seed -> a
 one = \g, s ->
@@ -28,11 +38,6 @@ last = \x, g ->
         Tuple _ seed ->
             when g seed is
                 Tuple value _ -> value
-
-next : Generation *, Generator a -> Generation a
-next = \x, g ->
-    when x is
-        Tuple _ seed -> g seed
 
 step : Seed, Generator a -> Generation a
 step = \seed, g -> g seed
