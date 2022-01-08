@@ -25,5 +25,5 @@ between executions of your application,
 your Roc platform of choice must provide
 a random/pseudorandom/varying seed.
 Otherwise, your pure functions will be responsible
-for providing `Random`'s pure functions with a constant seed
+for providing `Gen`'s pure functions with a constant seed
 that will merely choose which predictable sequence you'll receive.
