@@ -7,17 +7,20 @@ app "example"
 
 main =
     point = \seed ->
-        x = Random.step seed (Random.int 6 5) # Even/odd seed chooses x==6 vs. x==5
-        y = Random.step x.seed (Random.int 4 3)
-        z = Random.step y.seed (Random.int 2 1)
+        # TODO: Test non-64-bit generators.
+        x = Random.step seed (Random.u64 1 2)
+        y = Random.step x.seed (Random.i64 3 4)
+        z = Random.step y.seed (Random.int 5 6)
         { value: { x: x.value, y: y.value, z: z.value }, seed: z.seed }
-    a = point 2 # Even seed ~ x==6
-    b = point 4 # Even seed ~ x==6
-    c = point 6 # Even seed, but...
-        |> Random.next point # ... odd seed ~ x==5 (seed increments on each use)
-    d = point 7 # Odd seed ~ x==5
-    _ <- await (line (Num.toStr a.value.x)) # 6
-    _ <- await (line (Num.toStr b.value.x)) # 6
-    _ <- await (line (Num.toStr c.value.x)) # 5
-    _ <- await (line (Num.toStr d.value.x)) # 5
+    # TODO: Test non-64-bit seeds.
+    a = point (Random.seed 1)
+    b = point (Random.seed 1)
+    c = point (Random.seed 2)
+    d = c |> Random.next point
+    e = d |> Random.next point
+    _ <- await (line (Num.toStr a.value.x))
+    _ <- await (line (Num.toStr b.value.x))
+    _ <- await (line (Num.toStr c.value.x))
+    _ <- await (line (Num.toStr d.value.x))
+    _ <- await (line (Num.toStr e.value.x))
     line ":)"
