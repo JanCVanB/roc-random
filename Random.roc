@@ -22,10 +22,10 @@ interface Random
 Generator seed value : seed -> Generation seed value
 Generation seed value : { seed, value }
 
-Seed32 : [ @Seed32 U32 ]
-Seed64 : [ @Seed64 U64 ]
-Seed128 : [ @Seed128 U128 ]
-AnySeed : [ @Seed32 U32, @Seed64 U64, @Seed128 U128 ]
+Seed32 : [ Seed32 U32 ]
+Seed64 : [ Seed64 U64 ]
+Seed128 : [ Seed128 U128 ]
+AnySeed : [ Seed32 U32, Seed64 U64, Seed128 U128 ]
 
 
 ## ## Helpers for all generators
@@ -35,11 +35,11 @@ next = \x, g -> g x.seed
 
 seed = seed64
 seed32 : U32 -> Seed32
-seed32 = \state -> @Seed32 state
+seed32 = \state -> Seed32 state
 seed64 : U64 -> Seed64
-seed64 = \state -> @Seed64 state
+seed64 = \state -> Seed64 state
 seed128 : U128 -> Seed128
-seed128 = \state -> @Seed128 state
+seed128 = \state -> Seed128 state
 
 step : AnySeed, Generator seed value -> Generation seed value
 step = \s, g -> g s
@@ -135,7 +135,7 @@ sort = \x, y ->
 #     XS = XorShift (see section 5.5 on page 34 in the paper)
 
 # See `pcg_output_rxs_m_xs_32_32` (on line 182?) in the C++ header.
-growSeed32 = \@Seed32 state ->
+growSeed32 = \Seed32 state ->
     rxsa = 28
     rxsb = 4
     m = 277_803_737
@@ -143,7 +143,7 @@ growSeed32 = \@Seed32 state ->
     pcgRxsMXs state rxsa rxsb m xs
 
 # See `pcg_output_rxs_m_xs_64_64` (on line 188?) in the C++ header.
-growSeed64 = \@Seed64 seed ->
+growSeed64 = \Seed64 seed ->
     rxsa = 59
     rxsb = 5
     m = 12_605_985_483_714_917_081
@@ -151,7 +151,7 @@ growSeed64 = \@Seed64 seed ->
     pcgRxsMXs state rxsa rxsb m xs
 
 # See `pcg_output_rxs_m_xs_128_128` (on line 196?) in the C++ header.
-growSeed128 = \@Seed128 state ->
+growSeed128 = \Seed128 state ->
     rxsa = 122
     rxsb = 6
     m = (Num.shiftLeftBy 64 17_766_728_186_571_221_404) + 12_605_985_483_714_917_081
@@ -168,20 +168,20 @@ pcgRxsMXs = \state, rxsa, rxsb, m, xs ->
 pcgUpdateState = \state, multiplier, increment -> state * multiplier + increment
 
 # See `pcg_oneseq_32_step_r` (line 504?) in the above C++ header
-updateSeed32 = \@Seed32 state ->
+updateSeed32 = \Seed32 state ->
     multiplier = 747_796_405
     # TODO: Replace this with user-supplied?
     increment = 2_891_336_453
-    @Seed32 (pcgUpdateState state multiplier increment)
+    Seed32 (pcgUpdateState state multiplier increment)
 
 # See `pcg_oneseq_64_step_r` (line 552?) in the above C++ header.
-updateSeed64 = \@Seed64 state -> 
+updateSeed64 = \Seed64 state -> 
     multiplier = 6_364_136_223_846_793_005 
     increment = 1_442_695_040_888_963_407
-    @Seed64 (pcgUpdateState state multiplier increment)
+    Seed64 (pcgUpdateState state multiplier increment)
 
 # See `pcg_oneseq_128_step_r` (line 601?) in the above C++ header.
-updateSeed128 = \@Seed128 state ->
+updateSeed128 = \Seed128 state ->
     multiplier = (Num.shiftLeftBy 64 2_549_297_995_355_413_924) + 4_865_540_595_714_422_341
     increment = (Num.shiftLeftBy 64 6_364_136_223_846_793_005) + 1_442_695_040_888_963_407
-    @Seed128 (pcgUpdateState state multiplier increment)
+    Seed128 (pcgUpdateState state multiplier increment)
