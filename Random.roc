@@ -30,7 +30,7 @@ AnySeed : [ Seed32 U32, Seed64 U64, Seed128 U128 ]
 
 ## ## Helpers for all generators
 
-next : Generation *, Generator seed value -> Generation seed value
+next : Generation * *, Generator seed value -> Generation seed value
 next = \x, g -> g x.seed
 
 seed = seed64
