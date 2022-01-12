@@ -17,7 +17,7 @@ interface Random
     imports []
 
 
-## Types
+#### Types
 
 Generator seed value : seed -> Generation seed value
 Generation seed value : { seed, value }
@@ -28,7 +28,7 @@ Seed128 : [ @Seed128 U128 ]
 AnySeed : [ @Seed32 U32, @Seed64 U64, @Seed128 U128 ]
 
 
-## Public helpers
+## ## Helpers for all generators
 
 next : Generation *, Generator seed value -> Generation seed value
 next = \x, g -> g x.seed
@@ -45,7 +45,7 @@ step : AnySeed, Generator seed value -> Generation seed value
 step = \s, g -> g s
 
 
-## Public constructors for common generators
+## ## Constructors for primitive generators
 
 # TODO: Support generating `I32` from `Seed64`, etc.
 i32 : I32, I32 -> Generator Seed32 I32
@@ -75,7 +75,7 @@ u128 = \x, y ->
     between x y (\seed -> growSeed128 seed) (\seed -> updateSeed128 seed)
 
 
-## Private helpers for common generators
+#### Generator helpers
 
 between = \x, y, growSeed, updateSeed ->
     Pair minimum maximum = sort x y
@@ -124,7 +124,7 @@ sort = \x, y ->
         Pair y x
 
 
-## PCG algorithms & wrappers
+#### PCG algorithms & wrappers
 # 
 # Based on this paper: https://www.pcg-random.org/pdf/hmc-cs-2014-0905.pdf
 # Based on this C++ header: https://github.com/imneme/pcg-c/blob/master/include/pcg_variants.h
