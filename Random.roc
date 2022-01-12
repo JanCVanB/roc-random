@@ -2,7 +2,7 @@ interface Random
     exposes [
         i32,
         i64,
-        i12,
+        i128,
         int,
         next,
         seed,
