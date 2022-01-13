@@ -8,14 +8,16 @@ app "example"
 main =
     point = \seed ->
         # TODO: Test non-64-bit generators.
-        x = Random.step seed (Random.u64 1 2)
-        y = Random.step x.seed (Random.i64 3 4)
-        z = Random.step y.seed (Random.int 5 6)
-        { value: { x: x.value, y: y.value, z: z.value }, seed: z.seed }
-    # TODO: Test non-64-bit seeds.
-    a = point (Random.seed 1)
-    b = point (Random.seed 1)
-    c = point (Random.seed 2)
+        x = Random.step seed (Random.u32 1 2)
+        # y = Random.step x.seed (Random.i32 3 4)
+        # z = Random.step y.seed (Random.int 5 6)
+        z = Random.step x.seed (Random.int 5 6)
+        # { value: { x: x.value, y: y.value, z: z.value }, seed: z.seed }
+        { value: { x: x.value, z: z.value }, seed: z.seed }
+    # TODO: Test non-32-bit seeds as well.
+    a = point (Random.seed32 1)
+    b = point (Random.seed32 1)
+    c = point (Random.seed32 2)
     d = c |> Random.next point
     e = d |> Random.next point
     _ <- await (line (Num.toStr a.value.x))
