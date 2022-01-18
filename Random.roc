@@ -178,7 +178,7 @@ sort = \x, y ->
 
 
 #### PCG algorithms & wrappers
-# 
+#
 # Based on this paper: https://www.pcg-random.org/pdf/hmc-cs-2014-0905.pdf
 # Based on this C++ header: https://github.com/imneme/pcg-c/blob/master/include/pcg_variants.h
 # Abbreviations:
@@ -303,7 +303,7 @@ updateSeed32 = \Seed32 state ->
 # TODO: This is waiting on 64-bit generators.
 # # See `pcg_oneseq_64_step_r` (line 552?) in the above C++ header.
 # updateSeed64 : Seed64 -> Seed64
-# updateSeed64 = \Seed64 state -> 
+# updateSeed64 = \Seed64 state ->
 #     multiplier : U64
 #     multiplier = 6_364_136_223_846_793_005
 #     # TODO: Replace this with user-supplied?
