@@ -31,15 +31,17 @@ step = \s, g -> g s
 
 ## ## Constructors for primitive generators
 
-# TODO: Support generating `I32` from `Seed64`, etc.
+# TODO: This is waiting on `convertU32ToI32`.
 # i32 : I32, I32 -> Generator Seed32 I32
 # i32 = \x, y ->
 #     between x y (\seed -> convertU32ToI32 (growSeed32 seed)) (\seed -> updateSeed32 seed)
 
+# TODO: This is waiting on `convertU64ToI64` & `growseed64`.
 # i64 : I64, I64 -> Generator Seed64 I64
 # i64 = \x, y ->
 #     between x y (\seed -> convertU64ToI64 (growSeed64 seed)) (\seed -> updateSeed64 seed)
 
+# TODO: This is waiting on `convertU128ToI128` & `growseed128`.
 # i128 : I128, I128 -> Generator Seed128 I128
 # i128 = \x, y ->
 #     between x y (\seed -> convertU128ToI128 (growSeed128 seed)) (\seed -> updateSeed128 seed)
@@ -50,12 +52,12 @@ u32 : U32, U32 -> Generator Seed32 U32
 u32 = \x, y ->
     between x y (\seed -> growSeed32 seed) (\seed -> updateSeed32 seed)
 
-# TODO: This is waiting on https://github.com/rtfeldman/roc/issues/2332.
+# TODO: This is waiting on `growSeed64`.
 # u64 : U64, U64 -> Generator Seed64 U64
 # u64 = \x, y ->
 #     between x y (\seed -> growSeed64 seed) (\seed -> updateSeed64 seed)
 
-# TODO: This is waiting on https://github.com/rtfeldman/roc/issues/2332.
+# TODO: This is waiting on `growSeed64`.
 # u128 : U128, U128 -> Generator Seed128 U128
 # u128 = \x, y ->
 #     between x y (\seed -> growSeed128 seed) (\seed -> updateSeed128 seed)
@@ -70,7 +72,7 @@ between = \x, y, growSeed, updateSeed ->
         value = minimum + modWithNonzero (growSeed seed) range
         { value, seed: updateSeed seed }
 
-# TODO: This is waiting on Num.toI32 to be implemented.
+# TODO: This is waiting on `Num.toI32` (https://github.com/rtfeldman/roc/issues/664).
 # convertU32ToI32 : U32 -> I32
 # convertU32ToI32 = \x ->
 #     minimum : I32
@@ -82,7 +84,7 @@ between = \x, y, growSeed, updateSeed ->
 #     else
 #         Num.toI32 (x + minimum)
 
-# TODO: This is waiting on Num.toI64 to be implemented.
+# TODO: This is waiting on `Num.toI64` (https://github.com/rtfeldman/roc/issues/664).
 # convertU64ToI64 : U64 -> I64
 # convertU64ToI64 = \x ->
 #     minimum : I64
@@ -94,7 +96,7 @@ between = \x, y, growSeed, updateSeed ->
 #     else
 #         Num.toI64 (x + minimum)
 
-# TODO: This is waiting on Num.toI128 to be implemented.
+# TODO: This is waiting on `Num.toI128` (https://github.com/rtfeldman/roc/issues/664).
 # convertU128ToI128 : U128 -> I128
 # convertU128ToI128 = \x ->
 #     minimum : I128
@@ -139,7 +141,7 @@ growSeed32 = \Seed32 state ->
     xs = 22
     pcgRxsMXs state rxs rxsi m xs
 
-# TODO: This is waiting on https://github.com/rtfeldman/roc/issues/2332.
+# TODO: This is waiting on literals > maxI64 (https://github.com/rtfeldman/roc/issues/2332).
 # # See `pcg_output_rxs_m_xs_64_64` (on line 188?) in the C++ header.
 # growSeed64 = Seed64 -> U64
 # growSeed64 = \Seed64 state ->
@@ -153,7 +155,7 @@ growSeed32 = \Seed32 state ->
 #     xs = 43
 #     pcgRxsMXs state rxs rxsi m xs
 
-# TODO: This is waiting on https://github.com/rtfeldman/roc/issues/2332.
+# TODO: This is waiting on literals > maxI64 (https://github.com/rtfeldman/roc/issues/2332).
 # # See `pcg_output_rxs_m_xs_128_128` (on line 196?) in the C++ header.
 # growSeed128 = Seed128 -> U128
 # growSeed128 = \Seed128 state ->
@@ -193,22 +195,24 @@ updateSeed32 = \Seed32 state ->
     increment = 2_891_336_453
     Seed32 (pcgUpdateState state multiplier increment)
 
-# TODO: This is waiting on https://github.com/rtfeldman/roc/issues/2332.
+# TODO: This is waiting on 64-bit generators.
 # # See `pcg_oneseq_64_step_r` (line 552?) in the above C++ header.
 # updateSeed64 : Seed64 -> Seed64
 # updateSeed64 = \Seed64 state -> 
 #     multiplier : U64
 #     multiplier = 6_364_136_223_846_793_005
+#     # TODO: Replace this with user-supplied?
 #     increment : U64
 #     increment = 1_442_695_040_888_963_407
 #     Seed64 (pcgUpdateState state multiplier increment)
 
-# TODO: This is waiting on https://github.com/rtfeldman/roc/issues/2332.
+# TODO: This is waiting on 128-bit generators.
 # # See `pcg_oneseq_128_step_r` (line 601?) in the above C++ header.
 # updateSeed128 : Seed128 -> Seed128
 # updateSeed128 = \Seed128 state ->
 #     multiplier : U128
 #     multiplier = (Num.shiftLeftBy 64 2_549_297_995_355_413_924) + 4_865_540_595_714_422_341
+#     # TODO: Replace this with user-supplied?
 #     increment : U128
 #     increment = (Num.shiftLeftBy 64 6_364_136_223_846_793_005) + 1_442_695_040_888_963_407
 #     Seed128 (pcgUpdateState state multiplier increment)

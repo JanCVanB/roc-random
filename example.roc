@@ -7,13 +7,13 @@ app "example"
 
 main =
     point = \seed ->
-        # TODO: Test non-64-bit generators.
         x = Random.step seed (Random.u32 10 19)
-        # y = Random.step x.seed (Random.i32 30 39)
-        # z = Random.step y.seed (Random.int 50 59)
-        z = Random.step x.seed (Random.int 50 59)
-        # { value: { x: x.value, y: y.value, z: z.value }, seed: z.seed }
-        { value: { x: x.value, z: z.value }, seed: z.seed }
+        # TODO: Add `point.y : U64` when `Random.u64` is ready.
+        # TODO: Add `point.z : U128` when `Random.u128` is ready.
+        # TODO: Add `point.x4? : I32` when `Random.i32` is ready.
+        # TODO: Add `point.x5? : I64` when `Random.i64` is ready.
+        # TODO: Add `point.x6? : I128` when `Random.i128` is ready.
+        { value: { x: x.value }, seed: x.seed }
     # TODO: Test non-32-bit seeds as well.
     a = point (Random.seed32 1)
     b = point (Random.seed32 1)
