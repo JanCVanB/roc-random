@@ -150,13 +150,20 @@ growSeed32 = \Seed32 state ->
 #     pcgRxsMXs state rxsa rxsb m xs
 
 # See section 6.3.4 on page 45 in the paper.
-pcgRxsMXs = \state, rxsa, rxsb, m, xs ->
-    partial = (Num.bitwiseXor state (Num.shiftRightZfBy ((Num.shiftRightZfBy rxsa state) + rxsb) state)) * m
-    output = Num.bitwiseXor partial (Num.shiftRightZfBy xs partial)
-    output
+pcgRxsMXs : Int a, Int a, Int a, Int a, Int a -> Int a
+pcgRxsMXs = \state, randomBitshift, randomBitshiftIncrement, multiplier, bitshift ->
+    partial = Num.mulWrap multiplier (
+        Num.bitwiseXor state (
+            Num.shiftRightZfBy (
+                Num.addWrap (Num.shiftRightZfBy randomBitshift state) randomBitshiftIncrement
+            ) state
+        ))
+    Num.bitwiseXor partial (Num.shiftRightZfBy bitshift partial)
 
 # See section 4.1 on page 20 in the paper.
-pcgUpdateState = \state, multiplier, increment -> state * multiplier + increment
+pcgUpdateState : Int a, Int a, Int a -> Int a
+pcgUpdateState = \state, multiplier, increment ->
+    Num.addWrap (Num.mulWrap state multiplier) increment
 
 # See `pcg_oneseq_32_step_r` (line 504?) in the above C++ header
 updateSeed32 = \Seed32 state ->
