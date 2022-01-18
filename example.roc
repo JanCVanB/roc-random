@@ -8,10 +8,10 @@ app "example"
 main =
     point = \seed ->
         # TODO: Test non-64-bit generators.
-        x = Random.step seed (Random.u32 1 2)
-        # y = Random.step x.seed (Random.i32 3 4)
-        # z = Random.step y.seed (Random.int 5 6)
-        z = Random.step x.seed (Random.int 5 6)
+        x = Random.step seed (Random.u32 10 19)
+        # y = Random.step x.seed (Random.i32 30 39)
+        # z = Random.step y.seed (Random.int 50 59)
+        z = Random.step x.seed (Random.int 50 59)
         # { value: { x: x.value, y: y.value, z: z.value }, seed: z.seed }
         { value: { x: x.value, z: z.value }, seed: z.seed }
     # TODO: Test non-32-bit seeds as well.
