@@ -1,5 +1,10 @@
 interface Random
     exposes [
+        Generator,
+        Generation,
+        Seed8,
+        Seed16,
+        Seed32,
         int,
         next,
         seed8,
@@ -13,7 +18,7 @@ interface Random
     imports []
 
 
-#### Types
+## ## Types
 
 Generator seed value : seed -> Generation seed value
 Generation seed value : { seed, value }
