@@ -72,13 +72,37 @@ between = \x, y, growSeed, updateSeed ->
         value = minimum + modWithNonzero (growSeed seed) range
         { value, seed: updateSeed seed }
 
+# TODO: This is waiting on `Num.toI8` (https://github.com/rtfeldman/roc/issues/664).
+# convertU8ToI8 : U8 -> I8
+# convertU8ToI8 = \x ->
+#     minimum : I8
+#     minimum = Num.minI8
+#     maximum : I8
+#     maximum = Num.maxI8
+#     if x <= maximum then
+#         Num.toI8 x + minimum
+#     else
+#         Num.toI8 (x + minimum)
+
+# TODO: This is waiting on `Num.toI16` (https://github.com/rtfeldman/roc/issues/664).
+# convertU16ToI16 : U16 -> I16
+# convertU16ToI16 = \x ->
+#     minimum : I16
+#     minimum = Num.minI16
+#     maximum : I16
+#     maximum = Num.maxI16
+#     if x <= maximum then
+#         Num.toI16 x + minimum
+#     else
+#         Num.toI16 (x + minimum)
+
 # TODO: This is waiting on `Num.toI32` (https://github.com/rtfeldman/roc/issues/664).
 # convertU32ToI32 : U32 -> I32
 # convertU32ToI32 = \x ->
 #     minimum : I32
-#     minimum = -2_147_483_648
+#     minimum = Num.minI32
 #     maximum : I32
-#     maximum = 2_147_483_647
+#     maximum = Num.maxI32
 #     if x <= maximum then
 #         Num.toI32 x + minimum
 #     else
@@ -88,9 +112,9 @@ between = \x, y, growSeed, updateSeed ->
 # convertU64ToI64 : U64 -> I64
 # convertU64ToI64 = \x ->
 #     minimum : I64
-#     minimum = -9_223_372_036_854_775_808
+#     minimum = Num.minI64
 #     maximum : I64
-#     maximum = 9_223_372_036_854_775_807
+#     maximum = Num.maxI64
 #     if x <= maximum then
 #         Num.toI64 x + minimum
 #     else
@@ -100,9 +124,9 @@ between = \x, y, growSeed, updateSeed ->
 # convertU128ToI128 : U128 -> I128
 # convertU128ToI128 = \x ->
 #     minimum : I128
-#     minimum = -170_141_183_460_469_231_731_687_303_715_884_105_728
+#     minimum = Num.minI128
 #     maximum : I128
-#     maximum = 170_141_183_460_469_231_731_687_303_715_884_105_727
+#     maximum = Num.maxI128
 #     if x <= maximum then
 #         Num.toI128 x + minimum
 #     else
