@@ -2,8 +2,12 @@ interface Random
     exposes [
         int,
         next,
+        seed8,
+        seed16,
         seed32,
         step,
+        u8,
+        u16,
         u32,
     ]
     imports []
@@ -14,6 +18,8 @@ interface Random
 Generator seed value : seed -> Generation seed value
 Generation seed value : { seed, value }
 
+Seed8 : [ Seed8 U8 ]*
+Seed16 : [ Seed16 U16 ]*
 Seed32 : [ Seed32 U32 ]*
 
 
@@ -21,6 +27,12 @@ Seed32 : [ Seed32 U32 ]*
 
 next : Generation seed *, Generator seed value -> Generation seed value
 next = \x, g -> g x.seed
+
+seed8 : U8 -> Seed8
+seed8 = \state -> Seed8 state
+
+seed16 : U16 -> Seed16
+seed16 = \state -> Seed16 state
 
 seed32 : U32 -> Seed32
 seed32 = \state -> Seed32 state
@@ -30,6 +42,18 @@ step = \s, g -> g s
 
 
 ## ## Constructors for primitive generators
+
+int = u32
+
+# TODO: This is waiting on `convertU8ToI8`.
+# i8 : I8, I8 -> Generator Seed8 I8
+# i8 = \x, y ->
+#     between x y (\seed -> convertU8ToI8 (growSeed8 seed)) (\seed -> updateSeed8 seed)
+
+# TODO: This is waiting on `convertU16ToI16`.
+# i16 : I16, I16 -> Generator Seed16 I16
+# i16 = \x, y ->
+#     between x y (\seed -> convertU16ToI16 (growSeed16 seed)) (\seed -> updateSeed16 seed)
 
 # TODO: This is waiting on `convertU32ToI32`.
 # i32 : I32, I32 -> Generator Seed32 I32
@@ -46,7 +70,13 @@ step = \s, g -> g s
 # i128 = \x, y ->
 #     between x y (\seed -> convertU128ToI128 (growSeed128 seed)) (\seed -> updateSeed128 seed)
 
-int = u32
+u8 : U8, U8 -> Generator Seed8 U8
+u8 = \x, y ->
+    between x y (\seed -> growSeed8 seed) (\seed -> updateSeed8 seed)
+
+u16 : U16, U16 -> Generator Seed16 U16
+u16 = \x, y ->
+    between x y (\seed -> growSeed16 seed) (\seed -> updateSeed16 seed)
 
 u32 : U32, U32 -> Generator Seed32 U32
 u32 = \x, y ->
@@ -152,8 +182,34 @@ sort = \x, y ->
 #     RXS = Random XorShift (see section 5.5.1 on page 36 in the paper)
 #     XS = XorShift (see section 5.5 on page 34 in the paper)
 
-# See `pcg_output_rxs_m_xs_32_32` (on line 182?) in the C++ header.
-growSeed32 = Seed32 -> U32
+# See `pcg_output_rxs_m_xs_8_8` (on line 170?) in the C++ header.
+growSeed8 : Seed8 -> U8
+growSeed8 = \Seed8 state ->
+    rxs : U8
+    rxs = 6
+    rxsi : U8
+    rxsi = 2
+    m : U8
+    m = 217
+    xs : U8
+    xs = 6
+    pcgRxsMXs state rxs rxsi m xs
+
+# See `pcg_output_rxs_m_xs_16_16` (on line 182?) in the C++ header.
+growSeed16 : Seed16 -> U16
+growSeed16 = \Seed16 state ->
+    rxs : U16
+    rxs = 13
+    rxsi : U16
+    rxsi = 3
+    m : U16
+    m = 62169
+    xs : U16
+    xs = 11
+    pcgRxsMXs state rxs rxsi m xs
+
+# See `pcg_output_rxs_m_xs_32_32` (on line 176?) in the C++ header.
+growSeed32 : Seed32 -> U32
 growSeed32 = \Seed32 state ->
     rxs : U32
     rxs = 28
@@ -208,6 +264,26 @@ pcgRxsMXs = \state, randomBitshift, randomBitshiftIncrement, multiplier, bitshif
 pcgUpdateState : Int a, Int a, Int a -> Int a
 pcgUpdateState = \state, multiplier, increment ->
     Num.addWrap (Num.mulWrap state multiplier) increment
+
+# See `pcg_oneseq_8_step_r` (line 409?) in the above C++ header
+updateSeed8 : Seed8 -> Seed8
+updateSeed8 = \Seed8 state ->
+    multiplier : U8
+    multiplier = 141
+    # TODO: Replace this with user-supplied?
+    increment : U8
+    increment = 77
+    Seed8 (pcgUpdateState state multiplier increment)
+
+# See `pcg_oneseq_16_step_r` (line 456?) in the above C++ header
+updateSeed16 : Seed16 -> Seed16
+updateSeed16 = \Seed16 state ->
+    multiplier : U16
+    multiplier = 12829
+    # TODO: Replace this with user-supplied?
+    increment : U16
+    increment = 47989
+    Seed16 (pcgUpdateState state multiplier increment)
 
 # See `pcg_oneseq_32_step_r` (line 504?) in the above C++ header
 updateSeed32 : Seed32 -> Seed32
