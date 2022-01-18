@@ -125,29 +125,41 @@ sort = \x, y ->
 
 # See `pcg_output_rxs_m_xs_32_32` (on line 182?) in the C++ header.
 growSeed32 = \Seed32 state ->
-    rxsa = 28
-    rxsb = 4
+    rxs : U32
+    rxs = 28
+    rxsi : U32
+    rxsi = 4
+    m : U32
     m = 277_803_737
+    xs : U32
     xs = 22
-    pcgRxsMXs state rxsa rxsb m xs
+    pcgRxsMXs state rxs rxsi m xs
 
 # TODO: This is waiting on https://github.com/rtfeldman/roc/issues/2332.
 # # See `pcg_output_rxs_m_xs_64_64` (on line 188?) in the C++ header.
 # growSeed64 = \Seed64 state ->
-#     rxsa = 59
-#     rxsb = 5
+#     rxs : U64
+#     rxs = 59
+#     rxsi : U64
+#     rxsi = 5
+#     m : U64
 #     m = 12_605_985_483_714_917_081
+#     xs : U64
 #     xs = 43
-#     pcgRxsMXs state rxsa rxsb m xs
+#     pcgRxsMXs state rxs rxsi m xs
 
 # TODO: This is waiting on https://github.com/rtfeldman/roc/issues/2332.
 # # See `pcg_output_rxs_m_xs_128_128` (on line 196?) in the C++ header.
 # growSeed128 = \Seed128 state ->
-#     rxsa = 122
-#     rxsb = 6
+#     rxs : U128
+#     rxs = 122
+#     rxsi : U128
+#     rxsi = 6
+#     m : U128
 #     m = (Num.shiftLeftBy 64 17_766_728_186_571_221_404) + 12_605_985_483_714_917_081
+#     xs : U128
 #     xs = 86
-#     pcgRxsMXs state rxsa rxsb m xs
+#     pcgRxsMXs state rxs rxsi m xs
 
 # See section 6.3.4 on page 45 in the paper.
 pcgRxsMXs : Int a, Int a, Int a, Int a, Int a -> Int a
@@ -167,21 +179,27 @@ pcgUpdateState = \state, multiplier, increment ->
 
 # See `pcg_oneseq_32_step_r` (line 504?) in the above C++ header
 updateSeed32 = \Seed32 state ->
+    multiplier : U32
     multiplier = 747_796_405
     # TODO: Replace this with user-supplied?
+    increment : U32
     increment = 2_891_336_453
     Seed32 (pcgUpdateState state multiplier increment)
 
 # TODO: This is waiting on https://github.com/rtfeldman/roc/issues/2332.
 # # See `pcg_oneseq_64_step_r` (line 552?) in the above C++ header.
 # updateSeed64 = \Seed64 state -> 
-#     multiplier = 6_364_136_223_846_793_005 
+#     multiplier : U64
+#     multiplier = 6_364_136_223_846_793_005
+#     increment : U64
 #     increment = 1_442_695_040_888_963_407
 #     Seed64 (pcgUpdateState state multiplier increment)
 
 # TODO: This is waiting on https://github.com/rtfeldman/roc/issues/2332.
 # # See `pcg_oneseq_128_step_r` (line 601?) in the above C++ header.
 # updateSeed128 = \Seed128 state ->
+#     multiplier : U128
 #     multiplier = (Num.shiftLeftBy 64 2_549_297_995_355_413_924) + 4_865_540_595_714_422_341
+#     increment : U128
 #     increment = (Num.shiftLeftBy 64 6_364_136_223_846_793_005) + 1_442_695_040_888_963_407
 #     Seed128 (pcgUpdateState state multiplier increment)
