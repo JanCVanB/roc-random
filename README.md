@@ -8,6 +8,11 @@ This is a work in progress.
 
 Contributions & feedback are very welcome! :)
 
+## Example
+
+See [this example module](https://github.com/JanCVanB/roc-random/blob/main/example.roc)
+for some examples of how to use this library.
+
 ## Goals
 
 * An external API that is similar to that of
