@@ -71,6 +71,7 @@ between = \x, y, growSeed, updateSeed ->
         { value, seed: updateSeed seed }
 
 # TODO: This is waiting on Num.toI32 to be implemented.
+# convertU32ToI32 : U32 -> I32
 # convertU32ToI32 = \x ->
 #     minimum : I32
 #     minimum = -2_147_483_648
@@ -82,6 +83,7 @@ between = \x, y, growSeed, updateSeed ->
 #         Num.toI32 (x + minimum)
 
 # TODO: This is waiting on Num.toI64 to be implemented.
+# convertU64ToI64 : U64 -> I64
 # convertU64ToI64 = \x ->
 #     minimum : I64
 #     minimum = -9_223_372_036_854_775_808
@@ -93,6 +95,7 @@ between = \x, y, growSeed, updateSeed ->
 #         Num.toI64 (x + minimum)
 
 # TODO: This is waiting on Num.toI128 to be implemented.
+# convertU128ToI128 : U128 -> I128
 # convertU128ToI128 = \x ->
 #     minimum : I128
 #     minimum = -170_141_183_460_469_231_731_687_303_715_884_105_728
@@ -124,6 +127,7 @@ sort = \x, y ->
 #     XS = XorShift (see section 5.5 on page 34 in the paper)
 
 # See `pcg_output_rxs_m_xs_32_32` (on line 182?) in the C++ header.
+growSeed32 = Seed32 -> U32
 growSeed32 = \Seed32 state ->
     rxs : U32
     rxs = 28
@@ -137,6 +141,7 @@ growSeed32 = \Seed32 state ->
 
 # TODO: This is waiting on https://github.com/rtfeldman/roc/issues/2332.
 # # See `pcg_output_rxs_m_xs_64_64` (on line 188?) in the C++ header.
+# growSeed64 = Seed64 -> U64
 # growSeed64 = \Seed64 state ->
 #     rxs : U64
 #     rxs = 59
@@ -150,6 +155,7 @@ growSeed32 = \Seed32 state ->
 
 # TODO: This is waiting on https://github.com/rtfeldman/roc/issues/2332.
 # # See `pcg_output_rxs_m_xs_128_128` (on line 196?) in the C++ header.
+# growSeed128 = Seed128 -> U128
 # growSeed128 = \Seed128 state ->
 #     rxs : U128
 #     rxs = 122
@@ -178,6 +184,7 @@ pcgUpdateState = \state, multiplier, increment ->
     Num.addWrap (Num.mulWrap state multiplier) increment
 
 # See `pcg_oneseq_32_step_r` (line 504?) in the above C++ header
+updateSeed32 : Seed32 -> Seed32
 updateSeed32 = \Seed32 state ->
     multiplier : U32
     multiplier = 747_796_405
@@ -188,6 +195,7 @@ updateSeed32 = \Seed32 state ->
 
 # TODO: This is waiting on https://github.com/rtfeldman/roc/issues/2332.
 # # See `pcg_oneseq_64_step_r` (line 552?) in the above C++ header.
+# updateSeed64 : Seed64 -> Seed64
 # updateSeed64 = \Seed64 state -> 
 #     multiplier : U64
 #     multiplier = 6_364_136_223_846_793_005
@@ -197,6 +205,7 @@ updateSeed32 = \Seed32 state ->
 
 # TODO: This is waiting on https://github.com/rtfeldman/roc/issues/2332.
 # # See `pcg_oneseq_128_step_r` (line 601?) in the above C++ header.
+# updateSeed128 : Seed128 -> Seed128
 # updateSeed128 = \Seed128 state ->
 #     multiplier : U128
 #     multiplier = (Num.shiftLeftBy 64 2_549_297_995_355_413_924) + 4_865_540_595_714_422_341
