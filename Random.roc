@@ -67,7 +67,7 @@ between = \x, y, growSeed, updateSeed ->
     Pair minimum maximum = sort x y
     range = maximum - minimum + 1
     \seed ->
-        value = modWithNonzero (minimum + growSeed seed) range
+        value = minimum + modWithNonzero (growSeed seed) range
         { value, seed: updateSeed seed }
 
 # TODO: This is waiting on Num.toI32 to be implemented.
