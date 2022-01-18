@@ -19,10 +19,12 @@ main =
     b = point (Random.seed32 1)
     c = point (Random.seed32 2)
     d = c |> Random.next point
-    e = d |> Random.next point
+    e = c |> Random.next point
+    f = d |> Random.next point
     _ <- await (line (Num.toStr a.value.x))
     _ <- await (line (Num.toStr b.value.x))
     _ <- await (line (Num.toStr c.value.x))
     _ <- await (line (Num.toStr d.value.x))
     _ <- await (line (Num.toStr e.value.x))
+    _ <- await (line (Num.toStr f.value.x))
     line ":)"
