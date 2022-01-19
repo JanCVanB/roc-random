@@ -18,87 +18,117 @@ interface Random
     imports []
 
 
-## ## Types
+## # Types
 
+## A psuedorandom value generator
 Generator seed value : seed -> Generation seed value
+
+## A psuedorandom value, paired with an updated seed for future use
 Generation seed value : { seed, value }
 
+## An 8-bit seed
 Seed8 : [ Seed8 U8 ]*
+
+## A 16-bit seed
 Seed16 : [ Seed16 U16 ]*
+
+## A 32-bit seed
 Seed32 : [ Seed32 U32 ]*
 
 
-## ## Helpers for all generators
+## # Constructors for seeds
 
-next : Generation seed *, Generator seed value -> Generation seed value
-next = \x, g -> g x.seed
-
+## Constructs an 8-bit seed from an 8-bit integer
 seed8 : U8 -> Seed8
 seed8 = \state -> Seed8 state
 
+## Constructs a 16-bit seed from a 16-bit integer
 seed16 : U16 -> Seed16
 seed16 = \state -> Seed16 state
 
+## Constructs a 32-bit seed from a 32-bit integer
 seed32 : U32 -> Seed32
 seed32 = \state -> Seed32 state
 
+
+## # Helpers for all generators
+
+## Generates a new value from an old one (and update the seed)
+next : Generation seed *, Generator seed value -> Generation seed value
+next = \x, g -> g x.seed
+
+## Generates a value from a seed (and update the seed)
 step : seed, Generator seed value -> Generation seed value
 step = \s, g -> g s
 
 
-## ## Constructors for primitive generators
+## # Constructors for some primitive generators
 
+## A [Generator] for 32-bit unsigned integers between two boundaries (inclusive)
+##
+## This is an alias for [u32].
+int : U32, U32 -> Generator Seed32 U32
 int = u32
 
-# TODO: This is waiting on `convertU8ToI8`.
+# TODO: This is waiting on [convertU8ToI8].
+# ## A [Generator] for 8-bit signed integers between two boundaries (inclusive)
 # i8 : I8, I8 -> Generator Seed8 I8
 # i8 = \x, y ->
 #     between x y (\seed -> convertU8ToI8 (growSeed8 seed)) (\seed -> updateSeed8 seed)
 
-# TODO: This is waiting on `convertU16ToI16`.
+# TODO: This is waiting on [convertU16ToI16].
+# ## A [Generator] for 8-bit signed integers between two boundaries (inclusive)
 # i16 : I16, I16 -> Generator Seed16 I16
 # i16 = \x, y ->
 #     between x y (\seed -> convertU16ToI16 (growSeed16 seed)) (\seed -> updateSeed16 seed)
 
-# TODO: This is waiting on `convertU32ToI32`.
+# TODO: This is waiting on [convertU32ToI32].
+# ## A [Generator] for 16-bit signed integers between two boundaries (inclusive)
 # i32 : I32, I32 -> Generator Seed32 I32
 # i32 = \x, y ->
 #     between x y (\seed -> convertU32ToI32 (growSeed32 seed)) (\seed -> updateSeed32 seed)
 
-# TODO: This is waiting on `convertU64ToI64` & `growseed64`.
+# TODO: This is waiting on [convertU64ToI64] & [growseed64].
+# ## A [Generator] for 64-bit signed integers between two boundaries (inclusive)
 # i64 : I64, I64 -> Generator Seed64 I64
 # i64 = \x, y ->
 #     between x y (\seed -> convertU64ToI64 (growSeed64 seed)) (\seed -> updateSeed64 seed)
 
-# TODO: This is waiting on `convertU128ToI128` & `growseed128`.
+# TODO: This is waiting on [convertU128ToI128] & [growseed128].
+# ## A [Generator] for 128-bit signed integers between two boundaries (inclusive)
 # i128 : I128, I128 -> Generator Seed128 I128
 # i128 = \x, y ->
 #     between x y (\seed -> convertU128ToI128 (growSeed128 seed)) (\seed -> updateSeed128 seed)
 
+## A [Generator] for 8-bit unsigned integers between two boundaries (inclusive)
 u8 : U8, U8 -> Generator Seed8 U8
 u8 = \x, y ->
     between x y (\seed -> growSeed8 seed) (\seed -> updateSeed8 seed)
 
+## A [Generator] for 16-bit unsigned integers between two boundaries (inclusive)
 u16 : U16, U16 -> Generator Seed16 U16
 u16 = \x, y ->
     between x y (\seed -> growSeed16 seed) (\seed -> updateSeed16 seed)
 
+## A [Generator] for 32-bit unsigned integers between two boundaries (inclusive)
 u32 : U32, U32 -> Generator Seed32 U32
 u32 = \x, y ->
     between x y (\seed -> growSeed32 seed) (\seed -> updateSeed32 seed)
 
-# TODO: This is waiting on `growSeed64`.
+# TODO: This is waiting on [growSeed64].
+# ## A [Generator] for 64-bit unsigned integers between two boundaries (inclusive)
 # u64 : U64, U64 -> Generator Seed64 U64
 # u64 = \x, y ->
 #     between x y (\seed -> growSeed64 seed) (\seed -> updateSeed64 seed)
 
-# TODO: This is waiting on `growSeed64`.
+# TODO: This is waiting on [growSeed64].
+# ## A [Generator] for 128-bit unsigned integers between two boundaries (inclusive)
 # u128 : U128, U128 -> Generator Seed128 U128
 # u128 = \x, y ->
 #     between x y (\seed -> growSeed128 seed) (\seed -> updateSeed128 seed)
 
 
-#### Generator helpers
+### Generator helpers
 
 between = \x, y, growSeed, updateSeed ->
     Pair minimum maximum = sort x y
@@ -107,7 +137,7 @@ between = \x, y, growSeed, updateSeed ->
         value = minimum + modWithNonzero (growSeed seed) range
         { value, seed: updateSeed seed }
 
-# TODO: This is waiting on `Num.toI8` (https://github.com/rtfeldman/roc/issues/664).
+# TODO: This is waiting on [Num.toI8] (https://github.com/rtfeldman/roc/issues/664).
 # convertU8ToI8 : U8 -> I8
 # convertU8ToI8 = \x ->
 #     minimum : I8
@@ -119,7 +149,7 @@ between = \x, y, growSeed, updateSeed ->
 #     else
 #         Num.toI8 (x + minimum)
 
-# TODO: This is waiting on `Num.toI16` (https://github.com/rtfeldman/roc/issues/664).
+# TODO: This is waiting on [Num.toI16] (https://github.com/rtfeldman/roc/issues/664).
 # convertU16ToI16 : U16 -> I16
 # convertU16ToI16 = \x ->
 #     minimum : I16
@@ -131,7 +161,7 @@ between = \x, y, growSeed, updateSeed ->
 #     else
 #         Num.toI16 (x + minimum)
 
-# TODO: This is waiting on `Num.toI32` (https://github.com/rtfeldman/roc/issues/664).
+# TODO: This is waiting on [Num.toI32] (https://github.com/rtfeldman/roc/issues/664).
 # convertU32ToI32 : U32 -> I32
 # convertU32ToI32 = \x ->
 #     minimum : I32
@@ -143,7 +173,7 @@ between = \x, y, growSeed, updateSeed ->
 #     else
 #         Num.toI32 (x + minimum)
 
-# TODO: This is waiting on `Num.toI64` (https://github.com/rtfeldman/roc/issues/664).
+# TODO: This is waiting on [Num.toI64] (https://github.com/rtfeldman/roc/issues/664).
 # convertU64ToI64 : U64 -> I64
 # convertU64ToI64 = \x ->
 #     minimum : I64
@@ -155,7 +185,7 @@ between = \x, y, growSeed, updateSeed ->
 #     else
 #         Num.toI64 (x + minimum)
 
-# TODO: This is waiting on `Num.toI128` (https://github.com/rtfeldman/roc/issues/664).
+# TODO: This is waiting on [Num.toI128] (https://github.com/rtfeldman/roc/issues/664).
 # convertU128ToI128 : U128 -> I128
 # convertU128ToI128 = \x ->
 #     minimum : I128
@@ -177,7 +207,7 @@ sort = \x, y ->
         Pair y x
 
 
-#### PCG algorithms & wrappers
+### PCG algorithms & wrappers
 #
 # Based on this paper: https://www.pcg-random.org/pdf/hmc-cs-2014-0905.pdf
 # Based on this C++ header: https://github.com/imneme/pcg-c/blob/master/include/pcg_variants.h
