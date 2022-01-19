@@ -8,9 +8,9 @@ This is a work in progress.
 
 Contributions & feedback are very welcome! :)
 
-## Example
+## Examples
 
-See [this example module](https://github.com/JanCVanB/roc-random/blob/main/example.roc)
+See [the examples module](https://github.com/JanCVanB/roc-random/blob/main/examples.roc)
 for some examples of how to use this library.
 
 ## Goals
