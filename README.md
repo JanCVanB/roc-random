@@ -13,6 +13,15 @@ Contributions & feedback are very welcome! :)
 See [the examples module](https://github.com/JanCVanB/roc-random/blob/main/examples.roc)
 for some examples of how to use this library.
 
+## Documentation
+
+See [the library documentation site](JanCVanB.github.io/roc-random)
+for more info about its API.
+
+However,
+[the single library file itself](https://github.com/JanCVanB/roc-random/blob/main/Random.roc)
+should be self-documenting.
+
 ## Goals
 
 * An external API that is similar to that of
