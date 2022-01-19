@@ -6,9 +6,9 @@
     <!-- <title>TODO populate this based on the module's name, e.g. "Parser - roc/parser"</title> -->
     <!-- <meta name="description" content="TODO populate this based on the module's description"> -->
     <meta name="viewport" content="width=device-width">
-    <link rel="icon" href="/favicon.svg">
-    <script type="text/javascript" src="/search.js" defer></script>
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="icon" href="favicon.svg">
+    <script type="text/javascript" src="search.js" defer></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -16,7 +16,7 @@
     <input id="module-search" aria-labelledby="search-link" type="text" placeholder="Search" />
     <label for="module-search" id="search-link">Search</label>
     <div class="module-links">
-        <div class="sidebar-entry" ><a class="sidebar-module-link" href="/Random" >Random</a><div class="sidebar-sub-entries" ><a href="/Random#Generator" >Generator</a><a href="/Random#Generation" >Generation</a><a href="/Random#Seed8" >Seed8</a><a href="/Random#Seed16" >Seed16</a><a href="/Random#Seed32" >Seed32</a><a href="/Random#seed8" >seed8</a><a href="/Random#seed16" >seed16</a><a href="/Random#seed32" >seed32</a><a href="/Random#next" >next</a><a href="/Random#step" >step</a><a href="/Random#int" >int</a><a href="/Random#u8" >u8</a><a href="/Random#u16" >u16</a><a href="/Random#u32" >u32</a></div></div>
+        <div class="sidebar-entry" ><a class="sidebar-module-link" href="" >Random</a><div class="sidebar-sub-entries" ><a href="#Generator" >Generator</a><a href="#Generation" >Generation</a><a href="#Seed8" >Seed8</a><a href="#Seed16" >Seed16</a><a href="#Seed32" >Seed32</a><a href="#seed8" >seed8</a><a href="#seed16" >seed16</a><a href="#seed32" >seed32</a><a href="#next" >next</a><a href="#step" >step</a><a href="#int" >int</a><a href="#u8" >u8</a><a href="#u16" >u16</a><a href="#u32" >u32</a></div></div>
     </div>
 </nav>
 <div class="top-header-extension">
@@ -24,20 +24,20 @@
 </div>
 <header class="top-header">
     <nav class="pkg-and-logo">
-        <a class="logo" href="/" aria-labelledby="logo-link">
+        <a class="logo" href="" aria-labelledby="logo-link">
             <svg viewBox="0 -6 51 58" fill="none" xmlns="http://www.w3.org/2000/svg" aria-labelledby="logo-link" role="img">
                 <title id="logo-link">Return to Roc packages</title>
                 <polygon role="presentation" points="0,0 23.8834,3.21052 37.2438,19.0101 45.9665,16.6324 50.5,22 45,22 44.0315,26.3689 26.4673,39.3424 27.4527,45.2132 17.655,53 23.6751,22.7086" />
             </svg>
         </a>
-        <h1 class="pkg-full-name" ><a href="/roc/builtins" >roc/builtins</a></h1><a class="version" href="//roc/builtins/1.0.0" >1.0.0</a>
+        <h1 class="pkg-full-name" ><a href="https://github.com/JanCVanB/roc-random" >roc-random</a></h1><a class="version" href="https://github.com/JanCVanB/roc-random/releases/tag/0.1" >0.1</a>
     </nav>
     <div class="top-header-triangle">
         <!-- if the window gets big, this extends the purple bar on the top header to the left edge of the window -->
     </div>
 </header>
 <main>
-    <h2 class="module-name" ><a href="/#" >Random</a></h2><h1>Types</h1>
+    <h2 class="module-name" ><a href="#" >Random</a></h2><h1>Types</h1>
 <h3 id="Generator" class="entry-name" ><a href="#Generator" >Generator</a> seed value : seed -> (Generation seed value)</h3><p>A psuedorandom value generator</p>
 <h3 id="Generation" class="entry-name" ><a href="#Generation" >Generation</a> seed value : 
     {
@@ -55,11 +55,11 @@
 <h3 id="next" class="entry-name" ><a href="#next" >next</a> : (Generation seed *), (Generator seed value) -> (Generation seed value)</h3><p>Generates a new value from an old one (and update the seed)</p>
 <h3 id="step" class="entry-name" ><a href="#step" >step</a> : seed, (Generator seed value) -> (Generation seed value)</h3><p>Generates a value from a seed (and update the seed)</p>
 <h1>Constructors for some primitive generators</h1>
-<h3 id="int" class="entry-name" ><a href="#int" >int</a> : U32, U32 -> (Generator Seed32 U32)</h3><p>A <a href="/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 32-bit unsigned integers between two boundaries (inclusive)</p>
-<p>This is an alias for <a href="/Random#u32" title="Docs for Random.u32"><code>u32</code></a>.</p>
-<h3 id="u8" class="entry-name" ><a href="#u8" >u8</a> : U8, U8 -> (Generator Seed8 U8)</h3><p>A <a href="/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 8-bit unsigned integers between two boundaries (inclusive)</p>
-<h3 id="u16" class="entry-name" ><a href="#u16" >u16</a> : U16, U16 -> (Generator Seed16 U16)</h3><p>A <a href="/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 16-bit unsigned integers between two boundaries (inclusive)</p>
-<h3 id="u32" class="entry-name" ><a href="#u32" >u32</a> : U32, U32 -> (Generator Seed32 U32)</h3><p>A <a href="/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 32-bit unsigned integers between two boundaries (inclusive)</p>
+<h3 id="int" class="entry-name" ><a href="#int" >int</a> : U32, U32 -> (Generator Seed32 U32)</h3><p>A <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 32-bit unsigned integers between two boundaries (inclusive)</p>
+<p>This is an alias for <a href="#u32" title="Docs for Random.u32"><code>u32</code></a>.</p>
+<h3 id="u8" class="entry-name" ><a href="#u8" >u8</a> : U8, U8 -> (Generator Seed8 U8)</h3><p>A <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 8-bit unsigned integers between two boundaries (inclusive)</p>
+<h3 id="u16" class="entry-name" ><a href="#u16" >u16</a> : U16, U16 -> (Generator Seed16 U16)</h3><p>A <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 16-bit unsigned integers between two boundaries (inclusive)</p>
+<h3 id="u32" class="entry-name" ><a href="#u32" >u32</a> : U32, U32 -> (Generator Seed32 U32)</h3><p>A <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 32-bit unsigned integers between two boundaries (inclusive)</p>
 
 </main>
 <footer>
