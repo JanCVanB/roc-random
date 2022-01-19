@@ -10,8 +10,29 @@ Contributions & feedback are very welcome! :)
 
 ## Examples
 
-See [the examples module](https://github.com/JanCVanB/roc-random/blob/main/examples.roc)
-for some examples of how to use this library.
+```
+app "simple-ex"
+    packages { pf: "../roc/examples/cli/platform" }
+    imports [ pf.Stdout.{ line }, pf.Task.{ await }, Random ]
+    provides [ main ] to pf
+
+
+main =
+    
+    a = randNum (Random.seed32 42)
+    b = a |> Random.next randNum
+
+    _ <- await (line (Num.toStr a.value |> \x -> "a: \(x)"))
+    _ <- await (line (Num.toStr b.value |> \x -> "b: \(x)"))
+    
+    line "The values will be the same on each run, because we use the same seed (42)."
+
+
+randNum : Random.Generator Random.Seed32 U32
+randNum = \seed ->
+    Random.step seed (Random.u32 0 100)
+```
+The [examples folder](Examples/) contains more examples.
 
 ## Documentation
 
@@ -19,7 +40,7 @@ See [the library documentation site](JanCVanB.github.io/roc-random)
 for more info about its API.
 
 However,
-[the single library file itself](https://github.com/JanCVanB/roc-random/blob/main/Random.roc)
+[the single library file itself](Random.roc)
 should be self-documenting.
 
 ## Goals

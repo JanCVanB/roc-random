@@ -1,10 +1,11 @@
 #!/usr/bin/env roc
 
-app "examples"
-    packages { pf: "./roc/examples/cli/platform" }
+app "num-types-ex"
+    packages { pf: "../roc/examples/cli/platform" }
     imports [ pf.Stdout.{ line }, pf.Task.{ await }, Random ]
     provides [ main ] to pf
 
+# TODO: add U64 generator when ready.
 main =
     a = digit32 (Random.seed32 6)
     b = digit32 (Random.seed32 6)
