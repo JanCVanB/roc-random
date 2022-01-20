@@ -22,6 +22,24 @@ interface Random
     imports []
 
 
+# TODO: Replace these with builtins when they're implemented
+#       (see https://github.com/rtfeldman/roc/issues/664).
+minI8 : I8
+minI8 = -128
+maxI8 : I8
+maxI8 = 127
+minI16 : I16
+minI16 = -32_768
+maxI16 : I16
+maxI16 = 32_767
+toI8 = \n -> n |> Num.toStr |> Str.toI8 |> Result.withDefault 0
+toU8 = \n -> n |> Num.toStr |> Str.toU8 |> Result.withDefault 0
+toI16 = \n -> n |> Num.toStr |> Str.toI16 |> Result.withDefault 0
+toU16 = \n -> n |> Num.toStr |> Str.toU16 |> Result.withDefault 0
+toI32 = \n -> n |> Num.toStr |> Str.toI32 |> Result.withDefault 0
+toU32 = \n -> n |> Num.toStr |> Str.toU32 |> Result.withDefault 0
+
+
 ## # Types
 
 ## A psuedorandom value generator
@@ -122,16 +140,6 @@ between = \x, y, growSeed, updateSeed ->
 
 mapToI8 : U8 -> I8
 mapToI8 = \x ->
-    # TODO: Replace these with `Num.toI8`/`Num.toU8` when they're implemented
-    #       (see https://github.com/rtfeldman/roc/issues/664).
-    minI8 : I8
-    minI8 = -128
-    maxI8 : I8
-    maxI8 = 127
-    toI8 : U8 -> I8
-    toI8 = \y -> y |> Num.toStr |> Str.toI8 |> Result.withDefault 0
-    toU8 : I8 -> U8
-    toU8 = \y -> y |> Num.toStr |> Str.toU8 |> Result.withDefault 0
     middle = toU8 maxI8
     if x <= middle then
         minI8 + toI8 x
@@ -140,14 +148,6 @@ mapToI8 = \x ->
 
 mapToI16 : U16 -> I16
 mapToI16 = \x ->
-    # TODO: Replace these with builtins when they're implemented
-    #       (see https://github.com/rtfeldman/roc/issues/664).
-    minI16 : I16
-    minI16 = -32_768
-    maxI16 : I16
-    maxI16 = 32_767
-    toI16 = \y -> y |> Num.toStr |> Str.toI16 |> Result.withDefault 0
-    toU16 = \y -> y |> Num.toStr |> Str.toU16 |> Result.withDefault 0
     middle = toU16 maxI16
     if x <= middle then
         minI16 + toI16 x
@@ -156,10 +156,6 @@ mapToI16 = \x ->
 
 mapToI32 : U32 -> I32
 mapToI32 = \x ->
-    # TODO: Replace these with builtins when they're implemented
-    #       (see https://github.com/rtfeldman/roc/issues/664).
-    toI32 = \y -> y |> Num.toStr |> Str.toI32 |> Result.withDefault 0
-    toU32 = \y -> y |> Num.toStr |> Str.toU32 |> Result.withDefault 0
     middle = toU32 Num.maxI32
     if x <= middle then
         Num.minI32 + toI32 x
