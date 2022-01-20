@@ -1,3 +1,5 @@
+#!/usr/bin/env roc
+
 app "simple_example"
     packages { pf: "./roc/examples/cli/platform" }
     imports [ pf.Stdout.{ line }, pf.Task.{ await }, Random ]
