@@ -26,18 +26,18 @@ main =
     k = j |> Random.next digit8
     l = j |> Random.next digit8
 
-    _ <- await (line (Num.toStr a.value |> \n -> "a: \(n)")) # This will print `a: 9`.
-    _ <- await (line (Num.toStr b.value |> \n -> "b: \(n)")) # This will print `b: 9`.
-    _ <- await (line (Num.toStr c.value |> \n -> "c: \(n)")) # This will print `c: 2`.
-    _ <- await (line (Num.toStr d.value |> \n -> "d: \(n)")) # This will print `d: 2`.
-    _ <- await (line (Num.toStr e.value |> \n -> "e: \(n)")) # This will print `e: 6`.
-    _ <- await (line (Num.toStr f.value |> \n -> "f: \(n)")) # This will print `f: 6`.
-    _ <- await (line (Num.toStr g.value |> \n -> "g: \(n)")) # This will print `g: 3`.
-    _ <- await (line (Num.toStr h.value |> \n -> "h: \(n)")) # This will print `h: 3`.
-    _ <- await (line (Num.toStr i.value |> \n -> "i: \(n)")) # This will print `i: 7`.
-    _ <- await (line (Num.toStr j.value |> \n -> "j: \(n)")) # This will print `j: 7`.
-    _ <- await (line (Num.toStr k.value |> \n -> "k: \(n)")) # This will print `k: 0`.
-    _ <- await (line (Num.toStr l.value |> \n -> "l: \(n)")) # This will print `l: 0`.
+    _ <- await (line (Num.toStr a.value |> \s -> "a: \(s)")) # This will print `a: 9`.
+    _ <- await (line (Num.toStr b.value |> \s -> "b: \(s)")) # This will print `b: 9`.
+    _ <- await (line (Num.toStr c.value |> \s -> "c: \(s)")) # This will print `c: 2`.
+    _ <- await (line (Num.toStr d.value |> \s -> "d: \(s)")) # This will print `d: 2`.
+    _ <- await (line (Num.toStr e.value |> \s -> "e: \(s)")) # This will print `e: 6`.
+    _ <- await (line (Num.toStr f.value |> \s -> "f: \(s)")) # This will print `f: 6`.
+    _ <- await (line (Num.toStr g.value |> \s -> "g: \(s)")) # This will print `g: 3`.
+    _ <- await (line (Num.toStr h.value |> \s -> "h: \(s)")) # This will print `h: 3`.
+    _ <- await (line (Num.toStr i.value |> \s -> "i: \(s)")) # This will print `i: 7`.
+    _ <- await (line (Num.toStr j.value |> \s -> "j: \(s)")) # This will print `j: 7`.
+    _ <- await (line (Num.toStr k.value |> \s -> "k: \(s)")) # This will print `k: 0`.
+    _ <- await (line (Num.toStr l.value |> \s -> "l: \(s)")) # This will print `l: 0`.
     line " :)"
 
 
