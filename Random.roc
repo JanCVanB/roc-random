@@ -160,7 +160,7 @@ mapToI8 = \x ->
     if x <= middle then
         minI8 + toI8 x
     else
-        toI8 (x - middle)
+        toI8 (x - middle - 1)
 
 mapToI16 : U16 -> I16
 mapToI16 = \x ->
@@ -176,7 +176,7 @@ mapToI16 = \x ->
     if x <= middle then
         minI16 + toI16 x
     else
-        toI16 (x - middle)
+        toI16 (x - middle - 1)
 
 mapToI32 : U32 -> I32
 mapToI32 = \x ->
@@ -188,7 +188,7 @@ mapToI32 = \x ->
     if x <= middle then
         Num.minI32 + toI32 x
     else
-        toI32 (x - middle)
+        toI32 (x - middle - 1)
 
 # TODO: This is waiting on the [i64] [Generator].
 # mapToI64 : U64 -> I64
@@ -201,7 +201,7 @@ mapToI32 = \x ->
 #     if x <= middle then
 #         Num.minI64 + toI64 x
 #     else
-#         toI64 (x - middle)
+#         toI64 (x - middle - 1)
 
 # TODO: This is waiting on `Num.toI128` (https://github.com/rtfeldman/roc/issues/664)
 #       to be implemented or for `Str.toI128` & `Str.toU128` to work.
@@ -211,7 +211,7 @@ mapToI32 = \x ->
 #     if x <= middle then
 #         Num.minI128 + Num.toI128 x
 #     else
-#         Num.toI128 (x - middle)
+#         Num.toI128 (x - middle - 1)
 
 # Warning: y must never equal 0. The `123` fallback is nonsense for typechecking only.
 modWithNonzero = \x, y -> x % y |> Result.withDefault 123
