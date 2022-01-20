@@ -5,6 +5,9 @@ interface Random
         Seed8,
         Seed16,
         Seed32,
+        i8,
+        i16,
+        i32,
         int,
         next,
         seed8,
@@ -70,35 +73,32 @@ step = \s, g -> g s
 int : U32, U32 -> Generator Seed32 U32
 int = u32
 
-# TODO: This is waiting on [convertU8ToI8].
-# ## A [Generator] for 8-bit signed integers between two boundaries (inclusive)
-# i8 : I8, I8 -> Generator Seed8 I8
-# i8 = \x, y ->
-#     between x y (\seed -> convertU8ToI8 (growSeed8 seed)) (\seed -> updateSeed8 seed)
+## A [Generator] for 8-bit signed integers between two boundaries (inclusive)
+i8 : I8, I8 -> Generator Seed8 I8
+i8 = \x, y ->
+    between x y (\seed -> mapToI8 (growSeed8 seed)) (\seed -> updateSeed8 seed)
 
-# TODO: This is waiting on [convertU16ToI16].
-# ## A [Generator] for 8-bit signed integers between two boundaries (inclusive)
-# i16 : I16, I16 -> Generator Seed16 I16
-# i16 = \x, y ->
-#     between x y (\seed -> convertU16ToI16 (growSeed16 seed)) (\seed -> updateSeed16 seed)
+## A [Generator] for 16-bit signed integers between two boundaries (inclusive)
+i16 : I16, I16 -> Generator Seed16 I16
+i16 = \x, y ->
+    between x y (\seed -> mapToI16 (growSeed16 seed)) (\seed -> updateSeed16 seed)
 
-# TODO: This is waiting on [convertU32ToI32].
-# ## A [Generator] for 16-bit signed integers between two boundaries (inclusive)
-# i32 : I32, I32 -> Generator Seed32 I32
-# i32 = \x, y ->
-#     between x y (\seed -> convertU32ToI32 (growSeed32 seed)) (\seed -> updateSeed32 seed)
+## A [Generator] for 32-bit signed integers between two boundaries (inclusive)
+i32 : I32, I32 -> Generator Seed32 I32
+i32 = \x, y ->
+    between x y (\seed -> mapToI32 (growSeed32 seed)) (\seed -> updateSeed32 seed)
 
-# TODO: This is waiting on [convertU64ToI64] & [growseed64].
+# TODO: This is waiting on [growseed64].
 # ## A [Generator] for 64-bit signed integers between two boundaries (inclusive)
 # i64 : I64, I64 -> Generator Seed64 I64
 # i64 = \x, y ->
-#     between x y (\seed -> convertU64ToI64 (growSeed64 seed)) (\seed -> updateSeed64 seed)
+#     between x y (\seed -> mapToI64 (growSeed64 seed)) (\seed -> updateSeed64 seed)
 
-# TODO: This is waiting on [convertU128ToI128] & [growseed128].
+# TODO: This is waiting on [mapToI128] & [growseed128].
 # ## A [Generator] for 128-bit signed integers between two boundaries (inclusive)
 # i128 : I128, I128 -> Generator Seed128 I128
 # i128 = \x, y ->
-#     between x y (\seed -> convertU128ToI128 (growSeed128 seed)) (\seed -> updateSeed128 seed)
+#     between x y (\seed -> mapToI128 (growSeed128 seed)) (\seed -> updateSeed128 seed)
 
 ## A [Generator] for 8-bit unsigned integers between two boundaries (inclusive)
 u8 : U8, U8 -> Generator Seed8 U8
@@ -128,7 +128,7 @@ u32 = \x, y ->
 #     between x y (\seed -> growSeed128 seed) (\seed -> updateSeed128 seed)
 
 
-### Generator helpers
+#### Helpers for the above constructors
 
 between = \x, y, growSeed, updateSeed ->
     Pair minimum maximum = sort x y
@@ -137,65 +137,74 @@ between = \x, y, growSeed, updateSeed ->
         value = minimum + modWithNonzero (growSeed seed) range
         { value, seed: updateSeed seed }
 
-# TODO: This is waiting on [Num.toI8] (https://github.com/rtfeldman/roc/issues/664).
-# convertU8ToI8 : U8 -> I8
-# convertU8ToI8 = \x ->
-#     minimum : I8
-#     minimum = Num.minI8
-#     maximum : I8
-#     maximum = Num.maxI8
-#     if x <= maximum then
-#         Num.toI8 x + minimum
-#     else
-#         Num.toI8 (x + minimum)
+mapToI8 : U8 -> I8
+mapToI8 = \x ->
+    # TODO: Replace these with `Num.toI8`/`Num.toU8` when they're implemented
+    #       (see https://github.com/rtfeldman/roc/issues/664).
+    minI8 : I8
+    minI8 = -128
+    maxI8 : I8
+    maxI8 = 127
+    toI8 : U8 -> I8
+    toI8 = \y -> y |> Num.toStr |> Str.toI8 |> Result.withDefault 0
+    toU8 : I8 -> U8
+    toU8 = \y -> y |> Num.toStr |> Str.toU8 |> Result.withDefault 0
+    middle = toU8 maxI8
+    if x <= middle then
+        minI8 + toI8 x
+    else
+        toI8 (x - middle)
 
-# TODO: This is waiting on [Num.toI16] (https://github.com/rtfeldman/roc/issues/664).
-# convertU16ToI16 : U16 -> I16
-# convertU16ToI16 = \x ->
-#     minimum : I16
-#     minimum = Num.minI16
-#     maximum : I16
-#     maximum = Num.maxI16
-#     if x <= maximum then
-#         Num.toI16 x + minimum
-#     else
-#         Num.toI16 (x + minimum)
+mapToI16 : U16 -> I16
+mapToI16 = \x ->
+    # TODO: Replace these with builtins when they're implemented
+    #       (see https://github.com/rtfeldman/roc/issues/664).
+    minI16 : I16
+    minI16 = -32_768
+    maxI16 : I16
+    maxI16 = 32_767
+    toI16 = \y -> y |> Num.toStr |> Str.toI16 |> Result.withDefault 0
+    toU16 = \y -> y |> Num.toStr |> Str.toU16 |> Result.withDefault 0
+    middle = toU16 maxI16
+    if x <= middle then
+        minI16 + toI16 x
+    else
+        toI16 (x - middle)
 
-# TODO: This is waiting on [Num.toI32] (https://github.com/rtfeldman/roc/issues/664).
-# convertU32ToI32 : U32 -> I32
-# convertU32ToI32 = \x ->
-#     minimum : I32
-#     minimum = Num.minI32
-#     maximum : I32
-#     maximum = Num.maxI32
-#     if x <= maximum then
-#         Num.toI32 x + minimum
-#     else
-#         Num.toI32 (x + minimum)
+mapToI32 : U32 -> I32
+mapToI32 = \x ->
+    # TODO: Replace these with builtins when they're implemented
+    #       (see https://github.com/rtfeldman/roc/issues/664).
+    toI32 = \y -> y |> Num.toStr |> Str.toI32 |> Result.withDefault 0
+    toU32 = \y -> y |> Num.toStr |> Str.toU32 |> Result.withDefault 0
+    middle = toU32 Num.maxI32
+    if x <= middle then
+        Num.minI32 + toI32 x
+    else
+        toI32 (x - middle)
 
-# TODO: This is waiting on [Num.toI64] (https://github.com/rtfeldman/roc/issues/664).
-# convertU64ToI64 : U64 -> I64
-# convertU64ToI64 = \x ->
-#     minimum : I64
-#     minimum = Num.minI64
-#     maximum : I64
-#     maximum = Num.maxI64
-#     if x <= maximum then
-#         Num.toI64 x + minimum
+# TODO: This is waiting on the [i64] [Generator].
+# mapToI64 : U64 -> I64
+# mapToI64 = \x ->
+#     # TODO: Replace these with `Num.toI64`/`Num.toU64` when they're implemented
+#     #       (see https://github.com/rtfeldman/roc/issues/664).
+#     toI64 = \y -> y |> Num.toStr |> Str.toI64 |> Result.withDefault 0
+#     toU64 = \y -> y |> Num.toStr |> Str.toU64 |> Result.withDefault 0
+#     middle = toU64 Num.maxI64
+#     if x <= middle then
+#         Num.minI64 + toI64 x
 #     else
-#         Num.toI64 (x + minimum)
+#         toI64 (x - middle)
 
-# TODO: This is waiting on [Num.toI128] (https://github.com/rtfeldman/roc/issues/664).
-# convertU128ToI128 : U128 -> I128
-# convertU128ToI128 = \x ->
-#     minimum : I128
-#     minimum = Num.minI128
-#     maximum : I128
-#     maximum = Num.maxI128
-#     if x <= maximum then
-#         Num.toI128 x + minimum
+# TODO: This is waiting on `Num.toI128` (https://github.com/rtfeldman/roc/issues/664)
+#       to be implemented or for `Str.toI128` & `Str.toU128` to work.
+# mapToI128 : U128 -> I128
+# mapToI128 = \x ->
+#     middle = Num.toU128 Num.maxI128
+#     if x <= middle then
+#         Num.minI128 + Num.toI128 x
 #     else
-#         Num.toI128 (x + minimum)
+#         Num.toI128 (x - middle)
 
 # Warning: y must never equal 0. The `123` fallback is nonsense for typechecking only.
 modWithNonzero = \x, y -> x % y |> Result.withDefault 123
@@ -207,7 +216,7 @@ sort = \x, y ->
         Pair y x
 
 
-### PCG algorithms & wrappers
+#### PCG algorithms & wrappers
 #
 # Based on this paper: https://www.pcg-random.org/pdf/hmc-cs-2014-0905.pdf
 # Based on this C++ header: https://github.com/imneme/pcg-c/blob/master/include/pcg_variants.h
