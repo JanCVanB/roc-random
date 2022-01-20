@@ -95,18 +95,6 @@ i32 : I32, I32 -> Generator Seed32 I32
 i32 = \x, y ->
     between x y (\s -> mapToI32 (growSeed32 s)) (\s -> updateSeed32 s)
 
-# TODO: This is waiting on [growseed64].
-# ## A [Generator] for 64-bit signed integers between two boundaries (inclusive)
-# i64 : I64, I64 -> Generator Seed64 I64
-# i64 = \x, y ->
-#     between x y (\s -> mapToI64 (growSeed64 s)) (\s -> updateSeed64 s)
-
-# TODO: This is waiting on [mapToI128] & [growseed128].
-# ## A [Generator] for 128-bit signed integers between two boundaries (inclusive)
-# i128 : I128, I128 -> Generator Seed128 I128
-# i128 = \x, y ->
-#     between x y (\s -> mapToI128 (growSeed128 s)) (\s -> updateSeed128 s)
-
 ## A [Generator] for 8-bit unsigned integers between two boundaries (inclusive)
 u8 : U8, U8 -> Generator Seed8 U8
 u8 = \x, y ->
@@ -121,18 +109,6 @@ u16 = \x, y ->
 u32 : U32, U32 -> Generator Seed32 U32
 u32 = \x, y ->
     between x y (\s -> growSeed32 s) (\s -> updateSeed32 s)
-
-# TODO: This is waiting on [growSeed64].
-# ## A [Generator] for 64-bit unsigned integers between two boundaries (inclusive)
-# u64 : U64, U64 -> Generator Seed64 U64
-# u64 = \x, y ->
-#     between x y (\s -> growSeed64 s) (\s -> updateSeed64 s)
-
-# TODO: This is waiting on [growSeed64].
-# ## A [Generator] for 128-bit unsigned integers between two boundaries (inclusive)
-# u128 : U128, U128 -> Generator Seed128 U128
-# u128 = \x, y ->
-#     between x y (\s -> growSeed128 s) (\s -> updateSeed128 s)
 
 
 #### Helpers for the above constructors
@@ -189,29 +165,6 @@ mapToI32 = \x ->
         Num.minI32 + toI32 x
     else
         toI32 (x - middle - 1)
-
-# TODO: This is waiting on the [i64] [Generator].
-# mapToI64 : U64 -> I64
-# mapToI64 = \x ->
-#     # TODO: Replace these with `Num.toI64`/`Num.toU64` when they're implemented
-#     #       (see https://github.com/rtfeldman/roc/issues/664).
-#     toI64 = \y -> y |> Num.toStr |> Str.toI64 |> Result.withDefault 0
-#     toU64 = \y -> y |> Num.toStr |> Str.toU64 |> Result.withDefault 0
-#     middle = toU64 Num.maxI64
-#     if x <= middle then
-#         Num.minI64 + toI64 x
-#     else
-#         toI64 (x - middle - 1)
-
-# TODO: This is waiting on `Num.toI128` (https://github.com/rtfeldman/roc/issues/664)
-#       to be implemented or for `Str.toI128` & `Str.toU128` to work.
-# mapToI128 : U128 -> I128
-# mapToI128 = \x ->
-#     middle = Num.toU128 Num.maxI128
-#     if x <= middle then
-#         Num.minI128 + Num.toI128 x
-#     else
-#         Num.toI128 (x - middle - 1)
 
 # Warning: y must never equal 0. The `123` fallback is nonsense for typechecking only.
 modWithNonzero = \x, y -> x % y |> Result.withDefault 123
