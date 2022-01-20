@@ -38,6 +38,7 @@ toI16 = \n -> n |> Num.toStr |> Str.toI16 |> Result.withDefault 0
 toU16 = \n -> n |> Num.toStr |> Str.toU16 |> Result.withDefault 0
 toI32 = \n -> n |> Num.toStr |> Str.toI32 |> Result.withDefault 0
 toU32 = \n -> n |> Num.toStr |> Str.toU32 |> Result.withDefault 0
+toI64 = \n -> n |> Num.toStr |> Str.toI64 |> Result.withDefault 0
 
 
 ## # Types
@@ -101,40 +102,62 @@ int = i32
 ## A [Generator] for 8-bit signed integers between two boundaries (inclusive)
 i8 : I8, I8 -> Generator Seed8 I8
 i8 = \x, y ->
-    between x y (\s -> mapToI8 (growSeed8 s)) (\s -> updateSeed8 s)
+    Pair minimum maximum = sort x y
+    # TODO: Remove these `I64` dependencies.
+    range = maximum - minimum + 1 |> toI64
+    \s ->
+        # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
+        offset = growSeed8 s |> mapToI8 |> toI64 |> Num.sub (toI64 minI8) |> modWithNonzero range
+        value = minimum |> toI64 |> Num.add offset |> toI8
+        { value, seed: updateSeed8 s }
 
 ## A [Generator] for 16-bit signed integers between two boundaries (inclusive)
 i16 : I16, I16 -> Generator Seed16 I16
 i16 = \x, y ->
-    between x y (\s -> mapToI16 (growSeed16 s)) (\s -> updateSeed16 s)
+    Pair minimum maximum = sort x y
+    # TODO: Remove these `I64` dependencies.
+    range = maximum - minimum + 1 |> toI64
+    \s ->
+        # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
+        offset = growSeed16 s |> mapToI16 |> toI64 |> Num.sub (toI64 minI16) |> modWithNonzero range
+        value = minimum |> toI64 |> Num.add offset |> toI16
+        { value, seed: updateSeed16 s }
 
 ## A [Generator] for 32-bit signed integers between two boundaries (inclusive)
 i32 : I32, I32 -> Generator Seed32 I32
 i32 = \x, y ->
-    between x y (\s -> mapToI32 (growSeed32 s)) (\s -> updateSeed32 s)
+    Pair minimum maximum = sort x y
+    # TODO: Remove these `I64` dependencies.
+    range = maximum - minimum + 1 |> toI64
+    \s ->
+        # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
+        offset = growSeed32 s |> mapToI32 |> toI64 |> Num.sub (toI64 Num.minI32) |> modWithNonzero range
+        value = minimum |> toI64 |> Num.add offset |> toI32
+        { value, seed: updateSeed32 s }
 
 ## A [Generator] for 8-bit unsigned integers between two boundaries (inclusive)
 u8 : U8, U8 -> Generator Seed8 U8
 u8 = \x, y ->
-    between x y (\s -> growSeed8 s) (\s -> updateSeed8 s)
+    betweenUnsigned x y (\s -> growSeed8 s) (\s -> updateSeed8 s)
 
 ## A [Generator] for 16-bit unsigned integers between two boundaries (inclusive)
 u16 : U16, U16 -> Generator Seed16 U16
 u16 = \x, y ->
-    between x y (\s -> growSeed16 s) (\s -> updateSeed16 s)
+    betweenUnsigned x y (\s -> growSeed16 s) (\s -> updateSeed16 s)
 
 ## A [Generator] for 32-bit unsigned integers between two boundaries (inclusive)
 u32 : U32, U32 -> Generator Seed32 U32
 u32 = \x, y ->
-    between x y (\s -> growSeed32 s) (\s -> updateSeed32 s)
+    betweenUnsigned x y (\s -> growSeed32 s) (\s -> updateSeed32 s)
 
 
 #### Helpers for the above constructors
 
-between = \x, y, growSeed, updateSeed ->
+betweenUnsigned = \x, y, growSeed, updateSeed ->
     Pair minimum maximum = sort x y
     range = maximum - minimum + 1
     \s ->
+        # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
         value = minimum + modWithNonzero (growSeed s) range
         { value, seed: updateSeed s }
 

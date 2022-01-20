@@ -8,14 +8,14 @@ app "points_example"
 
 main =
     
-    a = pointGen (Random.seed 42)
+    a = pointGen (Random.seed 36)
     b = a |> Random.next pointGen
 
-    _ <- await (line (Num.toStr a.value.x |> \s -> "a.x == -25 == \(s)"))
-    _ <- await (line (Num.toStr a.value.y |> \s -> "a.y == -74 == \(s)"))
-    _ <- await (line (Num.toStr b.value.x |> \s -> "b.x == -27 == \(s)"))
-    _ <- await (line (Num.toStr b.value.y |> \s -> "b.y == -82 == \(s)"))
-    line "These values will be the same on every run, because we use a constant seed (42)."
+    _ <- await (line (Num.toStr a.value.x |> \s -> "a.x ==  24 ==  \(s)"))
+    _ <- await (line (Num.toStr a.value.y |> \s -> "a.y ==  37 ==  \(s)"))
+    _ <- await (line (Num.toStr b.value.x |> \s -> "b.x ==  61 ==  \(s)"))
+    _ <- await (line (Num.toStr b.value.y |> \s -> "b.y == -47 == \(s)"))
+    line "These values will be the same on every run, because we use a constant seed (36)."
 
 
 Point a : { x : a, y : a }
@@ -25,7 +25,7 @@ pointGen : Random.Generator Random.Seed32 (Point I32)
 pointGen = \seed ->
     # TODO: remove unnecessary type definitions (min: U32...) once #2336 is fixed
     min: I32
-    min = 0
+    min = -100
     max: I32
     max = 100
 
