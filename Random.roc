@@ -69,9 +69,9 @@ step = \s, g -> g s
 
 ## A [Generator] for 32-bit unsigned integers between two boundaries (inclusive)
 ##
-## This is an alias for [u32].
-int : U32, U32 -> Generator Seed32 U32
-int = u32
+## This is an alias for [i32].
+int : I32, I32 -> Generator Seed32 I32
+int = i32
 
 ## A [Generator] for 8-bit signed integers between two boundaries (inclusive)
 i8 : I8, I8 -> Generator Seed8 I8
