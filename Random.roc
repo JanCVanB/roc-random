@@ -10,6 +10,7 @@ interface Random
         i32,
         int,
         next,
+        seed,
         seed8,
         seed16,
         seed32,
@@ -40,6 +41,12 @@ Seed32 : [ Seed32 U32 ]*
 
 
 ## # Constructors for seeds
+
+## Constructs a 32-bit seed from an 32-bit integer
+##
+## This is an alias for [seed32].
+seed : U32 -> Seed32
+seed = seed32
 
 ## Constructs an 8-bit seed from an 8-bit integer
 seed8 : U8 -> Seed8
@@ -76,56 +83,56 @@ int = i32
 ## A [Generator] for 8-bit signed integers between two boundaries (inclusive)
 i8 : I8, I8 -> Generator Seed8 I8
 i8 = \x, y ->
-    between x y (\seed -> mapToI8 (growSeed8 seed)) (\seed -> updateSeed8 seed)
+    between x y (\s -> mapToI8 (growSeed8 s)) (\s -> updateSeed8 s)
 
 ## A [Generator] for 16-bit signed integers between two boundaries (inclusive)
 i16 : I16, I16 -> Generator Seed16 I16
 i16 = \x, y ->
-    between x y (\seed -> mapToI16 (growSeed16 seed)) (\seed -> updateSeed16 seed)
+    between x y (\s -> mapToI16 (growSeed16 s)) (\s -> updateSeed16 s)
 
 ## A [Generator] for 32-bit signed integers between two boundaries (inclusive)
 i32 : I32, I32 -> Generator Seed32 I32
 i32 = \x, y ->
-    between x y (\seed -> mapToI32 (growSeed32 seed)) (\seed -> updateSeed32 seed)
+    between x y (\s -> mapToI32 (growSeed32 s)) (\s -> updateSeed32 s)
 
 # TODO: This is waiting on [growseed64].
 # ## A [Generator] for 64-bit signed integers between two boundaries (inclusive)
 # i64 : I64, I64 -> Generator Seed64 I64
 # i64 = \x, y ->
-#     between x y (\seed -> mapToI64 (growSeed64 seed)) (\seed -> updateSeed64 seed)
+#     between x y (\s -> mapToI64 (growSeed64 s)) (\s -> updateSeed64 s)
 
 # TODO: This is waiting on [mapToI128] & [growseed128].
 # ## A [Generator] for 128-bit signed integers between two boundaries (inclusive)
 # i128 : I128, I128 -> Generator Seed128 I128
 # i128 = \x, y ->
-#     between x y (\seed -> mapToI128 (growSeed128 seed)) (\seed -> updateSeed128 seed)
+#     between x y (\s -> mapToI128 (growSeed128 s)) (\s -> updateSeed128 s)
 
 ## A [Generator] for 8-bit unsigned integers between two boundaries (inclusive)
 u8 : U8, U8 -> Generator Seed8 U8
 u8 = \x, y ->
-    between x y (\seed -> growSeed8 seed) (\seed -> updateSeed8 seed)
+    between x y (\s -> growSeed8 s) (\s -> updateSeed8 s)
 
 ## A [Generator] for 16-bit unsigned integers between two boundaries (inclusive)
 u16 : U16, U16 -> Generator Seed16 U16
 u16 = \x, y ->
-    between x y (\seed -> growSeed16 seed) (\seed -> updateSeed16 seed)
+    between x y (\s -> growSeed16 s) (\s -> updateSeed16 s)
 
 ## A [Generator] for 32-bit unsigned integers between two boundaries (inclusive)
 u32 : U32, U32 -> Generator Seed32 U32
 u32 = \x, y ->
-    between x y (\seed -> growSeed32 seed) (\seed -> updateSeed32 seed)
+    between x y (\s -> growSeed32 s) (\s -> updateSeed32 s)
 
 # TODO: This is waiting on [growSeed64].
 # ## A [Generator] for 64-bit unsigned integers between two boundaries (inclusive)
 # u64 : U64, U64 -> Generator Seed64 U64
 # u64 = \x, y ->
-#     between x y (\seed -> growSeed64 seed) (\seed -> updateSeed64 seed)
+#     between x y (\s -> growSeed64 s) (\s -> updateSeed64 s)
 
 # TODO: This is waiting on [growSeed64].
 # ## A [Generator] for 128-bit unsigned integers between two boundaries (inclusive)
 # u128 : U128, U128 -> Generator Seed128 U128
 # u128 = \x, y ->
-#     between x y (\seed -> growSeed128 seed) (\seed -> updateSeed128 seed)
+#     between x y (\s -> growSeed128 s) (\s -> updateSeed128 s)
 
 
 #### Helpers for the above constructors
@@ -133,9 +140,9 @@ u32 = \x, y ->
 between = \x, y, growSeed, updateSeed ->
     Pair minimum maximum = sort x y
     range = maximum - minimum + 1
-    \seed ->
-        value = minimum + modWithNonzero (growSeed seed) range
-        { value, seed: updateSeed seed }
+    \s ->
+        value = minimum + modWithNonzero (growSeed s) range
+        { value, seed: updateSeed s }
 
 mapToI8 : U8 -> I8
 mapToI8 = \x ->
