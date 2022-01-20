@@ -5,14 +5,14 @@ app "simple_example"
     imports [ pf.Stdout.{ line }, pf.Task.{ await }, Random ]
     provides [ main ] to pf
 
-# TODO: Use U64 generator when ready.
+
 main =
     
     a = randNum (Random.seed32 42)
     b = a |> Random.next randNum
 
-    _ <- await (line (Num.toStr a.value |> \x -> "a: \(x)"))
-    _ <- await (line (Num.toStr b.value |> \x -> "b: \(x)"))
+    _ <- await (line (Num.toStr a.value |> \x -> "a ==  9 ==  \(x)"))
+    _ <- await (line (Num.toStr b.value |> \x -> "b == 61 == \(x)"))
     
     line "The values will be the same on each run, because we use the same seed (42)."
 

@@ -5,21 +5,29 @@ app "digits_example"
     imports [ pf.Stdout.{ line }, pf.Task.{ await }, Random ]
     provides [ main ] to pf
 
-# TODO: add U64 generator when ready.
+
 main =
+
     a = digit32 (Random.seed32 6)
     b = digit32 (Random.seed32 6)
+
     c = digit16 (Random.seed16 6)
     d = digit16 (Random.seed16 6)
+
     e = digit8 (Random.seed8 6)
     f = digit8 (Random.seed8 6)
+
     g = digit8 (Random.seed8 12)
     h = digit8 (Random.seed8 12)
+
     i = h |> Random.next digit8
     j = h |> Random.next digit8
+
     k = j |> Random.next digit8
     l = j |> Random.next digit8
+
     p = point (Random.seed8 36)
+
     _ <- await (line (Num.toStr a.value |> \n -> "a: \(n)")) # This will print `a: 9`.
     _ <- await (line (Num.toStr b.value |> \n -> "b: \(n)")) # This will print `b: 9`.
     _ <- await (line (Num.toStr c.value |> \n -> "c: \(n)")) # This will print `c: 2`.
@@ -36,6 +44,7 @@ main =
     _ <- await (line (Num.toStr p.value.y |> \y -> "y: \(y)")) # This will print `y: 22`.
     _ <- await (line (Num.toStr p.value.z |> \z -> "z: \(z)")) # This will print `z: 35`.
     line " :)"
+
 
 digit8 : Random.Generator Random.Seed8 U8
 digit8 = Random.u8 0 9

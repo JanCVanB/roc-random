@@ -5,7 +5,7 @@ app "points_example"
     imports [ pf.Stdout.{ line }, pf.Task.{ await }, Random ]
     provides [ main ] to pf
 
-# TODO: add U64 generator when ready.
+
 main =
     
     a = pointGen (Random.seed32 42)
@@ -15,6 +15,7 @@ main =
     _ <- await (line (Num.toStr b.value.x |> \x -> "b: \(x)"))
 
     line "The values will be the same on each run, because we use the same seed (42)."
+
 
 Point a : { x : a, y : a }
 
@@ -33,4 +34,3 @@ pointGen = \seed ->
     y = Random.step x.seed (Random.u32 min max)
 
     { value: { x: x.value, y: y.value }, seed: y.seed }
-
