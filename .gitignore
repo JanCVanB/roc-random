@@ -1,4 +1,4 @@
-examples
-examples.ll
-generated-docs
-roc
+generated-docs/
+roc/
+*_example
+*_example.ll
