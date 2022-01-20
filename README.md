@@ -11,7 +11,7 @@ Contributions & feedback are very welcome! :)
 ## Examples
 
 ```
-app "simple-ex"
+app "simple_example"
     packages { pf: "../roc/examples/cli/platform" }
     imports [ pf.Stdout.{ line }, pf.Task.{ await }, Random ]
     provides [ main ] to pf

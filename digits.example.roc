@@ -1,6 +1,6 @@
 #!/usr/bin/env roc
 
-app "num-types-ex"
+app "digits_example"
     packages { pf: "./roc/examples/cli/platform" }
     imports [ pf.Stdout.{ line }, pf.Task.{ await }, Random ]
     provides [ main ] to pf
