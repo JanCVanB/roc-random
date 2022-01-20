@@ -11,10 +11,9 @@ main =
     a = randNum (Random.seed32 42)
     b = a |> Random.next randNum
 
-    _ <- await (line (Num.toStr a.value |> \x -> "a ==  9 ==  \(x)"))
-    _ <- await (line (Num.toStr b.value |> \x -> "b == 61 == \(x)"))
-    
-    line "The values will be the same on each run, because we use the same seed (42)."
+    _ <- await (line (Num.toStr x.value |> \s -> "x: \(s)")) # This will print `x: 9`.
+    _ <- await (line (Num.toStr y.value |> \s -> "y: \(s)")) # This will print `x: 61`.
+    line "These values will be the same on every run, because we use a constant seed (42)."
 
 
 randNum : Random.Generator Random.Seed32 U32

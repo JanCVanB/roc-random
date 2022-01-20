@@ -26,19 +26,19 @@ main =
     k = j |> Random.next digit8
     l = j |> Random.next digit8
 
-    _ <- await (line (Num.toStr a.value |> \s -> "a: \(s)")) # This will print `a: 9`.
-    _ <- await (line (Num.toStr b.value |> \s -> "b: \(s)")) # This will print `b: 9`.
-    _ <- await (line (Num.toStr c.value |> \s -> "c: \(s)")) # This will print `c: 2`.
-    _ <- await (line (Num.toStr d.value |> \s -> "d: \(s)")) # This will print `d: 2`.
-    _ <- await (line (Num.toStr e.value |> \s -> "e: \(s)")) # This will print `e: 6`.
-    _ <- await (line (Num.toStr f.value |> \s -> "f: \(s)")) # This will print `f: 6`.
-    _ <- await (line (Num.toStr g.value |> \s -> "g: \(s)")) # This will print `g: 3`.
-    _ <- await (line (Num.toStr h.value |> \s -> "h: \(s)")) # This will print `h: 3`.
-    _ <- await (line (Num.toStr i.value |> \s -> "i: \(s)")) # This will print `i: 7`.
-    _ <- await (line (Num.toStr j.value |> \s -> "j: \(s)")) # This will print `j: 7`.
-    _ <- await (line (Num.toStr k.value |> \s -> "k: \(s)")) # This will print `k: 0`.
-    _ <- await (line (Num.toStr l.value |> \s -> "l: \(s)")) # This will print `l: 0`.
-    line " :)"
+    _ <- await (line (Num.toStr a.value |> \s -> "a == 9 == \(s)"))
+    _ <- await (line (Num.toStr b.value |> \s -> "b == 9 == \(s)"))
+    _ <- await (line (Num.toStr c.value |> \s -> "c == 2 == \(s)"))
+    _ <- await (line (Num.toStr d.value |> \s -> "d == 2 == \(s)"))
+    _ <- await (line (Num.toStr e.value |> \s -> "e == 6 == \(s)"))
+    _ <- await (line (Num.toStr f.value |> \s -> "f == 6 == \(s)"))
+    _ <- await (line (Num.toStr g.value |> \s -> "g == 3 == \(s)"))
+    _ <- await (line (Num.toStr h.value |> \s -> "h == 3 == \(s)"))
+    _ <- await (line (Num.toStr i.value |> \s -> "i == 7 == \(s)"))
+    _ <- await (line (Num.toStr j.value |> \s -> "j == 7 == \(s)"))
+    _ <- await (line (Num.toStr k.value |> \s -> "k == 0 == \(s)"))
+    _ <- await (line (Num.toStr l.value |> \s -> "l == 0 == \(s)"))
+    line "These values will be the same on every run, because we use constant seeds."
 
 
 digit8 : Random.Generator Random.Seed8 U8
