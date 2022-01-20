@@ -1,4 +1,8 @@
-examples
-examples.ll
-generated-docs
-roc
+generated-docs/
+roc/
+num-types-ex
+num-types-ex.ll
+point-ex
+point-ex.ll
+simple-ex
+simple-ex.ll

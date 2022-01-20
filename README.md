@@ -32,7 +32,8 @@ randNum : Random.Generator Random.Seed32 U32
 randNum = \seed ->
     Random.step seed (Random.u32 0 100)
 ```
-The [examples folder](Examples/) contains more examples.
+
+See the `*.example.roc` files for more examples.
 
 ## Documentation
 
