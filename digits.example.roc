@@ -26,8 +26,6 @@ main =
     k = j |> Random.next digit8
     l = j |> Random.next digit8
 
-    p = point (Random.seed8 36)
-
     _ <- await (line (Num.toStr a.value |> \n -> "a: \(n)")) # This will print `a: 9`.
     _ <- await (line (Num.toStr b.value |> \n -> "b: \(n)")) # This will print `b: 9`.
     _ <- await (line (Num.toStr c.value |> \n -> "c: \(n)")) # This will print `c: 2`.
@@ -40,9 +38,6 @@ main =
     _ <- await (line (Num.toStr j.value |> \n -> "j: \(n)")) # This will print `j: 7`.
     _ <- await (line (Num.toStr k.value |> \n -> "k: \(n)")) # This will print `k: 0`.
     _ <- await (line (Num.toStr l.value |> \n -> "l: \(n)")) # This will print `l: 0`.
-    _ <- await (line (Num.toStr p.value.x |> \x -> "x: \(x)")) # This will print `x: 17`.
-    _ <- await (line (Num.toStr p.value.y |> \y -> "y: \(y)")) # This will print `y: 22`.
-    _ <- await (line (Num.toStr p.value.z |> \z -> "z: \(z)")) # This will print `z: 35`.
     line " :)"
 
 
@@ -54,12 +49,3 @@ digit16 = Random.u16 0 9
 
 digit32 : Random.Generator Random.Seed32 U32
 digit32 = Random.u32 0 9
-
-Point a : { x : a, y : a, z : a }
-
-point : Random.Generator Random.Seed8 (Point U8)
-point = \seed ->
-    x = Random.step seed (Random.u8 10 19)
-    y = Random.step x.seed (Random.u8 20 29)
-    z = Random.step y.seed (Random.u8 30 39)
-    { value: { x: x.value, y: y.value, z: z.value }, seed: z.seed }
