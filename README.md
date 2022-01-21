@@ -32,7 +32,7 @@ See the `*.example.roc` files for more examples.
 
 ## Documentation
 
-See [the library documentation site](JanCVanB.github.io/roc-random)
+See [the library documentation site](https://JanCVanB.github.io/roc-random)
 for more info about its API.
 
 However,
