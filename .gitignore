@@ -2,3 +2,6 @@ generated-docs/
 roc/
 *_example
 *.example.ll
+
+# macOS noise
+.DS_Store
