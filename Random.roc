@@ -50,13 +50,13 @@ Generator seed value : seed -> Generation seed value
 Generation seed value : { seed, value }
 
 ## An 8-bit seed
-Seed8 : [ Seed8 U8 ]*
+Seed8 : [ Seed8 U8 ]
 
 ## A 16-bit seed
-Seed16 : [ Seed16 U16 ]*
+Seed16 : [ Seed16 U16 ]
 
 ## A 32-bit seed
-Seed32 : [ Seed32 U32 ]*
+Seed32 : [ Seed32 U32 ]
 
 
 ## # Constructors for seeds
