@@ -23,10 +23,7 @@ Point a : { x : a, y : a }
 
 pointGen : Random.Generator Random.Seed32 (Point I32)
 pointGen = \seed ->
-    # TODO: remove unnecessary type definitions (min: U32...) once #2336 is fixed
-    min: I32
     min = -100
-    max: I32
     max = 100
 
     x = Random.step seed (Random.int min max)
