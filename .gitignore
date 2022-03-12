@@ -1,6 +1,10 @@
 generated-docs/
-*_example
-*.example.ll
+*.ll
+
+# Compiled executables
+example_digits
+example_points
+example_simple
 
 # macOS noise
 .DS_Store

@@ -1,6 +1,6 @@
 #!/usr/bin/env roc
 
-app "points_example"
+app "example_points"
     packages { pf: "./roc/examples/interactive/cli-platform" }
     imports [ pf.Stdout.{ line }, pf.Task.{ await }, Random ]
     provides [ main ] to pf
