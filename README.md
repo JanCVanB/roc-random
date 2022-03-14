@@ -20,7 +20,7 @@ app "example_simple"
 main =
     
     state = Random.seed 42    # `state` stores the "randomness", initialized by the user/platform.
-    int = Random.int 0 100    # `int` generates values from 0-100 (inclusive) and updates the state.
+    int = Random.int 0 100    # `int` generates values from 0-100 (inclusive) and updates state.
     x = int state             # x == { value: 9, state: { value: -60952905, ... } }
     y = x |> Random.next int  # y == { value: 61, state: { value: 1561666408, ... } }
 
