@@ -9,9 +9,13 @@ interface Random
         int,
         next,
         seed,
+        seedVariant,
         seed8,
+        seed8Variant,
         seed16,
+        seed16Variant,
         seed32,
+        seed32Variant,
         step,
         u8,
         u16,
@@ -49,43 +53,67 @@ AlgorithmConstants uint : {
 seed : U32 -> State U32
 seed = seed32
 
+## Construct a specific "variant" of a "seed"
+##
+## A "seed" is an initial [State] for [Generator]s.
+##
+## A "variant" is a [State] that specifies a `c.updateIncrement` constant,
+## to produce a sequence of internal `value`s that shares no consecutive pairs
+## with other variants of the same [State].
+##
+## This is an alias for [seed32Variant].
+seedVariant : U32, U32 -> State U32
+seedVariant = seed32Variant
+
 ## Construct an initial [State] from 8 bits of noise
 seed8 : U8 -> State U8
-seed8 = \s ->
+seed8 = \s -> seed8Variant s defaultU8UpdateIncrement
+
+## Construct an initial [State] from 8 bits of noise and a specific increment for updating
+seed8Variant : U8, U8 -> State U8
+seed8Variant = \s, uI ->
     $State {
-        s: s,
+        s,
         c: {
             permuteMultiplier: defaultU8PermuteMultiplier,
             permuteRandomXorShift: defaultU8PermuteRandomXorShift,
             permuteRandomXorShiftIncrement: defaultU8PermuteRandomXorShiftIncrement,
             permuteXorShift: defaultU8PermuteXorShift,
-            updateIncrement: defaultU8UpdateIncrement,
+            updateIncrement: uI,
             updateMultiplier: defaultU8UpdateMultiplier } }
 
 ## Construct an initial [State] from 16 bits of noise
 seed16 : U16 -> State U16
-seed16 = \s ->
+seed16 = \s -> seed16Variant s defaultU16UpdateIncrement
+
+## Construct an initial [State] from 16 bits of noise and a specific increment for updating
+seed16Variant : U16, U16 -> State U16
+seed16Variant = \s, uI ->
     $State {
-        s: s,
+        s,
         c: {
             permuteMultiplier: defaultU16PermuteMultiplier,
             permuteRandomXorShift: defaultU16PermuteRandomXorShift,
             permuteRandomXorShiftIncrement: defaultU16PermuteRandomXorShiftIncrement,
             permuteXorShift: defaultU16PermuteXorShift,
-            updateIncrement: defaultU16UpdateIncrement,
+            updateIncrement: uI,
             updateMultiplier: defaultU16UpdateMultiplier } }
 
 ## Construct an initial [State] from 32 bits of noise
 seed32 : U32 -> State U32
-seed32 = \s ->
+seed32 = \s -> seed32Variant s defaultU32UpdateIncrement
+
+## Construct an initial [State] from 32 bits of noise and a specific increment for updating
+seed32Variant : U32, U32 -> State U32
+seed32Variant = \s, uI ->
     $State {
-        s: s,
+        s,
         c: {
             permuteMultiplier: defaultU32PermuteMultiplier,
             permuteRandomXorShift: defaultU32PermuteRandomXorShift,
             permuteRandomXorShiftIncrement: defaultU32PermuteRandomXorShiftIncrement,
             permuteXorShift: defaultU32PermuteXorShift,
-            updateIncrement: defaultU32UpdateIncrement,
+            updateIncrement: uI,
             updateMultiplier: defaultU32UpdateMultiplier } }
 
 
