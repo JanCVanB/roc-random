@@ -16,7 +16,7 @@
     <input id="module-search" aria-labelledby="search-link" type="text" placeholder="Search" />
     <label for="module-search" id="search-link">Search</label>
     <div class="module-links">
-        <div class="sidebar-entry" ><a class="sidebar-module-link" href="" >Random</a><div class="sidebar-sub-entries" ><a href="#Generator" >Generator</a><a href="#Generation" >Generation</a><a href="#Seed8" >Seed8</a><a href="#Seed16" >Seed16</a><a href="#Seed32" >Seed32</a><a href="#seed8" >seed8</a><a href="#seed16" >seed16</a><a href="#seed32" >seed32</a><a href="#next" >next</a><a href="#step" >step</a><a href="#int" >int</a><a href="#u8" >u8</a><a href="#u16" >u16</a><a href="#u32" >u32</a></div></div>
+        <div class="sidebar-entry" ><a class="sidebar-module-link" href="" >Random</a><div class="sidebar-sub-entries" ><a href="#Generator" >Generator</a><a href="#Generation" >Generation</a><a href="#State" >State</a><a href="#seed" >seed</a><a href="#seedVariant" >seedVariant</a><a href="#seed8" >seed8</a><a href="#seed8Variant" >seed8Variant</a><a href="#seed16" >seed16</a><a href="#seed16Variant" >seed16Variant</a><a href="#seed32" >seed32</a><a href="#seed32Variant" >seed32Variant</a><a href="#next" >next</a><a href="#step" >step</a><a href="#int" >int</a><a href="#i8" >i8</a><a href="#i16" >i16</a><a href="#i32" >i32</a><a href="#u8" >u8</a><a href="#u16" >u16</a><a href="#u32" >u32</a></div></div>
     </div>
 </nav>
 <div class="top-header-extension">
@@ -38,33 +38,41 @@
 </header>
 <main>
     <h2 class="module-name" ><a href="/#" >Random</a></h2><h1>Types</h1>
-<h3 id="Generator" class="entry-name" ><a href="#Generator" >Generator</a> seed value : seed -> (Generation seed value)</h3><p>A psuedorandom value generator</p>
-<h3 id="Generation" class="entry-name" ><a href="#Generation" >Generation</a> seed value : 
+<h3 id="Generator" class="entry-name" ><a href="#Generator" >Generator</a> uint value : (State uint) -> (Generation uint value)</h3><p>A psuedorandom value generator</p>
+<h3 id="Generation" class="entry-name" ><a href="#Generation" >Generation</a> uint value : 
     {
-        seed,
-        value
-    }</h3><p>A psuedorandom value, paired with an updated seed for future use</p>
-<h3 id="Seed8" class="entry-name" ><a href="#Seed8" >Seed8</a> : [ Seed8 U8 ]*</h3><p>An 8-bit seed</p>
-<h3 id="Seed16" class="entry-name" ><a href="#Seed16" >Seed16</a> : [ Seed16 U16 ]*</h3><p>A 16-bit seed</p>
-<h3 id="Seed32" class="entry-name" ><a href="#Seed32" >Seed32</a> : [ Seed32 U32 ]*</h3><p>A 32-bit seed</p>
-<h1>Constructors for seeds</h1>
-<h3 id="seed" class="entry-name" ><a href="#seed" >seed</a> : U32 -> Seed32</h3><p>Constructs a 32-bit seed from an 32-bit integer</p>
+        value : value,
+        state : (State uint)
+    }</h3><p>A psuedorandom value, paired with its <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a>'s output state (for chaining)</p>
+<h3 id="State" class="entry-name" ><a href="#State" >State</a> uint</h3><p>Internal state for <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a>s</p>
+<h1><a href="#State" title="Docs for Random.State"><code>State</code></a> constructors</h1>
+<h3 id="seed" class="entry-name" ><a href="#seed" >seed</a> : U32 -> (State U32)</h3><p>Construct a &quot;seed&quot;</p>
+<p>A &quot;seed&quot; is an initial <a href="#State" title="Docs for Random.State"><code>State</code></a> for <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a>s.</p>
 <p>This is an alias for <a href="#seed32" title="Docs for Random.seed32"><code>seed32</code></a>.</p>
-<h3 id="seed8" class="entry-name" ><a href="#seed8" >seed8</a> : U8 -> Seed8</h3><p>Constructs an 8-bit seed from an 8-bit integer</p>
-<h3 id="seed16" class="entry-name" ><a href="#seed16" >seed16</a> : U16 -> Seed16</h3><p>Constructs a 16-bit seed from a 16-bit integer</p>
-<h3 id="seed32" class="entry-name" ><a href="#seed32" >seed32</a> : U32 -> Seed32</h3><p>Constructs a 32-bit seed from a 32-bit integer</p>
-<h1>Helpers for all generators</h1>
-<h3 id="next" class="entry-name" ><a href="#next" >next</a> : (Generation seed *), (Generator seed value) -> (Generation seed value)</h3><p>Generates a new value from an old one (and update the seed)</p>
-<h3 id="step" class="entry-name" ><a href="#step" >step</a> : seed, (Generator seed value) -> (Generation seed value)</h3><p>Generates a value from a seed (and update the seed)</p>
-<h1>Constructors for some primitive generators</h1>
-<h3 id="int" class="entry-name" ><a href="#int" >int</a> : I32, I32 -> (Generator Seed32 I32)</h3><p>A <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 32-bit unsigned integers between two boundaries (inclusive)</p>
+<h3 id="seedVariant" class="entry-name" ><a href="#seedVariant" >seedVariant</a> : U32, U32 -> (State U32)</h3><p>Construct a specific &quot;variant&quot; of a &quot;seed&quot;</p>
+<p>A &quot;seed&quot; is an initial <a href="#State" title="Docs for Random.State"><code>State</code></a> for <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a>s.</p>
+<p>A &quot;variant&quot; is a <a href="#State" title="Docs for Random.State"><code>State</code></a> that specifies a <code>c.updateIncrement</code> constant,
+to produce a sequence of internal <code>value</code>s that shares no consecutive pairs
+with other variants of the same <a href="#State" title="Docs for Random.State"><code>State</code></a>.</p>
+<p>This is an alias for <a href="#seed32Variant" title="Docs for Random.seed32Variant"><code>seed32Variant</code></a>.</p>
+<h3 id="seed8" class="entry-name" ><a href="#seed8" >seed8</a> : U8 -> (State U8)</h3><p>Construct an initial <a href="#State" title="Docs for Random.State"><code>State</code></a> from 8 bits of noise</p>
+<h3 id="seed8Variant" class="entry-name" ><a href="#seed8Variant" >seed8Variant</a> : U8, U8 -> (State U8)</h3><p>Construct an initial <a href="#State" title="Docs for Random.State"><code>State</code></a> from 8 bits of noise and a specific increment for updating</p>
+<h3 id="seed16" class="entry-name" ><a href="#seed16" >seed16</a> : U16 -> (State U16)</h3><p>Construct an initial <a href="#State" title="Docs for Random.State"><code>State</code></a> from 16 bits of noise</p>
+<h3 id="seed16Variant" class="entry-name" ><a href="#seed16Variant" >seed16Variant</a> : U16, U16 -> (State U16)</h3><p>Construct an initial <a href="#State" title="Docs for Random.State"><code>State</code></a> from 16 bits of noise and a specific increment for updating</p>
+<h3 id="seed32" class="entry-name" ><a href="#seed32" >seed32</a> : U32 -> (State U32)</h3><p>Construct an initial <a href="#State" title="Docs for Random.State"><code>State</code></a> from 32 bits of noise</p>
+<h3 id="seed32Variant" class="entry-name" ><a href="#seed32Variant" >seed32Variant</a> : U32, U32 -> (State U32)</h3><p>Construct an initial <a href="#State" title="Docs for Random.State"><code>State</code></a> from 32 bits of noise and a specific increment for updating</p>
+<h1><a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> helpers</h1>
+<h3 id="next" class="entry-name" ><a href="#next" >next</a> : (Generation uint *), (Generator uint value) -> (Generation uint value)</h3><p>Generate a new <a href="#Generation" title="Docs for Random.Generation"><code>Generation</code></a> from an old <a href="#Generation" title="Docs for Random.Generation"><code>Generation</code></a>'s state</p>
+<h3 id="step" class="entry-name" ><a href="#step" >step</a> : (State uint), (Generator uint value) -> (Generation uint value)</h3><p>Generate a <a href="#Generation" title="Docs for Random.Generation"><code>Generation</code></a> from a state</p>
+<h1>Primitive <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> constructors</h1>
+<h3 id="int" class="entry-name" ><a href="#int" >int</a> : I32, I32 -> (Generator U32 I32)</h3><p>Construct a <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 32-bit unsigned integers between two boundaries (inclusive)</p>
 <p>This is an alias for <a href="#i32" title="Docs for Random.i32"><code>i32</code></a>.</p>
-<h3 id="i8" class="entry-name" ><a href="#i8" >i8</a> : I8, I8 -> (Generator Seed8 I8)</h3><p>A <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 8-bit signed integers between two boundaries (inclusive)</p>
-<h3 id="i16" class="entry-name" ><a href="#i16" >i16</a> : I16, I16 -> (Generator Seed16 I16)</h3><p>A <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 16-bit signed integers between two boundaries (inclusive)</p>
-<h3 id="i32" class="entry-name" ><a href="#i32" >i32</a> : I32, I32 -> (Generator Seed32 I32)</h3><p>A <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 32-bit signed integers between two boundaries (inclusive)</p>
-<h3 id="u8" class="entry-name" ><a href="#u8" >u8</a> : U8, U8 -> (Generator Seed8 U8)</h3><p>A <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 8-bit unsigned integers between two boundaries (inclusive)</p>
-<h3 id="u16" class="entry-name" ><a href="#u16" >u16</a> : U16, U16 -> (Generator Seed16 U16)</h3><p>A <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 16-bit unsigned integers between two boundaries (inclusive)</p>
-<h3 id="u32" class="entry-name" ><a href="#u32" >u32</a> : U32, U32 -> (Generator Seed32 U32)</h3><p>A <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 32-bit unsigned integers between two boundaries (inclusive)</p>
+<h3 id="i8" class="entry-name" ><a href="#i8" >i8</a> : I8, I8 -> (Generator U8 I8)</h3><p>Construct a <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 8-bit signed integers between two boundaries (inclusive)</p>
+<h3 id="i16" class="entry-name" ><a href="#i16" >i16</a> : I16, I16 -> (Generator U16 I16)</h3><p>Construct a <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 16-bit signed integers between two boundaries (inclusive)</p>
+<h3 id="i32" class="entry-name" ><a href="#i32" >i32</a> : I32, I32 -> (Generator U32 I32)</h3><p>Construct a <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 32-bit signed integers between two boundaries (inclusive)</p>
+<h3 id="u8" class="entry-name" ><a href="#u8" >u8</a> : U8, U8 -> (Generator U8 U8)</h3><p>Construct a <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 8-bit unsigned integers between two boundaries (inclusive)</p>
+<h3 id="u16" class="entry-name" ><a href="#u16" >u16</a> : U16, U16 -> (Generator U16 U16)</h3><p>Construct a <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 16-bit unsigned integers between two boundaries (inclusive)</p>
+<h3 id="u32" class="entry-name" ><a href="#u32" >u32</a> : U32, U32 -> (Generator U32 U32)</h3><p>Construct a <a href="#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 32-bit unsigned integers between two boundaries (inclusive)</p>
 
 </main>
 <footer>
