@@ -1,4 +1,10 @@
 generated-docs/
-roc/
-*_example
-*.example.ll
+*.ll
+
+# Compiled executables
+example_complex
+example_digits
+example_simple
+
+# macOS noise
+.DS_Store

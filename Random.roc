@@ -22,25 +22,6 @@ interface Random
     imports []
 
 
-# TODO: Replace these with builtins when they're implemented
-#       (see https://github.com/rtfeldman/roc/issues/664).
-minI8 : I8
-minI8 = -128
-maxI8 : I8
-maxI8 = 127
-minI16 : I16
-minI16 = -32_768
-maxI16 : I16
-maxI16 = 32_767
-toI8 = \n -> n |> Num.toStr |> Str.toI8 |> Result.withDefault 0
-toU8 = \n -> n |> Num.toStr |> Str.toU8 |> Result.withDefault 0
-toI16 = \n -> n |> Num.toStr |> Str.toI16 |> Result.withDefault 0
-toU16 = \n -> n |> Num.toStr |> Str.toU16 |> Result.withDefault 0
-toI32 = \n -> n |> Num.toStr |> Str.toI32 |> Result.withDefault 0
-toU32 = \n -> n |> Num.toStr |> Str.toU32 |> Result.withDefault 0
-toI64 = \n -> n |> Num.toStr |> Str.toI64 |> Result.withDefault 0
-
-
 ## # Types
 
 ## A psuedorandom value generator
@@ -50,13 +31,13 @@ Generator seed value : seed -> Generation seed value
 Generation seed value : { seed, value }
 
 ## An 8-bit seed
-Seed8 : [ Seed8 U8 ]*
+Seed8 : [ Seed8 U8 ]
 
 ## A 16-bit seed
-Seed16 : [ Seed16 U16 ]*
+Seed16 : [ Seed16 U16 ]
 
 ## A 32-bit seed
-Seed32 : [ Seed32 U32 ]*
+Seed32 : [ Seed32 U32 ]
 
 
 ## # Constructors for seeds
@@ -104,11 +85,11 @@ i8 : I8, I8 -> Generator Seed8 I8
 i8 = \x, y ->
     Pair minimum maximum = sort x y
     # TODO: Remove these `I64` dependencies.
-    range = maximum - minimum + 1 |> toI64
+    range = maximum - minimum + 1 |> Num.toI64
     \s ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = growSeed8 s |> mapToI8 |> toI64 |> Num.sub (toI64 minI8) |> modWithNonzero range
-        value = minimum |> toI64 |> Num.add offset |> toI8
+        offset = growSeed8 s |> mapToI8 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI8) |> modWithNonzero range
+        value = minimum |> Num.toI64 |> Num.add offset |> Num.toI8
         { value, seed: updateSeed8 s }
 
 ## A [Generator] for 16-bit signed integers between two boundaries (inclusive)
@@ -116,11 +97,11 @@ i16 : I16, I16 -> Generator Seed16 I16
 i16 = \x, y ->
     Pair minimum maximum = sort x y
     # TODO: Remove these `I64` dependencies.
-    range = maximum - minimum + 1 |> toI64
+    range = maximum - minimum + 1 |> Num.toI64
     \s ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = growSeed16 s |> mapToI16 |> toI64 |> Num.sub (toI64 minI16) |> modWithNonzero range
-        value = minimum |> toI64 |> Num.add offset |> toI16
+        offset = growSeed16 s |> mapToI16 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI16) |> modWithNonzero range
+        value = minimum |> Num.toI64 |> Num.add offset |> Num.toI16
         { value, seed: updateSeed16 s }
 
 ## A [Generator] for 32-bit signed integers between two boundaries (inclusive)
@@ -128,11 +109,11 @@ i32 : I32, I32 -> Generator Seed32 I32
 i32 = \x, y ->
     Pair minimum maximum = sort x y
     # TODO: Remove these `I64` dependencies.
-    range = maximum - minimum + 1 |> toI64
+    range = maximum - minimum + 1 |> Num.toI64
     \s ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = growSeed32 s |> mapToI32 |> toI64 |> Num.sub (toI64 Num.minI32) |> modWithNonzero range
-        value = minimum |> toI64 |> Num.add offset |> toI32
+        offset = growSeed32 s |> mapToI32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI32) |> modWithNonzero range
+        value = minimum |> Num.toI64 |> Num.add offset |> Num.toI32
         { value, seed: updateSeed32 s }
 
 ## A [Generator] for 8-bit unsigned integers between two boundaries (inclusive)
@@ -163,27 +144,27 @@ betweenUnsigned = \x, y, growSeed, updateSeed ->
 
 mapToI8 : U8 -> I8
 mapToI8 = \x ->
-    middle = toU8 maxI8
+    middle = Num.toU8 Num.maxI8
     if x <= middle then
-        minI8 + toI8 x
+        Num.minI8 + Num.toI8 x
     else
-        toI8 (x - middle - 1)
+        Num.toI8 (x - middle - 1)
 
 mapToI16 : U16 -> I16
 mapToI16 = \x ->
-    middle = toU16 maxI16
+    middle = Num.toU16 Num.maxI16
     if x <= middle then
-        minI16 + toI16 x
+        Num.minI16 + Num.toI16 x
     else
-        toI16 (x - middle - 1)
+        Num.toI16 (x - middle - 1)
 
 mapToI32 : U32 -> I32
 mapToI32 = \x ->
-    middle = toU32 Num.maxI32
+    middle = Num.toU32 Num.maxI32
     if x <= middle then
-        Num.minI32 + toI32 x
+        Num.minI32 + Num.toI32 x
     else
-        toI32 (x - middle - 1)
+        Num.toI32 (x - middle - 1)
 
 # Warning: y must never equal 0. The `123` fallback is nonsense for typechecking only.
 modWithNonzero = \x, y -> x % y |> Result.withDefault 123
