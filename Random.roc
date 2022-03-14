@@ -1,10 +1,8 @@
 interface Random
     exposes [
-        Generator,
         Generation,
-        Seed8,
-        Seed16,
-        Seed32,
+        Generator,
+        State,
         i8,
         i16,
         i32,
@@ -25,122 +23,149 @@ interface Random
 ## # Types
 
 ## A psuedorandom value generator
-Generator seed value : seed -> Generation seed value
+Generator uint value : State uint -> Generation uint value
 
-## A psuedorandom value, paired with an updated seed for future use
-Generation seed value : { seed, value }
+## A psuedorandom value, paired with its [Generator]'s output state (for chaining)
+Generation uint value : { value : value, state : State uint }
 
-## An 8-bit seed
-Seed8 : [ Seed8 U8 ]
+## Internal state for [Generator]s
+State uint := { s : uint, c : AlgorithmConstants uint }
+AlgorithmConstants uint : {
+    permuteMultiplier : uint,
+    permuteRandomXorShift : uint,
+    permuteRandomXorShiftIncrement : uint,
+    permuteXorShift : uint,
+    updateIncrement : uint,
+    updateMultiplier : uint }
 
-## A 16-bit seed
-Seed16 : [ Seed16 U16 ]
 
-## A 32-bit seed
-Seed32 : [ Seed32 U32 ]
+## # [State] constructors
 
-
-## # Constructors for seeds
-
-## Constructs a 32-bit seed from an 32-bit integer
+## Construct a "seed"
+##
+## A "seed" is an initial [State] for [Generator]s.
 ##
 ## This is an alias for [seed32].
-seed : U32 -> Seed32
+seed : U32 -> State U32
 seed = seed32
 
-## Constructs an 8-bit seed from an 8-bit integer
-seed8 : U8 -> Seed8
-seed8 = \state -> Seed8 state
+## Construct an initial [State] from 8 bits of noise
+seed8 : U8 -> State U8
+seed8 = \s ->
+    $State {
+        s: s,
+        c: {
+            permuteMultiplier: defaultU8PermuteMultiplier,
+            permuteRandomXorShift: defaultU8PermuteRandomXorShift,
+            permuteRandomXorShiftIncrement: defaultU8PermuteRandomXorShiftIncrement,
+            permuteXorShift: defaultU8PermuteXorShift,
+            updateIncrement: defaultU8UpdateIncrement,
+            updateMultiplier: defaultU8UpdateMultiplier } }
 
-## Constructs a 16-bit seed from a 16-bit integer
-seed16 : U16 -> Seed16
-seed16 = \state -> Seed16 state
+## Construct an initial [State] from 16 bits of noise
+seed16 : U16 -> State U16
+seed16 = \s ->
+    $State {
+        s: s,
+        c: {
+            permuteMultiplier: defaultU16PermuteMultiplier,
+            permuteRandomXorShift: defaultU16PermuteRandomXorShift,
+            permuteRandomXorShiftIncrement: defaultU16PermuteRandomXorShiftIncrement,
+            permuteXorShift: defaultU16PermuteXorShift,
+            updateIncrement: defaultU16UpdateIncrement,
+            updateMultiplier: defaultU16UpdateMultiplier } }
 
-## Constructs a 32-bit seed from a 32-bit integer
-seed32 : U32 -> Seed32
-seed32 = \state -> Seed32 state
+## Construct an initial [State] from 32 bits of noise
+seed32 : U32 -> State U32
+seed32 = \s ->
+    $State {
+        s: s,
+        c: {
+            permuteMultiplier: defaultU32PermuteMultiplier,
+            permuteRandomXorShift: defaultU32PermuteRandomXorShift,
+            permuteRandomXorShiftIncrement: defaultU32PermuteRandomXorShiftIncrement,
+            permuteXorShift: defaultU32PermuteXorShift,
+            updateIncrement: defaultU32UpdateIncrement,
+            updateMultiplier: defaultU32UpdateMultiplier } }
 
 
-## # Helpers for all generators
+## # [Generator] helpers
 
-## Generates a new value from an old one (and update the seed)
-next : Generation seed *, Generator seed value -> Generation seed value
-next = \x, g -> g x.seed
+## Generate a new [Generation] from an old [Generation]'s state
+next : Generation uint *, Generator uint value -> Generation uint value
+next = \x, g -> g x.state
 
-## Generates a value from a seed (and update the seed)
-step : seed, Generator seed value -> Generation seed value
+## Generate a [Generation] from a state
+step : State uint, Generator uint value -> Generation uint value
 step = \s, g -> g s
 
 
-## # Constructors for some primitive generators
+## # Primitive [Generator] constructors
 
-## A [Generator] for 32-bit unsigned integers between two boundaries (inclusive)
+## Construct a [Generator] for 32-bit unsigned integers between two boundaries (inclusive)
 ##
 ## This is an alias for [i32].
-int : I32, I32 -> Generator Seed32 I32
+int : I32, I32 -> Generator U32 I32
 int = i32
 
-## A [Generator] for 8-bit signed integers between two boundaries (inclusive)
-i8 : I8, I8 -> Generator Seed8 I8
+## Construct a [Generator] for 8-bit signed integers between two boundaries (inclusive)
+i8 : I8, I8 -> Generator U8 I8
 i8 = \x, y ->
     Pair minimum maximum = sort x y
     # TODO: Remove these `I64` dependencies.
     range = maximum - minimum + 1 |> Num.toI64
-    \s ->
+    \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = growSeed8 s |> mapToI8 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI8) |> modWithNonzero range
+        offset = permute state |> mapToI8 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI8) |> modWithNonzero range
         value = minimum |> Num.toI64 |> Num.add offset |> Num.toI8
-        { value, seed: updateSeed8 s }
+        { value, state: update state }
 
-## A [Generator] for 16-bit signed integers between two boundaries (inclusive)
-i16 : I16, I16 -> Generator Seed16 I16
+## Construct a [Generator] for 16-bit signed integers between two boundaries (inclusive)
+i16 : I16, I16 -> Generator U16 I16
 i16 = \x, y ->
     Pair minimum maximum = sort x y
     # TODO: Remove these `I64` dependencies.
     range = maximum - minimum + 1 |> Num.toI64
-    \s ->
+    \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = growSeed16 s |> mapToI16 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI16) |> modWithNonzero range
+        offset = permute state |> mapToI16 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI16) |> modWithNonzero range
         value = minimum |> Num.toI64 |> Num.add offset |> Num.toI16
-        { value, seed: updateSeed16 s }
+        { value, state: update state }
 
-## A [Generator] for 32-bit signed integers between two boundaries (inclusive)
-i32 : I32, I32 -> Generator Seed32 I32
+## Construct a [Generator] for 32-bit signed integers between two boundaries (inclusive)
+i32 : I32, I32 -> Generator U32 I32
 i32 = \x, y ->
     Pair minimum maximum = sort x y
     # TODO: Remove these `I64` dependencies.
     range = maximum - minimum + 1 |> Num.toI64
-    \s ->
+    \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = growSeed32 s |> mapToI32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI32) |> modWithNonzero range
+        offset = permute state |> mapToI32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI32) |> modWithNonzero range
         value = minimum |> Num.toI64 |> Num.add offset |> Num.toI32
-        { value, seed: updateSeed32 s }
+        { value, state: update state }
 
-## A [Generator] for 8-bit unsigned integers between two boundaries (inclusive)
-u8 : U8, U8 -> Generator Seed8 U8
-u8 = \x, y ->
-    betweenUnsigned x y (\s -> growSeed8 s) (\s -> updateSeed8 s)
+## Construct a [Generator] for 8-bit unsigned integers between two boundaries (inclusive)
+u8 : U8, U8 -> Generator U8 U8
+u8 = \x, y -> betweenUnsigned x y
 
-## A [Generator] for 16-bit unsigned integers between two boundaries (inclusive)
-u16 : U16, U16 -> Generator Seed16 U16
-u16 = \x, y ->
-    betweenUnsigned x y (\s -> growSeed16 s) (\s -> updateSeed16 s)
+## Construct a [Generator] for 16-bit unsigned integers between two boundaries (inclusive)
+u16 : U16, U16 -> Generator U16 U16
+u16 = \x, y -> betweenUnsigned x y
 
-## A [Generator] for 32-bit unsigned integers between two boundaries (inclusive)
-u32 : U32, U32 -> Generator Seed32 U32
-u32 = \x, y ->
-    betweenUnsigned x y (\s -> growSeed32 s) (\s -> updateSeed32 s)
+## Construct a [Generator] for 32-bit unsigned integers between two boundaries (inclusive)
+u32 : U32, U32 -> Generator U32 U32
+u32 = \x, y -> betweenUnsigned x y
 
 
 #### Helpers for the above constructors
 
-betweenUnsigned = \x, y, growSeed, updateSeed ->
+betweenUnsigned = \x, y ->
     Pair minimum maximum = sort x y
     range = maximum - minimum + 1
     \s ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        value = minimum + modWithNonzero (growSeed s) range
-        { value, seed: updateSeed s }
+        value = minimum + modWithNonzero (permute s) range
+        { value, state: update s }
 
 mapToI8 : U8 -> I8
 mapToI8 = \x ->
@@ -176,7 +201,7 @@ sort = \x, y ->
         Pair y x
 
 
-#### PCG algorithms & wrappers
+#### PCG algorithms, constants, and wrappers
 #
 # Based on this paper: https://www.pcg-random.org/pdf/hmc-cs-2014-0905.pdf
 # Based on this C++ header: https://github.com/imneme/pcg-c/blob/master/include/pcg_variants.h
@@ -186,137 +211,62 @@ sort = \x, y ->
 #     RXS = Random XorShift (see section 5.5.1 on page 36 in the paper)
 #     XS = XorShift (see section 5.5 on page 34 in the paper)
 
-# See `pcg_output_rxs_m_xs_8_8` (on line 170?) in the C++ header.
-growSeed8 : Seed8 -> U8
-growSeed8 = \Seed8 state ->
-    rxs : U8
-    rxs = 6
-    rxsi : U8
-    rxsi = 2
-    m : U8
-    m = 217
-    xs : U8
-    xs = 6
-    pcgRxsMXs state rxs rxsi m xs
+# See `RXS M XS` constants (line 168?)
+# and `_DEFAULT_` constants (line 276?)
+# in the PCG C++ header (see link above).
+defaultU8PermuteMultiplier = 217
+defaultU8PermuteRandomXorShift = 6
+defaultU8PermuteRandomXorShiftIncrement = 2
+defaultU8PermuteXorShift = 6
+defaultU8UpdateIncrement = 77
+defaultU8UpdateMultiplier = 141
+defaultU16PermuteMultiplier = 62169
+defaultU16PermuteRandomXorShift = 13
+defaultU16PermuteRandomXorShiftIncrement = 3
+defaultU16PermuteXorShift = 11
+defaultU16UpdateIncrement = 47989
+defaultU16UpdateMultiplier = 12829
+defaultU32PermuteMultiplier = 277_803_737
+defaultU32PermuteRandomXorShift = 28
+defaultU32PermuteRandomXorShiftIncrement = 4
+defaultU32PermuteXorShift = 22
+defaultU32UpdateIncrement = 2_891_336_453
+defaultU32UpdateMultiplier = 747_796_405
+# TODO: These are waiting on 64-bit generators.
+#       and literals > Num.maxI64 (https://github.com/rtfeldman/roc/issues/2332).
+# defaultU64PermuteMultiplier = 12_605_985_483_714_917_081
+# defaultU64PermuteRandomXorShift = 59
+# defaultU64PermuteRandomXorShiftIncrement = 5
+# defaultU64PermuteXorShift = 43
+# defaultU64UpdateIncrement = 1_442_695_040_888_963_407
+# defaultU64UpdateMultiplier = 6_364_136_223_846_793_005
+# TODO: These are waiting on 128-bit generators.
+#       and literals > Num.maxI64 (https://github.com/rtfeldman/roc/issues/2332).
+# defaultU128PermuteMultiplier = (Num.shiftLeftBy 64 17_766_728_186_571_221_404) + 12_605_985_483_714_917_081
+# defaultU128PermuteRandomXorShift = 122
+# defaultU128PermuteRandomXorShiftIncrement = 6
+# defaultU128PermuteXorShift = 86
+# defaultU128UpdateIncrement = (Num.shiftLeftBy 64 6_364_136_223_846_793_005) + 1_442_695_040_888_963_407
+# defaultU128UpdateMultiplier = (Num.shiftLeftBy 64 2_549_297_995_355_413_924) + 4_865_540_595_714_422_341
 
-# See `pcg_output_rxs_m_xs_16_16` (on line 182?) in the C++ header.
-growSeed16 : Seed16 -> U16
-growSeed16 = \Seed16 state ->
-    rxs : U16
-    rxs = 13
-    rxsi : U16
-    rxsi = 3
-    m : U16
-    m = 62169
-    xs : U16
-    xs = 11
-    pcgRxsMXs state rxs rxsi m xs
+# See `pcg_output_rxs_m_xs_8_8` (on line 170?) in the PCG C++ header (see link above).
+permute = \$State { s, c } ->
+    pcgRxsMXs s c.permuteRandomXorShift c.permuteRandomXorShiftIncrement c.permuteMultiplier c.permuteXorShift
 
-# See `pcg_output_rxs_m_xs_32_32` (on line 176?) in the C++ header.
-growSeed32 : Seed32 -> U32
-growSeed32 = \Seed32 state ->
-    rxs : U32
-    rxs = 28
-    rxsi : U32
-    rxsi = 4
-    m : U32
-    m = 277_803_737
-    xs : U32
-    xs = 22
-    pcgRxsMXs state rxs rxsi m xs
-
-# TODO: This is waiting on literals > maxI64 (https://github.com/rtfeldman/roc/issues/2332).
-# # See `pcg_output_rxs_m_xs_64_64` (on line 188?) in the C++ header.
-# growSeed64 = Seed64 -> U64
-# growSeed64 = \Seed64 state ->
-#     rxs : U64
-#     rxs = 59
-#     rxsi : U64
-#     rxsi = 5
-#     m : U64
-#     m = 12_605_985_483_714_917_081
-#     xs : U64
-#     xs = 43
-#     pcgRxsMXs state rxs rxsi m xs
-
-# TODO: This is waiting on literals > maxI64 (https://github.com/rtfeldman/roc/issues/2332).
-# # See `pcg_output_rxs_m_xs_128_128` (on line 196?) in the C++ header.
-# growSeed128 = Seed128 -> U128
-# growSeed128 = \Seed128 state ->
-#     rxs : U128
-#     rxs = 122
-#     rxsi : U128
-#     rxsi = 6
-#     m : U128
-#     m = (Num.shiftLeftBy 64 17_766_728_186_571_221_404) + 12_605_985_483_714_917_081
-#     xs : U128
-#     xs = 86
-#     pcgRxsMXs state rxs rxsi m xs
-
-# See section 6.3.4 on page 45 in the paper.
-pcgRxsMXs : Int a, Int a, Int a, Int a, Int a -> Int a
-pcgRxsMXs = \state, randomBitshift, randomBitshiftIncrement, multiplier, bitshift ->
+# See section 6.3.4 on page 45 in the PCG paper (see link above).
+pcgRxsMXs = \state, randomXorShift, randomXorShiftIncrement, multiplier, xorShift ->
     partial = Num.mulWrap multiplier (
         Num.bitwiseXor state (
             Num.shiftRightZfBy (
-                Num.addWrap (Num.shiftRightZfBy randomBitshift state) randomBitshiftIncrement
+                Num.addWrap (Num.shiftRightZfBy randomXorShift state) randomXorShiftIncrement
             ) state
         ))
-    Num.bitwiseXor partial (Num.shiftRightZfBy bitshift partial)
+    Num.bitwiseXor partial (Num.shiftRightZfBy xorShift partial)
 
-# See section 4.1 on page 20 in the paper.
-pcgUpdateState : Int a, Int a, Int a -> Int a
-pcgUpdateState = \state, multiplier, increment ->
+# See section 4.1 on page 20 in the PCG paper (see link above).
+pcgStep = \state, multiplier, increment ->
     Num.addWrap (Num.mulWrap state multiplier) increment
 
-# See `pcg_oneseq_8_step_r` (line 409?) in the above C++ header
-updateSeed8 : Seed8 -> Seed8
-updateSeed8 = \Seed8 state ->
-    multiplier : U8
-    multiplier = 141
-    # TODO: Replace this with user-supplied?
-    increment : U8
-    increment = 77
-    Seed8 (pcgUpdateState state multiplier increment)
-
-# See `pcg_oneseq_16_step_r` (line 456?) in the above C++ header
-updateSeed16 : Seed16 -> Seed16
-updateSeed16 = \Seed16 state ->
-    multiplier : U16
-    multiplier = 12829
-    # TODO: Replace this with user-supplied?
-    increment : U16
-    increment = 47989
-    Seed16 (pcgUpdateState state multiplier increment)
-
-# See `pcg_oneseq_32_step_r` (line 504?) in the above C++ header
-updateSeed32 : Seed32 -> Seed32
-updateSeed32 = \Seed32 state ->
-    multiplier : U32
-    multiplier = 747_796_405
-    # TODO: Replace this with user-supplied?
-    increment : U32
-    increment = 2_891_336_453
-    Seed32 (pcgUpdateState state multiplier increment)
-
-# TODO: This is waiting on 64-bit generators.
-# # See `pcg_oneseq_64_step_r` (line 552?) in the above C++ header.
-# updateSeed64 : Seed64 -> Seed64
-# updateSeed64 = \Seed64 state ->
-#     multiplier : U64
-#     multiplier = 6_364_136_223_846_793_005
-#     # TODO: Replace this with user-supplied?
-#     increment : U64
-#     increment = 1_442_695_040_888_963_407
-#     Seed64 (pcgUpdateState state multiplier increment)
-
-# TODO: This is waiting on 128-bit generators.
-# # See `pcg_oneseq_128_step_r` (line 601?) in the above C++ header.
-# updateSeed128 : Seed128 -> Seed128
-# updateSeed128 = \Seed128 state ->
-#     multiplier : U128
-#     multiplier = (Num.shiftLeftBy 64 2_549_297_995_355_413_924) + 4_865_540_595_714_422_341
-#     # TODO: Replace this with user-supplied?
-#     increment : U128
-#     increment = (Num.shiftLeftBy 64 6_364_136_223_846_793_005) + 1_442_695_040_888_963_407
-#     Seed128 (pcgUpdateState state multiplier increment)
+# See `pcg_oneseq_8_step_r` (line 409?) in the PCG C++ header (see link above).
+update = \$State { s, c } ->
+    $State { s: pcgStep s c.updateMultiplier c.updateIncrement, c }
