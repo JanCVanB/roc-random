@@ -8,10 +8,10 @@ app "example_simple"
 
 main =
     
-    seed = Random.seed 42     # `seed` stores the "randomness", initialized by the user/platform.
-    int = Random.int 0 100    # `int` generates values from 0-100 (inclusive) and updates the seed.
-    x = int seed              # x == { value: 9, seed: Seed32 -60952905 }
-    y = x |> Random.next int  # y == { value: 61, seed: Seed32 1561666408 }
+    state = Random.seed 42    # `state` stores the "randomness", initialized by the user/platform.
+    int = Random.int 0 100    # `int` generates values from 0-100 (inclusive) and updates the state.
+    x = int state             # x == { value: 9, state: { value: -60952905, ... } }
+    y = x |> Random.next int  # y == { value: 61, state: { value: 1561666408, ... } }
 
     _ <- await (line (Num.toStr x.value |> \s -> "x: \(s)")) # This will print `x: 9`.
     _ <- await (line (Num.toStr y.value |> \s -> "y: \(s)")) # This will print `x: 61`.
