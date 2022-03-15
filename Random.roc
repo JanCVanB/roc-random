@@ -61,6 +61,9 @@ seed = seed32
 ## to produce a sequence of internal `value`s that shares no consecutive pairs
 ## with other variants of the same [State].
 ##
+## Odd numbers are recommended for the update increment,
+## to double the repetition period of sequences (by hitting odd values).
+##
 ## This is an alias for [seed32Variant].
 seedVariant : U32, U32 -> State U32
 seedVariant = seed32Variant

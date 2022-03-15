@@ -54,8 +54,8 @@
 <p>A &quot;variant&quot; is a <a href="#State" title="Docs for Random.State"><code>State</code></a> that specifies a <code>c.updateIncrement</code> constant,
 to produce a sequence of internal <code>value</code>s that shares no consecutive pairs
 with other variants of the same <a href="#State" title="Docs for Random.State"><code>State</code></a>.</p>
-<p>This is an alias for <a href="#seed32Variant" title="Docs for Random.seed32Variant"><code>seed32Variant</code></a>.</p>
-<h3 id="seed8" class="entry-name" ><a href="#seed8" >seed8</a> : U8 -> (State U8)</h3><p>Construct an initial <a href="#State" title="Docs for Random.State"><code>State</code></a> from 8 bits of noise</p>
+<p>Odd numbers are recommended for the update increment,
+to double the repetition period of sequences (by hitting odd values).</p>
 <h3 id="seed8Variant" class="entry-name" ><a href="#seed8Variant" >seed8Variant</a> : U8, U8 -> (State U8)</h3><p>Construct an initial <a href="#State" title="Docs for Random.State"><code>State</code></a> from 8 bits of noise and a specific increment for updating</p>
 <h3 id="seed16" class="entry-name" ><a href="#seed16" >seed16</a> : U16 -> (State U16)</h3><p>Construct an initial <a href="#State" title="Docs for Random.State"><code>State</code></a> from 16 bits of noise</p>
 <h3 id="seed16Variant" class="entry-name" ><a href="#seed16Variant" >seed16Variant</a> : U16, U16 -> (State U16)</h3><p>Construct an initial <a href="#State" title="Docs for Random.State"><code>State</code></a> from 16 bits of noise and a specific increment for updating</p>
