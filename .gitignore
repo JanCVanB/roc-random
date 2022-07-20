@@ -8,3 +8,6 @@ example_simple
 
 # macOS noise
 .DS_Store
+
+# IntelliJ
+.idea
