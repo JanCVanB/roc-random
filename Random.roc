@@ -75,7 +75,7 @@ seed8 = \s -> seed8Variant s defaultU8UpdateIncrement
 ## Construct an initial [State] from 8 bits of noise and a specific increment for updating
 seed8Variant : U8, U8 -> State U8
 seed8Variant = \s, uI ->
-    $State {
+    @State {
         s,
         c: {
             permuteMultiplier: defaultU8PermuteMultiplier,
@@ -92,7 +92,7 @@ seed16 = \s -> seed16Variant s defaultU16UpdateIncrement
 ## Construct an initial [State] from 16 bits of noise and a specific increment for updating
 seed16Variant : U16, U16 -> State U16
 seed16Variant = \s, uI ->
-    $State {
+    @State {
         s,
         c: {
             permuteMultiplier: defaultU16PermuteMultiplier,
@@ -109,7 +109,7 @@ seed32 = \s -> seed32Variant s defaultU32UpdateIncrement
 ## Construct an initial [State] from 32 bits of noise and a specific increment for updating
 seed32Variant : U32, U32 -> State U32
 seed32Variant = \s, uI ->
-    $State {
+    @State {
         s,
         c: {
             permuteMultiplier: defaultU32PermuteMultiplier,
@@ -223,7 +223,7 @@ mapToI32 = \x ->
         Num.toI32 (x - middle - 1)
 
 # Warning: y must never equal 0. The `123` fallback is nonsense for typechecking only.
-modWithNonzero = \x, y -> x % y |> Result.withDefault 123
+modWithNonzero = \x, y -> x % y
 
 sort = \x, y ->
     if x < y then
@@ -281,7 +281,7 @@ defaultU32UpdateMultiplier = 747_796_405
 # defaultU128UpdateMultiplier = (Num.shiftLeftBy 64 2_549_297_995_355_413_924) + 4_865_540_595_714_422_341
 
 # See `pcg_output_rxs_m_xs_8_8` (on line 170?) in the PCG C++ header (see link above).
-permute = \$State { s, c } ->
+permute = \@State { s, c } ->
     pcgRxsMXs s c.permuteRandomXorShift c.permuteRandomXorShiftIncrement c.permuteMultiplier c.permuteXorShift
 
 # See section 6.3.4 on page 45 in the PCG paper (see link above).
@@ -299,5 +299,5 @@ pcgStep = \state, multiplier, increment ->
     Num.addWrap (Num.mulWrap state multiplier) increment
 
 # See `pcg_oneseq_8_step_r` (line 409?) in the PCG C++ header (see link above).
-update = \$State { s, c } ->
-    $State { s: pcgStep s c.updateMultiplier c.updateIncrement, c }
+update = \@State { s, c } ->
+    @State { s: pcgStep s c.updateMultiplier c.updateIncrement, c }
