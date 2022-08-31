@@ -13,6 +13,6 @@ main =
     x = int state             # x == { value: 9, state: { value: -60952905, ... } }
     y = x |> Random.next int  # y == { value: 61, state: { value: 1561666408, ... } }
 
-    _ <- await (line (Num.toStr x.value |> \s -> "x: \(s)")) # This will print `x: 9`.
-    _ <- await (line (Num.toStr y.value |> \s -> "y: \(s)")) # This will print `x: 61`.
+    _ <- await (line (Num.toStr x.value |> \s -> "x: \(s)")) # This will print `x: 74`.
+    _ <- await (line (Num.toStr y.value |> \s -> "y: \(s)")) # This will print `x: 96`.
     line "These values will be the same on every run, because we use a constant seed (42)."
