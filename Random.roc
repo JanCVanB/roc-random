@@ -6,6 +6,8 @@ interface Random
         i8,
         i16,
         i32,
+        i64,
+        i128,
         int,
         next,
         seed,
@@ -16,10 +18,16 @@ interface Random
         seed16Variant,
         seed32,
         seed32Variant,
+        seed64,
+        seed64Variant,
+        seed128,
+        seed128Variant,
         step,
         u8,
         u16,
         u32,
+        u64,
+        u128,
     ]
     imports []
 
@@ -119,6 +127,40 @@ seed32Variant = \s, uI ->
             updateIncrement: uI,
             updateMultiplier: defaultU32UpdateMultiplier } }
 
+## Construct an initial [State] from 64 bits of noise
+seed64 : U64 -> State U64
+seed64 = \s -> seed64Variant s defaultU64UpdateIncrement
+
+## Construct an initial [State] from 64 bits of noise and a specific increment for updating
+seed64Variant : U64, U64 -> State U64
+seed64Variant = \s, uI ->
+    @State {
+        s,
+        c: {
+            permuteMultiplier: defaultU64PermuteMultiplier,
+            permuteRandomXorShift: defaultU64PermuteRandomXorShift,
+            permuteRandomXorShiftIncrement: defaultU64PermuteRandomXorShiftIncrement,
+            permuteXorShift: defaultU64PermuteXorShift,
+            updateIncrement: uI,
+            updateMultiplier: defaultU64UpdateMultiplier } }
+
+## Construct an initial [State] from 128 bits of noise
+seed128 : U128 -> State U128
+seed128 = \s -> seed128Variant s defaultU128UpdateIncrement
+
+## Construct an initial [State] from 128 bits of noise and a specific increment for updating
+seed128Variant : U128, U128 -> State U128
+seed128Variant = \s, uI ->
+    @State {
+        s,
+        c: {
+            permuteMultiplier: defaultU128PermuteMultiplier,
+            permuteRandomXorShift: defaultU128PermuteRandomXorShift,
+            permuteRandomXorShiftIncrement: defaultU128PermuteRandomXorShiftIncrement,
+            permuteXorShift: defaultU128PermuteXorShift,
+            updateIncrement: uI,
+            updateMultiplier: defaultU128UpdateMultiplier } }
+
 
 ## # [Generator] helpers
 
@@ -175,6 +217,29 @@ i32 = \x, y ->
         value = minimum |> Num.toI64 |> Num.add offset |> Num.toI32
         { value, state: update state }
 
+## Construct a [Generator] for 64-bit signed integers between two boundaries (inclusive)
+i64 : I64, I64 -> Generator U64 I64
+i64 = \x, y ->
+    Pair minimum maximum = sort x y
+    range = maximum - minimum + 1
+    \state ->
+        # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
+        offset = permute state |> mapToI64 |> Num.toI64 |> Num.sub Num.minI64 |> modWithNonzero range
+        value = minimum |> Num.add offset
+        { value, state: update state }
+
+## Construct a [Generator] for 128-bit signed integers between two boundaries (inclusive)
+i128 : I128, I128 -> Generator U128 I128
+i128 = \x, y ->
+    Pair minimum maximum = sort x y
+    # TODO: Remove these `I64` dependencies.
+    range = maximum - minimum + 1 |> Num.toI64
+    \state ->
+        # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
+        offset = permute state |> mapToI128 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI128) |> modWithNonzero range
+        value = minimum |> Num.toI64 |> Num.add offset |> Num.toI128
+        { value, state: update state }
+
 ## Construct a [Generator] for 8-bit unsigned integers between two boundaries (inclusive)
 u8 : U8, U8 -> Generator U8 U8
 u8 = \x, y -> betweenUnsigned x y
@@ -186,6 +251,14 @@ u16 = \x, y -> betweenUnsigned x y
 ## Construct a [Generator] for 32-bit unsigned integers between two boundaries (inclusive)
 u32 : U32, U32 -> Generator U32 U32
 u32 = \x, y -> betweenUnsigned x y
+
+## Construct a [Generator] for 64-bit unsigned integers between two boundaries (inclusive)
+u64 : U64, U64 -> Generator U64 U64
+u64 = \x, y -> betweenUnsigned x y
+
+## Construct a [Generator] for 128-bit unsigned integers between two boundaries (inclusive)
+u128 : U128, U128 -> Generator U128 U128
+u128 = \x, y -> betweenUnsigned x y
 
 
 #### Helpers for the above constructors
@@ -221,6 +294,22 @@ mapToI32 = \x ->
         Num.minI32 + Num.toI32 x
     else
         Num.toI32 (x - middle - 1)
+
+mapToI64 : U64 -> I64
+mapToI64 = \x ->
+    middle = Num.toU64 Num.maxI64
+    if x <= middle then
+        Num.minI64 + Num.toI64 x
+    else
+        Num.toI64 (x - middle - 1)
+
+mapToI128 : U128 -> I128
+mapToI128 = \x ->
+    middle = Num.toU128 Num.maxI128
+    if x <= middle then
+        Num.minI128 + Num.toI128 x
+    else
+        Num.toI128 (x - middle - 1)
 
 # Warning: y must never equal 0. The `123` fallback is nonsense for typechecking only.
 modWithNonzero = \x, y -> x % y
@@ -263,22 +352,18 @@ defaultU32PermuteRandomXorShiftIncrement = 4
 defaultU32PermuteXorShift = 22
 defaultU32UpdateIncrement = 2_891_336_453
 defaultU32UpdateMultiplier = 747_796_405
-# TODO: These are waiting on 64-bit generators.
-#       and literals > Num.maxI64 (https://github.com/rtfeldman/roc/issues/2332).
-# defaultU64PermuteMultiplier = 12_605_985_483_714_917_081
-# defaultU64PermuteRandomXorShift = 59
-# defaultU64PermuteRandomXorShiftIncrement = 5
-# defaultU64PermuteXorShift = 43
-# defaultU64UpdateIncrement = 1_442_695_040_888_963_407
-# defaultU64UpdateMultiplier = 6_364_136_223_846_793_005
-# TODO: These are waiting on 128-bit generators.
-#       and literals > Num.maxI64 (https://github.com/rtfeldman/roc/issues/2332).
-# defaultU128PermuteMultiplier = (Num.shiftLeftBy 64 17_766_728_186_571_221_404) + 12_605_985_483_714_917_081
-# defaultU128PermuteRandomXorShift = 122
-# defaultU128PermuteRandomXorShiftIncrement = 6
-# defaultU128PermuteXorShift = 86
-# defaultU128UpdateIncrement = (Num.shiftLeftBy 64 6_364_136_223_846_793_005) + 1_442_695_040_888_963_407
-# defaultU128UpdateMultiplier = (Num.shiftLeftBy 64 2_549_297_995_355_413_924) + 4_865_540_595_714_422_341
+defaultU64PermuteMultiplier = 12_605_985_483_714_917_081
+defaultU64PermuteRandomXorShift = 59
+defaultU64PermuteRandomXorShiftIncrement = 5
+defaultU64PermuteXorShift = 43
+defaultU64UpdateIncrement = 1_442_695_040_888_963_407
+defaultU64UpdateMultiplier = 6_364_136_223_846_793_005
+defaultU128PermuteMultiplier = (Num.shiftLeftBy 64 17_766_728_186_571_221_404) + 12_605_985_483_714_917_081
+defaultU128PermuteRandomXorShift = 122
+defaultU128PermuteRandomXorShiftIncrement = 6
+defaultU128PermuteXorShift = 86
+defaultU128UpdateIncrement = (Num.shiftLeftBy 64 6_364_136_223_846_793_005) + 1_442_695_040_888_963_407
+defaultU128UpdateMultiplier = (Num.shiftLeftBy 64 2_549_297_995_355_413_924) + 4_865_540_595_714_422_341
 
 # See `pcg_output_rxs_m_xs_8_8` (on line 170?) in the PCG C++ header (see link above).
 permute = \@State { s, c } ->
