@@ -10,7 +10,7 @@ Contributions & feedback are very welcome! :)
 
 ## Examples
 
-```
+```coffee
 app "example_simple"
     packages { pf: "./roc/examples/interactive/cli-platform" }
     imports [ pf.Stdout.{ line }, pf.Task.{ await }, Random ]
