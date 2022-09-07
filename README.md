@@ -1,6 +1,6 @@
 # Randomness for Roc
 
-A [Roc](https://roc-lang.org) library for random number generation
+A [Roc](https://github.com/roc-lang/roc) library for random number generation
 
 ## Status
 
