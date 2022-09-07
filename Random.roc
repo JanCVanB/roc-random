@@ -260,16 +260,14 @@ defaultU32PermuteRandomXorShiftIncrement = 4
 defaultU32PermuteXorShift = 22
 defaultU32UpdateIncrement = 2_891_336_453
 defaultU32UpdateMultiplier = 747_796_405
-# TODO: These are waiting on 64-bit generators.
-#       and literals > Num.maxI64 (https://github.com/rtfeldman/roc/issues/2332).
+# TODO: Debug these untested 64-bit functions
 # defaultU64PermuteMultiplier = 12_605_985_483_714_917_081
 # defaultU64PermuteRandomXorShift = 59
 # defaultU64PermuteRandomXorShiftIncrement = 5
 # defaultU64PermuteXorShift = 43
 # defaultU64UpdateIncrement = 1_442_695_040_888_963_407
 # defaultU64UpdateMultiplier = 6_364_136_223_846_793_005
-# TODO: These are waiting on 128-bit generators.
-#       and literals > Num.maxI64 (https://github.com/rtfeldman/roc/issues/2332).
+# TODO: Debug these untested 128-bit functions
 # defaultU128PermuteMultiplier = (Num.shiftLeftBy 64 17_766_728_186_571_221_404) + 12_605_985_483_714_917_081
 # defaultU128PermuteRandomXorShift = 122
 # defaultU128PermuteRandomXorShiftIncrement = 6
