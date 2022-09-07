@@ -47,7 +47,7 @@ should be self-documenting.
 * An internal implementation that is similar to that of
 [Rust's `Rand` library](https://github.com/rust-random/rand)
 * Compatible with every Roc platform
-(though some platforms may provide poor/constant [seeding](#Seeding))
+(though some platforms may provide poor/constant [seeding](#seeding))
 * Provides a variety of ergonomic abstractions
 
 ## Seeding
