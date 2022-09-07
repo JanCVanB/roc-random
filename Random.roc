@@ -147,7 +147,7 @@ i8 = \x, y ->
     range = maximum - minimum + 1 |> Num.toI64
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute state |> mapToI8 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI8) |> modWithNonzero range
+        offset = permute state |> mapToI8 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI8) |> Num.rem range
         value = minimum |> Num.toI64 |> Num.add offset |> Num.toI8
         { value, state: update state }
 
@@ -159,7 +159,7 @@ i16 = \x, y ->
     range = maximum - minimum + 1 |> Num.toI64
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute state |> mapToI16 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI16) |> modWithNonzero range
+        offset = permute state |> mapToI16 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI16) |> Num.rem range
         value = minimum |> Num.toI64 |> Num.add offset |> Num.toI16
         { value, state: update state }
 
@@ -171,7 +171,7 @@ i32 = \x, y ->
     range = maximum - minimum + 1 |> Num.toI64
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute state |> mapToI32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI32) |> modWithNonzero range
+        offset = permute state |> mapToI32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI32) |> Num.rem range
         value = minimum |> Num.toI64 |> Num.add offset |> Num.toI32
         { value, state: update state }
 
@@ -195,7 +195,7 @@ betweenUnsigned = \x, y ->
     range = maximum - minimum + 1
     \s ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        value = minimum + modWithNonzero (permute s) range
+        value = minimum + (permute s) % range
         { value, state: update s }
 
 mapToI8 : U8 -> I8
@@ -221,9 +221,6 @@ mapToI32 = \x ->
         Num.minI32 + Num.toI32 x
     else
         Num.toI32 (x - middle - 1)
-
-# Warning: y must never equal 0. The `123` fallback is nonsense for typechecking only.
-modWithNonzero = \x, y -> x % y
 
 sort = \x, y ->
     if x < y then
