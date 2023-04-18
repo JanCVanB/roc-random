@@ -1,8 +1,11 @@
-#!/usr/bin/env roc
-
+# !/usr/bin/env roc
 app "example_complex"
-    packages { pf: "roc/examples/interactive/cli-platform/main.roc" }
-    imports [pf.Stdout.{ line }, pf.Task.{ await }, Random]
+    packages { pf: "https://github.com/roc-lang/basic-cli/releases/download/0.3.1/97mY3sUwo433-pcnEQUlMhn-sWiIf_J9bPhcAFZoqY4.tar.br" }
+    imports [
+        pf.Stdout.{ line },
+        pf.Task.{ await },
+        Random,
+    ]
     provides [main] to pf
 
 main =
@@ -17,11 +20,14 @@ main =
     _ <- await (line (Num.toStr b.value.y |> \s -> "b.y ==  78 ==  \(s)"))
     _ <- await (line (Num.toStr b.value.z |> \s -> "b.z == -64 == \(s)"))
     _ <- await (line (Num.toStr b.value.t |> \s -> "b.t == -20 == \(s)"))
+
     line "These values will be the same on every run, because we use a constant seed."
 
 # Complex `Generator`s can be created by chaining primitive `Generator`s.
-Point a : { x : a, y : a, z : a, t : a }
-point : Random.Generator (Point I32) (Random.State U32)
+# Point a : { x : a, y : a, z : a, t : a }
+
+# TODO fix this type annotation
+# point : Random.Generator (Point I32) (Random.State U32)
 point = \state ->
     min = -100
     max = 100

@@ -1,10 +1,8 @@
-#!/usr/bin/env roc
-
+# !/usr/bin/env roc
 app "example_digits"
-    packages { pf: "./roc/examples/interactive/cli-platform" }
-    imports [ pf.Stdout.{ line }, pf.Task.{ await }, Random ]
-    provides [ main ] to pf
-
+    packages { pf: "https://github.com/roc-lang/basic-cli/releases/download/0.3.1/97mY3sUwo433-pcnEQUlMhn-sWiIf_J9bPhcAFZoqY4.tar.br" }
+    imports [pf.Stdout.{ line }, pf.Task.{ await }, Random]
+    provides [main] to pf
 
 main =
 
