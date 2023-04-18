@@ -11,25 +11,36 @@ Contributions & feedback are very welcome! :)
 ## Examples
 
 ```coffee
-app "example_simple"
-    packages { pf: "./roc/examples/interactive/cli-platform" }
-    imports [ pf.Stdout.{ line }, pf.Task.{ await }, Random ]
-    provides [ main ] to pf
-
-
+# Print a list of 10 random numbers in the range 25-75 inclusive.
 main =
-    
-    state = Random.seed 42    # `state` stores the "randomness", initialized by the user/platform.
-    int = Random.int 0 100    # `int` generates values from 0-100 (inclusive) and updates state.
-    x = int state             # x == { value: 9, state: { value: -60952905, ... } }
-    y = x |> Random.next int  # y == { value: 61, state: { value: 1561666408, ... } }
 
-    _ <- await (line (Num.toStr x.value |> \s -> "x: \(s)")) # This will print `x: 9`.
-    _ <- await (line (Num.toStr y.value |> \s -> "y: \(s)")) # This will print `x: 61`.
-    line "These values will be the same on every run, because we use a constant seed (42)."
+    # Initialise "randomness"
+    initialSeed = Random.seed16 42
+
+    # Create a generator for values from 25-75 (inclusive)
+    u16 = Random.u16 25 75
+
+    # Create a list of random numbers
+    result =
+        List.range { start: At 0, end: Before 10 }
+        |> List.walk { seed: initialSeed, numbers: [] } \state, _ ->
+
+            random = u16 state.seed
+            seed = random.state
+            numbers = List.append state.numbers random.value
+
+            { seed, numbers }
+
+    # Format as a string
+    numbersListStr =
+        result.numbers
+        |> List.map Num.toStr
+        |> Str.joinWith ","
+
+    Stdout.line "Random numbers are: \(numbersListStr)"
 ```
 
-See the `example_*.roc` files for more examples.
+See the `examples/*.roc` files for more examples.
 
 ## Documentation
 
