@@ -1,3 +1,0 @@
-[submodule "roc"]
-	path = roc
-	url = git@github.com:roc-lang/roc.git

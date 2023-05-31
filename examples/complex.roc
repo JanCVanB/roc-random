@@ -1,10 +1,13 @@
 # !/usr/bin/env roc
 app "example_complex"
-    packages { pf: "https://github.com/roc-lang/basic-cli/releases/download/0.3.1/97mY3sUwo433-pcnEQUlMhn-sWiIf_J9bPhcAFZoqY4.tar.br" }
+    packages { 
+        pf: "https://github.com/roc-lang/basic-cli/releases/download/0.3.1/97mY3sUwo433-pcnEQUlMhn-sWiIf_J9bPhcAFZoqY4.tar.br",
+        rand: "../package/main.roc",
+    }
     imports [
         pf.Stdout.{ line },
         pf.Task.{ await },
-        Random,
+        rand.Random,
     ]
     provides [main] to pf
 

@@ -4,7 +4,9 @@ A [Roc](https://github.com/roc-lang/roc) library for random number generation
 
 ## Status
 
-This works, but there's much more it could do.
+Forked from [JanCVanB/roc-random](https://github.com/JanCVanB/roc-random) and updated to build package and documentation.
+
+This works, but there's much more it could do. 
 
 Contributions & feedback are very welcome! :)
 
