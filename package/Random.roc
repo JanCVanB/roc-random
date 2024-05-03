@@ -8,30 +8,28 @@
 ## - PCG = Permuted Congruential Generator
 ## - RXS = Random XorShift (see section 5.5.1 on page 36 in the paper)
 ## - XS = XorShift (see section 5.5 on page 34 in the paper)
-interface Random
-    exposes [
-        Generation,
-        Generator,
-        State,
-        i8,
-        i16,
-        i32,
-        int,
-        next,
-        seed,
-        seedVariant,
-        seed8,
-        seed8Variant,
-        seed16,
-        seed16Variant,
-        seed32,
-        seed32Variant,
-        step,
-        u8,
-        u16,
-        u32,
-    ]
-    imports []
+module [
+    Generation,
+    Generator,
+    State,
+    i8,
+    i16,
+    i32,
+    int,
+    next,
+    seed,
+    seedVariant,
+    seed8,
+    seed8Variant,
+    seed16,
+    seed16Variant,
+    seed32,
+    seed32Variant,
+    step,
+    u8,
+    u16,
+    u32,
+]
 
 ## A psuedorandom value generator
 Generator uint value : State uint -> Generation uint value

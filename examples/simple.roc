@@ -1,14 +1,11 @@
-app "example_simple"
-    packages {
-        cli: "https://github.com/roc-lang/basic-cli/releases/download/0.10.0/vNe6s9hWzoTZtFmNkvEICPErI9ptji_ySjicO6CkucY.tar.br",
-        rand: "https://github.com/lukewilliamboswell/roc-random/releases/download/0.1.0/OoD8jmqBLc0gyuaadckDMx1jedEa03EdGSR_V4KhH7g.tar.br",
-    }
-    imports [
-        cli.Task,
-        cli.Stdout,
-        rand.Random,
-    ]
-    provides [main] to cli
+app [main] {
+    cli: platform "https://github.com/roc-lang/basic-cli/releases/download/0.10.0/vNe6s9hWzoTZtFmNkvEICPErI9ptji_ySjicO6CkucY.tar.br",
+    rand: "https://github.com/lukewilliamboswell/roc-random/releases/download/0.1.0/OoD8jmqBLc0gyuaadckDMx1jedEa03EdGSR_V4KhH7g.tar.br",
+}
+
+import cli.Task
+import cli.Stdout
+import rand.Random
 
 # Print a list of 10 random numbers in the range 25-75 inclusive.
 main =
@@ -28,7 +25,7 @@ main =
         |> List.map Num.toStr
         |> Str.joinWith ","
 
-    Stdout.line "Random numbers are: \(numbersListStr)"
+    Stdout.line "Random numbers are: $(numbersListStr)"
 
 # Generate a list of numbers using the seed and generator provided
 # WARNING: likely NOT cryptograhpically secure
