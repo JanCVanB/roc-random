@@ -2,9 +2,9 @@ generated-docs/
 *.ll
 
 # Compiled executables
-example_complex
-example_digits
-example_simple
+examples/complex
+examples/digits
+examples/simple
 
 # macOS noise
 .DS_Store

@@ -1,30 +1,26 @@
-# !/usr/bin/env roc
 app "example_simple"
-    packages { pf: "https://github.com/roc-lang/basic-cli/releases/download/0.3.1/97mY3sUwo433-pcnEQUlMhn-sWiIf_J9bPhcAFZoqY4.tar.br" }
+    packages {
+        cli: "https://github.com/roc-lang/basic-cli/releases/download/0.10.0/vNe6s9hWzoTZtFmNkvEICPErI9ptji_ySjicO6CkucY.tar.br",
+        rand: "https://github.com/lukewilliamboswell/roc-random/releases/download/0.1.0/OoD8jmqBLc0gyuaadckDMx1jedEa03EdGSR_V4KhH7g.tar.br",
+    }
     imports [
-        pf.Stdout,
-        Random,
+        cli.Task,
+        cli.Stdout,
+        rand.Random,
     ]
-    provides [main] to pf
+    provides [main] to cli
 
+# Print a list of 10 random numbers in the range 25-75 inclusive.
 main =
 
     # Initialise "randomness"
-    initialSeed = Random.seed16 42
+    initialSeed = Random.seed 42
 
-    # Create a generator for values from 0-100 (inclusive)
-    u16 = Random.u16 0 100
+    # Create a generator for values from 25-75 (inclusive)
+    generator = Random.int 25 75
 
     # Create a list of random numbers
-    result =
-        List.range { start: At 1, end: At 1000 }
-        |> List.walk { seed: initialSeed, numbers: [] } \state, _ ->
-
-            random = u16 state.seed
-            seed = random.state
-            numbers = List.append state.numbers random.value
-
-            { seed, numbers }
+    result = randomList initialSeed generator
 
     # Format as a string
     numbersListStr =
@@ -33,3 +29,20 @@ main =
         |> Str.joinWith ","
 
     Stdout.line "Random numbers are: \(numbersListStr)"
+
+# Generate a list of numbers using the seed and generator provided
+# WARNING: likely NOT cryptograhpically secure
+randomList = \initialSeed, generator ->
+    List.range { start: At 0, end: Before 10 }
+    |> List.walk { seed: initialSeed, numbers: [] } \state, _ ->
+
+        # Use the generator to get a new seed and value
+        random = generator state.seed
+
+        # Update seed so it can be used to generate the next value
+        seed = random.state
+
+        # Append the latest random value to the list of numbers
+        numbers = List.append state.numbers random.value
+
+        { seed, numbers }

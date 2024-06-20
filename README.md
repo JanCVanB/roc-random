@@ -4,9 +4,9 @@ A [Roc](https://github.com/roc-lang/roc) library for random number generation
 
 ## Status
 
-This works, but there's much more it could do.
+Forked from [JanCVanB/roc-random](https://github.com/JanCVanB/roc-random), updated to build package and documentation, and do some maintenance.
 
-Contributions & feedback are very welcome! :)
+This works, but there's much more it could do. Contributions & feedback are very welcome!
 
 ## Examples
 
@@ -37,19 +37,15 @@ main =
         |> List.map Num.toStr
         |> Str.joinWith ","
 
-    Stdout.line "Random numbers are: \(numbersListStr)"
+    Stdout.line! "Random numbers are: \(numbersListStr)"
 ```
 
 See the `examples/*.roc` files for more examples.
 
 ## Documentation
 
-See [the library documentation site](https://JanCVanB.github.io/roc-random)
+See [the library documentation site](https://lukewilliamboswell.github.io/roc-parser/)
 for more info about its API.
-
-However,
-[the single library file itself](Random.roc)
-should be self-documenting.
 
 ## Goals
 
@@ -63,10 +59,6 @@ should be self-documenting.
 
 ## Seeding
 
-In order to receive a different sequence of outputs from this library
-between executions of your application,
-your Roc platform of choice must provide
-a random/pseudorandom/varying seed.
-Otherwise, your pure functions will be responsible
-for providing `Random`'s pure functions with a constant seed
-that will merely choose which predictable sequence you'll receive.
+In order to receive a different sequence of outputs from this library between executions of your application, your Roc platform of choice must provide a random/pseudorandom/varying seed.
+
+Otherwise, your pure functions will be responsible for providing `Random`'s pure functions with a constant seed that will merely choose which predictable sequence you'll receive.
