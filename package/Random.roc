@@ -145,7 +145,7 @@ i8 : I8, I8 -> Generator U8 I8
 i8 = \x, y ->
     (minimum, maximum) = sort x y
     # TODO: Remove these `I64` dependencies.
-    range = maximum - minimum + 1 |> Num.toI64
+    range = (Num.toI64 maximum) - (Num.toI64 minimum) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
         offset = permute state |> mapToI8 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI8) |> Num.rem range
@@ -157,7 +157,7 @@ i16 : I16, I16 -> Generator U16 I16
 i16 = \x, y ->
     (minimum, maximum) = sort x y
     # TODO: Remove these `I64` dependencies.
-    range = maximum - minimum + 1 |> Num.toI64
+    range = (Num.toI64 maximum) - (Num.toI64 minimum) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
         offset = permute state |> mapToI16 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI16) |> Num.rem range
@@ -169,7 +169,7 @@ i32 : I32, I32 -> Generator U32 I32
 i32 = \x, y ->
     (minimum, maximum) = sort x y
     # TODO: Remove these `I64` dependencies.
-    range = maximum - minimum + 1 |> Num.toI64
+    range = (Num.toI64 maximum) - (Num.toI64 minimum) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
         offset = permute state |> mapToI32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI32) |> Num.rem range
@@ -192,12 +192,14 @@ u32 = \x, y -> betweenUnsigned x y
 
 betweenUnsigned = \x, y ->
     (minimum, maximum) = sort x y
-    range = maximum - minimum + 1
+    range = maximum - minimum |> Num.addChecked 1
 
     \s ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-
-        value = minimum + (permute s) % range
+        value =
+            when range is
+                Ok r -> minimum + (permute s) % r
+                Err _ -> permute s
         state = update s
 
         { value, state }
