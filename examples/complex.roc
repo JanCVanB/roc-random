@@ -1,10 +1,8 @@
-# !/usr/bin/env roc
 app [main] {
-    cli: platform "https://github.com/roc-lang/basic-cli/releases/download/0.10.0/vNe6s9hWzoTZtFmNkvEICPErI9ptji_ySjicO6CkucY.tar.br",
+    cli: platform "https://github.com/roc-lang/basic-cli/releases/download/0.15.0/SlwdbJ-3GR7uBWQo6zlmYWNYOxnvo8r6YABXD-45UOw.tar.br",
     rand: "../package/main.roc",
 }
 
-import cli.Task
 import cli.Stdout
 import rand.Random
 
