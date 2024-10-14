@@ -16,6 +16,7 @@ module [
     i16,
     i32,
     int,
+    chain,
     next,
     seed,
     seedVariant,
@@ -31,10 +32,10 @@ module [
     u32,
 ]
 
-## A psuedorandom value generator
+## A pseudorandom value generator
 Generator uint value : State uint -> Generation uint value
 
-## A psuedorandom value, paired with its [Generator]'s output state (for chaining)
+## A pseudorandom value, paired with its [Generator]'s output state (for chaining)
 Generation uint value : { value : value, state : State uint }
 
 ## Internal state for [Generator]s
@@ -125,6 +126,14 @@ seed32Variant = \s, uI ->
     }
 
     @State { s, c }
+
+chain : Generator uint a, Generator uint b, (a, b -> c) -> Generator uint c
+chain = \firstGenerator, secondGenerator, combiner ->
+    \state ->
+        { value: first, state: state2 } = firstGenerator state
+        { value: second, state: state3 } = secondGenerator state2
+
+        { value: combiner first second, state: state3 }
 
 ## Generate a new [Generation] from an old [Generation]'s state
 next : Generation uint *, Generator uint value -> Generation uint value
