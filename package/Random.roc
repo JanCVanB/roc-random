@@ -162,6 +162,44 @@ chain = \firstGenerator, secondGenerator, combiner ->
 
         { value: combiner first second, state: state3 }
 
+expect
+    alwaysFive = static 5
+
+    List.range { start: At 0, end: Before 100 }
+    |> List.all \seedNum ->
+        value =
+            seed32 seedNum
+            |> step alwaysFive
+            |> .value
+
+        value == 5
+
+expect
+    boundedInt = int -100 100
+    doubledInt = boundedInt |> map (\i -> i * 2)
+
+    List.range { start: At 0, end: Before 100 }
+    |> List.all \seedNum ->
+        nextSeed = seed32 seedNum
+        randInt = step nextSeed boundedInt |> .value
+        doubledRandInt = step nextSeed doubledInt |> .value
+
+        randInt * 2 == doubledRandInt
+
+expect
+    colorComponentGen = int 0 255
+    rgbGenerator =
+        { chain <-
+            r: colorComponentGen,
+            g: colorComponentGen,
+            b: colorComponentGen,
+        }
+
+    nextSeed = seed32 123
+    randRgb = step nextSeed rgbGenerator |> .value
+
+    randRgb == { r: 65, g: 156, b: 137 }
+
 ## Generate a new [Generation] from an old [Generation]'s state
 next : Generation uint *, Generator uint value -> Generation uint value
 next = \x, g -> g x.state
