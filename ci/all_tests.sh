@@ -26,3 +26,5 @@ $ROC test $PACKAGE_DIR/main.roc
 
 # test building docs website
 $ROC docs $PACKAGE_DIR/main.roc
+
+echo "INFO: Completed all tests... 🎉"

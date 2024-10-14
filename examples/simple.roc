@@ -6,39 +6,15 @@ app [main] {
 import cli.Stdout
 import rand.Random
 
-# Print a list of 10 random numbers in the range 25-75 inclusive.
+# Seed value to generate random numbers
+seed = Random.seed 1234
+
+# Generate a random number in the range 25-75 inclusive and convert it to a Str
+generator = Random.boundedU32 25 75 |> Random.map Num.toStr
+
 main =
+    { value } = Random.step seed generator
 
-    # Initialise "randomness"
-    initialSeed = Random.seed 42
+    Stdout.line "Random number is $(value)"
 
-    # Create a generator for values from 25-75 (inclusive)
-    generator = Random.int 25 75
-
-    # Create a list of random numbers
-    result = randomList initialSeed generator
-
-    # Format as a string
-    numbersListStr =
-        result.numbers
-        |> List.map Num.toStr
-        |> Str.joinWith ","
-
-    Stdout.line "Random numbers are: $(numbersListStr)"
-
-# Generate a list of numbers using the seed and generator provided
-# WARNING: likely NOT cryptograhpically secure
-randomList = \initialSeed, generator ->
-    List.range { start: At 0, end: Before 10 }
-    |> List.walk { seed: initialSeed, numbers: [] } \state, _ ->
-
-        # Use the generator to get a new seed and value
-        random = generator state.seed
-
-        # Update seed so it can be used to generate the next value
-        seed = random.state
-
-        # Append the latest random value to the list of numbers
-        numbers = List.append state.numbers random.value
-
-        { seed, numbers }
+expect Random.step seed generator |> .value == "52"
