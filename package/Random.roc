@@ -16,6 +16,9 @@ module [
     i16,
     i32,
     int,
+    static,
+    map,
+    chain,
     next,
     seed,
     seedVariant,
@@ -31,10 +34,10 @@ module [
     u32,
 ]
 
-## A psuedorandom value generator
+## A pseudorandom value generator
 Generator uint value : State uint -> Generation uint value
 
-## A psuedorandom value, paired with its [Generator]'s output state (for chaining)
+## A pseudorandom value, paired with its [Generator]'s output state (for chaining)
 Generation uint value : { value : value, state : State uint }
 
 ## Internal state for [Generator]s
@@ -125,6 +128,77 @@ seed32Variant = \s, uI ->
     }
 
     @State { s, c }
+
+## Create a [Generator] that always returns the same thing.
+static : value -> Generator uint value
+static = \value ->
+    \state -> { value, state }
+
+## Map over the value of a [Generator].
+map : Generator uint a, (a -> b) -> Generator uint b
+map = \generator, mapper ->
+    \state ->
+        { value, state: state2 } = generator state
+
+        { value: mapper value, state: state2 }
+
+## Compose two [Generator]s into a single [Generator].
+##
+## This works well with record builders:
+##
+## ```
+## dateGenerator =
+##     { Random.chain <-
+##         month: Random.int 1 12,
+##         day: Random.int 1 31,
+##         year: Random.int 1 2500,
+##     }
+## ```
+chain : Generator uint a, Generator uint b, (a, b -> c) -> Generator uint c
+chain = \firstGenerator, secondGenerator, combiner ->
+    \state ->
+        { value: first, state: state2 } = firstGenerator state
+        { value: second, state: state3 } = secondGenerator state2
+
+        { value: combiner first second, state: state3 }
+
+expect
+    alwaysFive = static 5
+
+    List.range { start: At 0, end: Before 100 }
+    |> List.all \seedNum ->
+        value =
+            seed32 seedNum
+            |> step alwaysFive
+            |> .value
+
+        value == 5
+
+expect
+    boundedInt = int -100 100
+    doubledInt = boundedInt |> map (\i -> i * 2)
+
+    List.range { start: At 0, end: Before 100 }
+    |> List.all \seedNum ->
+        nextSeed = seed32 seedNum
+        randInt = step nextSeed boundedInt |> .value
+        doubledRandInt = step nextSeed doubledInt |> .value
+
+        randInt * 2 == doubledRandInt
+
+expect
+    colorComponentGen = int 0 255
+    rgbGenerator =
+        { chain <-
+            r: colorComponentGen,
+            g: colorComponentGen,
+            b: colorComponentGen,
+        }
+
+    nextSeed = seed32 123
+    randRgb = step nextSeed rgbGenerator |> .value
+
+    randRgb == { r: 65, g: 156, b: 137 }
 
 ## Generate a new [Generation] from an old [Generation]'s state
 next : Generation uint *, Generator uint value -> Generation uint value
