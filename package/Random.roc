@@ -16,6 +16,8 @@ module [
     i16,
     i32,
     int,
+    static,
+    map,
     chain,
     next,
     seed,
@@ -127,6 +129,31 @@ seed32Variant = \s, uI ->
 
     @State { s, c }
 
+## Create a [Generator] that always returns the same thing.
+static : value -> Generator uint value
+static = \value ->
+    \state -> { value, state }
+
+## Map over the value of a [Generator].
+map : Generator uint a, (a -> b) -> Generator uint b
+map = \generator, mapper ->
+    \state ->
+        { value, state: state2 } = generator state
+
+        { value: mapper value, state: state2 }
+
+## Compose two [Generator]s into a single [Generator].
+##
+## This works well with record builders:
+##
+## ```
+## dateGenerator =
+##     { Random.chain <-
+##         month: Random.int 1 12,
+##         day: Random.int 1 31,
+##         year: Random.int 1 2500,
+##     }
+## ```
 chain : Generator uint a, Generator uint b, (a, b -> c) -> Generator uint c
 chain = \firstGenerator, secondGenerator, combiner ->
     \state ->
