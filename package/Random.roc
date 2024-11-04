@@ -15,6 +15,7 @@ module [
     static,
     map,
     chain,
+    list,
     u8,
     boundedU8,
     i8,
@@ -175,6 +176,20 @@ expect
     randRgb = step nextSeed rgbGenerator |> .value
 
     randRgb == { r: 65, g: 156, b: 137 }
+
+## Generate a list of random values.
+## ```
+## generate10RandomU8s : Generator (List U8)
+## generate10RandomU8s =
+##     Random.list Random.u8 10
+## ```
+list : Generator a, Int * -> Generator (List a)
+list = \generator, length ->
+    \initialState ->
+        List.range { start: At 0, end: Before length }
+        |> List.walk { state: initialState, value: [] } \prev, _ ->
+            { value, state } = Random.step prev.state generator
+            { state, value: List.append prev.value value }
 
 ## Construct a [Generator] for 8-bit unsigned integers
 u8 : Generator U8
