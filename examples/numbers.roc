@@ -13,19 +13,15 @@ main =
     |> Str.joinWith "\n"
     |> \numbersListStr -> Stdout.line "$(numbersListStr)"
 
+numbersGenerator : Random.Generator (List U32)
+numbersGenerator =
+    Random.list (Random.boundedU32 25 75) 10
+
 randomNumbers : List U32
 randomNumbers =
-    List.range { start: At 0, end: Before 100000 }
-    |> List.walk { seed: Random.seed 1234, numbers: [] } \state, _ ->
+    { value: numbers } = Random.step (Random.seed 1234) numbersGenerator
 
-        generator = Random.boundedU32 25 75
-        output = Random.step state.seed generator
-
-        {
-            seed: output.state,
-            numbers: List.append state.numbers output.value,
-        }
-    |> .numbers
+    numbers
 
 expect
     actual = randomNumbers
