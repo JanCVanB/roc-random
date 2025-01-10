@@ -1,5 +1,6 @@
-app [main] {
-    cli: platform "https://github.com/roc-lang/basic-cli/releases/download/0.15.0/SlwdbJ-3GR7uBWQo6zlmYWNYOxnvo8r6YABXD-45UOw.tar.br",
+app [main!] {
+    # TODO replace with release URL
+    cli: platform "../../basic-cli/platform/main.roc",
     rand: "../package/main.roc",
 }
 
@@ -8,8 +9,8 @@ import rand.Random
 
 Color : { red : U8, green : U8, blue : U8, alpha : U8 }
 
-colorGenerator : Random.Generator Color
-colorGenerator =
+color_generator : Random.Generator Color
+color_generator =
     { Random.chain <-
         red: Random.u8,
         green: Random.u8,
@@ -17,8 +18,8 @@ colorGenerator =
         alpha: Random.u8,
     }
 
-seed = Random.seed 12345
+seed = Random.seed(12345)
 
-main =
-    { value: color } = Random.step seed colorGenerator
-    Stdout.line "Color generated: $(Inspect.toStr color)"
+main! = \_args ->
+    { value: color } = Random.step(seed, color_generator)
+    Stdout.line!("Color generated: $(Inspect.to_str(color))")
