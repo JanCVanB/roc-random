@@ -20,6 +20,7 @@ numbers_generator =
 
 random_numbers : List U32
 random_numbers =
+    # we can ignore the updated seed value and just return the generated numbers
     { value: numbers } = Random.step(Random.seed(1234), numbers_generator)
 
     numbers
