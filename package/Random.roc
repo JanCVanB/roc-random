@@ -44,8 +44,8 @@ module [
 ## A generator that produces pseudorandom `value`s using the PCG algorithm.
 ##
 ## ```
-## rgbGenerator : Generator { red: U8, green: U8, blue: U8 }
-## rgbGenerator =
+## rgb_generator : Generator { red: U8, green: U8, blue: U8 }
+## rgb_generator =
 ##     { Random.chain <-
 ##         red: Random.u8,
 ##         green: Random.u8,
@@ -125,7 +125,7 @@ map = \generator, mapper ->
 ## This works well with record builders:
 ##
 ## ```
-## dateGenerator =
+## date_generator =
 ##     { Random.chain <-
 ##         year: Random.int(1, 2500),
 ##         month: Random.int(1, 12),
@@ -183,8 +183,8 @@ expect
 
 ## Generate a list of random values.
 ## ```
-## generate10RandomU8s : Generator (List U8)
-## generate10RandomU8s =
+## generate_10_random_u8s : Generator (List U8)
+## generate_10_random_u8s =
 ##     Random.list(Random.u8, 10)
 ## ```
 list : Generator a, Int * -> Generator (List a)
