@@ -16,6 +16,6 @@ generator = Random.bounded_u32(25, 75) |> Random.map(Num.to_str)
 main! = \_args ->
     { value } = Random.step(seed, generator)
 
-    Stdout.line!("Random number is $(value)")
+    Stdout.line!("Random number is ${value}")
 
 expect Random.step(seed, generator) |> .value == "52"
