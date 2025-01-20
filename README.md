@@ -2,13 +2,17 @@
 
 A [Roc](https://github.com/roc-lang/roc) library for random number generation
 
-## Status
+Contributions & feedback are very welcome!
 
-Forked from [JanCVanB/roc-random](https://github.com/JanCVanB/roc-random), updated to build package and documentation, and do some maintenance.
-
-This works, but there's much more it could do. Contributions & feedback are very welcome!
+TODO:
+- Add links to
+- platforms and other community repos 
+- that use this library,
+- because this seems to be the unofficial standard for RNG in Roc!
 
 ## Examples
+
+See the `examples/*.roc` files for various complete examples, but here is a minimal preview:
 
 ### Print a list of 10 random numbers in the range 25-75 inclusive
 
@@ -27,11 +31,9 @@ Random.seed 1234
 |> Stdout.line!
 ```
 
-See the `examples/*.roc` files for more examples.
-
 ## Documentation
 
-See [the library documentation site](https://lukewilliamboswell.github.io/roc-random/)
+See [the library documentation site](https://JanCVanB.github.io/roc-random/)
 for more info about its API.
 
 ## Goals
