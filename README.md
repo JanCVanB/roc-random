@@ -1,14 +1,15 @@
 # Randomness for Roc
 
-A [Roc](https://github.com/roc-lang/roc) library for random number generation
+A [Roc](https://github.com/roc-lang/roc) library 🦅 for 🎲 random number generation
 
 Contributions & feedback are very welcome!
 
-TODO:
-- Add links to
-- platforms and other community repos 
-- that use this library,
-- because this seems to be the unofficial standard for RNG in Roc!
+### Used By
+
+- 🦅 https://github.com/roc-lang/examples/blob/main/examples/RandomNumbers/main.roc
+- 👾 https://github.com/lukewilliamboswell/roc-ray
+- 🧱 https://github.com/jared-cone/roctris
+- 💞 Add your platform, library, or app here!
 
 ## Examples
 
