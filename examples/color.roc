@@ -21,4 +21,4 @@ seed = Random.seed(12345)
 
 main! = \_ ->
     { value: color } = Random.step(seed, color_generator)
-    Stdout.line!("Color generated: $(Inspect.toStr(color))")
+    Stdout.line!("Color generated: $(Inspect.to_str(color))")
