@@ -44,7 +44,7 @@ See the `examples/*.roc` files for more examples.
 
 ## Documentation
 
-See [the library documentation site](https://lukewilliamboswell.github.io/roc-parser/)
+See [the library documentation site](https://lukewilliamboswell.github.io/roc-random/)
 for more info about its API.
 
 ## Goals

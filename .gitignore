@@ -2,8 +2,8 @@ generated-docs/
 *.ll
 
 # Compiled executables
-examples/complex
-examples/digits
+examples/color
+examples/numbers
 examples/simple
 
 # macOS noise
