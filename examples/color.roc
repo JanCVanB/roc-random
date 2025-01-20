@@ -17,8 +17,8 @@ color_generator =
         alpha: Random.u8,
     }
 
-seed = Random.seed 12345
+seed = Random.seed(12345)
 
 main! = \_ ->
-    { value: color } = Random.step seed color_generator
-    Stdout.line! "Color generated: $(Inspect.toStr color)"
+    { value: color } = Random.step(seed, color_generator)
+    Stdout.line!("Color generated: $(Inspect.toStr(color))")
