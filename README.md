@@ -24,7 +24,7 @@ Random.seed 1234
 |> Random.step generateTenNumbers
 |> .value
 |> Inspect.toStr
-|> Stdout.line
+|> Stdout.line!
 ```
 
 See the `examples/*.roc` files for more examples.

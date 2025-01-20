@@ -1,5 +1,5 @@
-app [main] {
-    cli: platform "https://github.com/roc-lang/basic-cli/releases/download/0.15.0/SlwdbJ-3GR7uBWQo6zlmYWNYOxnvo8r6YABXD-45UOw.tar.br",
+app [main!] {
+    cli: platform "https://github.com/roc-lang/basic-cli/releases/download/0.18.0/0APbwVN1_p1mJ96tXjaoiUCr8NBGamr8G8Ac_DrXR-o.tar.br",
     rand: "../package/main.roc",
 }
 
@@ -12,9 +12,9 @@ seed = Random.seed 1234
 # Generate a random number in the range 25-75 inclusive and convert it to a Str
 generator = Random.boundedU32 25 75 |> Random.map Num.toStr
 
-main =
+main! = \_ ->
     { value } = Random.step seed generator
 
-    Stdout.line "Random number is $(value)"
+    Stdout.line! "Random number is $(value)"
 
 expect Random.step seed generator |> .value == "52"
