@@ -284,7 +284,7 @@ bounded_i32 = \x, y ->
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
         offset = permute state |> map_to_i32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI32) |> Num.rem range
-        value = minimum |> Num.toI64 |> Num.add offset |> Num.to_i32
+        value = minimum |> Num.toI64 |> Num.add offset |> Num.toI32
         { value, state: update state }
 
 # Helpers for the above constructors -------------------------------------------
