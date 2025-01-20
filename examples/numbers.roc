@@ -11,7 +11,7 @@ main! = \_ ->
     random_numbers
     |> List.map(Num.toStr)
     |> Str.joinWith("\n")
-    |> \numbers_list_str -> Stdout.line!("$(numbers_list_str)")
+    |> Stdout.line!
 
 numbers_generator : Random.Generator (List U32)
 numbers_generator =
