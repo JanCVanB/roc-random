@@ -1,33 +1,35 @@
 # !/usr/bin/env roc
 app "example_complex"
-    packages { pf: "https://github.com/roc-lang/basic-cli/releases/download/0.3.1/97mY3sUwo433-pcnEQUlMhn-sWiIf_J9bPhcAFZoqY4.tar.br" }
+    packages { 
+        cli: "https://github.com/roc-lang/basic-cli/releases/download/0.10.0/vNe6s9hWzoTZtFmNkvEICPErI9ptji_ySjicO6CkucY.tar.br",
+        rand: "../package/main.roc",
+    }
     imports [
-        pf.Stdout.{ line },
-        pf.Task.{ await },
-        Random,
+        cli.Task,
+        cli.Stdout,
+        rand.Random,
     ]
-    provides [main] to pf
+    provides [main] to cli
 
 main =
     a = point (Random.seed 36)
     b = a |> Random.next point
 
-    _ <- await (line (Num.toStr a.value.x |> \s -> "a.x == -59 == \(s)"))
-    _ <- await (line (Num.toStr a.value.y |> \s -> "a.y == -62 == \(s)"))
-    _ <- await (line (Num.toStr a.value.z |> \s -> "a.z == -64 == \(s)"))
-    _ <- await (line (Num.toStr a.value.t |> \s -> "a.t ==   4 ==   \(s)"))
-    _ <- await (line (Num.toStr b.value.x |> \s -> "b.x ==  82 ==  \(s)"))
-    _ <- await (line (Num.toStr b.value.y |> \s -> "b.y ==  78 ==  \(s)"))
-    _ <- await (line (Num.toStr b.value.z |> \s -> "b.z == -64 == \(s)"))
-    _ <- await (line (Num.toStr b.value.t |> \s -> "b.t == -20 == \(s)"))
+    Stdout.line! (Num.toStr a.value.x |> \s -> "a.x == -59 == \(s)")
+    Stdout.line! (Num.toStr a.value.y |> \s -> "a.y == -62 == \(s)")
+    Stdout.line! (Num.toStr a.value.z |> \s -> "a.z == -64 == \(s)")
+    Stdout.line! (Num.toStr a.value.t |> \s -> "a.t ==   4 ==   \(s)")
+    Stdout.line! (Num.toStr b.value.x |> \s -> "b.x ==  82 ==  \(s)")
+    Stdout.line! (Num.toStr b.value.y |> \s -> "b.y ==  78 ==  \(s)")
+    Stdout.line! (Num.toStr b.value.z |> \s -> "b.z == -64 == \(s)")
+    Stdout.line! (Num.toStr b.value.t |> \s -> "b.t == -20 == \(s)")
 
-    line "These values will be the same on every run, because we use a constant seed."
+    Stdout.line! "These values will be the same on every run, because we use a constant seed."
 
 # Complex `Generator`s can be created by chaining primitive `Generator`s.
-# Point a : { x : a, y : a, z : a, t : a }
+Point : { t : I32, x : I32, y : I32, z : I32 }
 
-# TODO fix this type annotation
-# point : Random.Generator (Point I32) (Random.State U32)
+point : Random.Generator U32 Point
 point = \state ->
     min = -100
     max = 100
