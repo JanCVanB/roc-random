@@ -1,5 +1,5 @@
-app [main] {
-    cli: platform "https://github.com/roc-lang/basic-cli/releases/download/0.15.0/SlwdbJ-3GR7uBWQo6zlmYWNYOxnvo8r6YABXD-45UOw.tar.br",
+app [main!] {
+    cli: platform "https://github.com/roc-lang/basic-cli/releases/download/0.18.0/0APbwVN1_p1mJ96tXjaoiUCr8NBGamr8G8Ac_DrXR-o.tar.br",
     rand: "../package/main.roc",
 }
 
@@ -19,6 +19,6 @@ colorGenerator =
 
 seed = Random.seed 12345
 
-main =
+main! = \_ ->
     { value: color } = Random.step seed colorGenerator
-    Stdout.line "Color generated: $(Inspect.toStr color)"
+    Stdout.line! "Color generated: $(Inspect.toStr color)"

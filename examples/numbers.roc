@@ -1,5 +1,5 @@
-app [main] {
-    cli: platform "https://github.com/roc-lang/basic-cli/releases/download/0.15.0/SlwdbJ-3GR7uBWQo6zlmYWNYOxnvo8r6YABXD-45UOw.tar.br",
+app [main!] {
+    cli: platform "https://github.com/roc-lang/basic-cli/releases/download/0.18.0/0APbwVN1_p1mJ96tXjaoiUCr8NBGamr8G8Ac_DrXR-o.tar.br",
     rand: "../package/main.roc",
 }
 
@@ -7,11 +7,11 @@ import cli.Stdout
 import rand.Random
 
 # Print a list of 10 random numbers in the range 25-75 inclusive.
-main =
+main! = \_ ->
     randomNumbers
     |> List.map Num.toStr
     |> Str.joinWith "\n"
-    |> \numbersListStr -> Stdout.line "$(numbersListStr)"
+    |> \numbersListStr -> Stdout.line! "$(numbersListStr)"
 
 numbersGenerator : Random.Generator (List U32)
 numbersGenerator =
