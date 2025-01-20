@@ -10,7 +10,7 @@ This works, but there's much more it could do. Contributions & feedback are very
 
 ## Examples
 
-```coffee
+```roc
 # Print a list of 10 random numbers in the range 25-75 inclusive.
 main =
 

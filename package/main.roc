@@ -1,5 +1,3 @@
-package "random"
-    exposes [
-        Random,
-    ]
-    packages {}
+package [
+    Random,
+] {}
