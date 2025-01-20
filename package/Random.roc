@@ -9,7 +9,7 @@ module [
     Generator,
     State,
     seed,
-    seedVariant,
+    seed_variant,
     step,
     next,
     static,
@@ -17,17 +17,17 @@ module [
     chain,
     list,
     u8,
-    boundedU8,
+    bounded_u8,
     i8,
-    boundedI8,
+    bounded_i8,
     u16,
-    boundedU16,
+    bounded_u16,
     i16,
-    boundedI16,
+    bounded_i16,
     u32,
-    boundedU32,
+    bounded_u32,
     i32,
-    boundedI32,
+    bounded_i32,
 ]
 
 # This implementation is based on this paper [PCG: A Family of Simple Fast Space-Efficient Statistically Good Algorithms for Random Number Generation](https://www.pcg-random.org/pdf/hmc-cs-2014-0905.pdf)
@@ -64,17 +64,17 @@ State := { s : U32, c : AlgorithmConstants }
 
 # only used internally
 AlgorithmConstants : {
-    permuteMultiplier : U32,
-    permuteRandomXorShift : U32,
-    permuteRandomXorShiftIncrement : U32,
-    permuteXorShift : U32,
-    updateIncrement : U32,
-    updateMultiplier : U32,
+    permute_multiplier : U32,
+    permute_random_xor_shift : U32,
+    permute_random_xor_shift_increment : U32,
+    permute_xor_shift : U32,
+    update_increment : U32,
+    update_multiplier : U32,
 }
 
 ## Construct an initial "seed" [State] for [Generator]s
 seed : U32 -> State
-seed = \s -> seedVariant s defaultU32UpdateIncrement
+seed = \s -> seed_variant s default_u32_update_increment
 
 ## Construct a specific "variant" of a "seed" for more advanced use.
 ##
@@ -86,15 +86,15 @@ seed = \s -> seedVariant s defaultU32UpdateIncrement
 ##
 ## Odd numbers are recommended for the update increment,
 ## to double the repetition period of sequences (by hitting odd values).
-seedVariant : U32, U32 -> State
-seedVariant = \s, uI ->
+seed_variant : U32, U32 -> State
+seed_variant = \s, u_i ->
     c = {
-        permuteMultiplier: defaultU32PermuteMultiplier,
-        permuteRandomXorShift: defaultU32PermuteRandomXorShift,
-        permuteRandomXorShiftIncrement: defaultU32PermuteRandomXorShiftIncrement,
-        permuteXorShift: defaultU32PermuteXorShift,
-        updateIncrement: uI,
-        updateMultiplier: defaultU32UpdateMultiplier,
+        permute_multiplier: default_u32_permute_multiplier,
+        permute_random_xor_shift: default_u32_permute_random_xor_shift,
+        permute_random_xor_shift_increment: default_u32_permute_random_xor_shift_increment,
+        permute_xor_shift: default_u32_permute_xor_shift,
+        update_increment: u_i,
+        update_multiplier: default_u32_update_multiplier,
     }
 
     @State { s, c }
@@ -133,49 +133,49 @@ map = \generator, mapper ->
 ##     }
 ## ```
 chain : Generator a, Generator b, (a, b -> c) -> Generator c
-chain = \firstGenerator, secondGenerator, combiner ->
+chain = \first_generator, second_generator, combiner ->
     \state ->
-        { value: first, state: state2 } = firstGenerator state
-        { value: second, state: state3 } = secondGenerator state2
+        { value: first, state: state2 } = first_generator state
+        { value: second, state: state3 } = second_generator state2
 
         { value: combiner first second, state: state3 }
 
 expect
-    alwaysFive = static 5
+    always_five = static 5
 
     List.range { start: At 0, end: Before 100 }
-    |> List.all \seedNum ->
+    |> List.all \seed_num ->
         value =
-            seed seedNum
-            |> step alwaysFive
+            seed seed_num
+            |> step always_five
             |> .value
 
         value == 5
 
 expect
-    doubledInt = boundedI32 -100 100 |> map (\i -> i * 2)
+    doubled_int = bounded_i32 -100 100 |> map \i -> i * 2
 
     List.range { start: At 0, end: Before 100 }
-    |> List.all \seedNum ->
-        nextSeed = seed seedNum
-        randInt = step nextSeed (boundedI32 -100 100) |> .value
-        doubledRandInt = step nextSeed doubledInt |> .value
+    |> List.all \seed_num ->
+        next_seed = seed seed_num
+        rand_int = step next_seed (bounded_i32 -100 100) |> .value
+        doubled_rand_int = step next_seed doubled_int |> .value
 
-        randInt * 2 == doubledRandInt
+        rand_int * 2 == doubled_rand_int
 
 expect
-    colorComponentGen = boundedI32 0 255
-    rgbGenerator =
+    color_component_gen = bounded_i32 0 255
+    rgb_generator =
         { chain <-
-            r: colorComponentGen,
-            g: colorComponentGen,
-            b: colorComponentGen,
+            r: color_component_gen,
+            g: color_component_gen,
+            b: color_component_gen,
         }
 
-    nextSeed = seed 123
-    randRgb = step nextSeed rgbGenerator |> .value
+    next_seed = seed 123
+    rand_rgb = step next_seed rgb_generator |> .value
 
-    randRgb == { r: 65, g: 156, b: 137 }
+    rand_rgb == { r: 65, g: 156, b: 137 }
 
 ## Generate a list of random values.
 ## ```
@@ -185,19 +185,19 @@ expect
 ## ```
 list : Generator a, Int * -> Generator (List a)
 list = \generator, length ->
-    \initialState ->
+    \initial_state ->
         List.range { start: At 0, end: Before length }
-        |> List.walk { state: initialState, value: [] } \prev, _ ->
+        |> List.walk { state: initial_state, value: [] } \prev, _ ->
             { value, state } = Random.step prev.state generator
             { state, value: List.append prev.value value }
 
 ## Construct a [Generator] for 8-bit unsigned integers
 u8 : Generator U8
-u8 = betweenUnsigned Num.minU8 Num.maxU8 |> map Num.intCast
+u8 = between_unsigned Num.minU8 Num.maxU8 |> map Num.intCast
 
 ## Construct a [Generator] for 8-bit unsigned integers between two boundaries (inclusive)
-boundedU8 : U8, U8 -> Generator U8
-boundedU8 = \x, y -> betweenUnsigned x y |> map Num.intCast
+bounded_u8 : U8, U8 -> Generator U8
+bounded_u8 = \x, y -> between_unsigned x y |> map Num.intCast
 
 ## Construct a [Generator] for 8-bit signed integers
 i8 : Generator I8
@@ -207,29 +207,29 @@ i8 =
     range = (Num.toI64 maximum) - (Num.toI64 minimum) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute state |> mapToI32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI8) |> Num.rem range
+        offset = permute state |> map_to_i32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI8) |> Num.rem range
         value = minimum |> Num.toI64 |> Num.add offset |> Num.toI8
         { value, state: update state }
 
 ## Construct a [Generator] for 8-bit signed integers between two boundaries (inclusive)
-boundedI8 : I8, I8 -> Generator I8
-boundedI8 = \x, y ->
+bounded_i8 : I8, I8 -> Generator I8
+bounded_i8 = \x, y ->
     (minimum, maximum) = sort x y
     # TODO: Remove these `I64` dependencies.
     range = (Num.toI64 maximum) - (Num.toI64 minimum) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute state |> mapToI32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI8) |> Num.rem range
+        offset = permute state |> map_to_i32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI8) |> Num.rem range
         value = minimum |> Num.toI64 |> Num.add offset |> Num.toI8
         { value, state: update state }
 
 ## Construct a [Generator] for 16-bit unsigned integers
 u16 : Generator U16
-u16 = betweenUnsigned Num.minU16 Num.maxU16 |> map Num.intCast
+u16 = between_unsigned Num.minU16 Num.maxU16 |> map Num.intCast
 
 ## Construct a [Generator] for 16-bit unsigned integers between two boundaries (inclusive)
-boundedU16 : U16, U16 -> Generator U16
-boundedU16 = \x, y -> betweenUnsigned x y |> map Num.intCast
+bounded_u16 : U16, U16 -> Generator U16
+bounded_u16 = \x, y -> between_unsigned x y |> map Num.intCast
 
 ## Construct a [Generator] for 16-bit signed integers
 i16 : Generator I16
@@ -239,29 +239,29 @@ i16 =
     range = (Num.toI64 maximum) - (Num.toI64 minimum) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute state |> mapToI32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI16) |> Num.rem range
+        offset = permute state |> map_to_i32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI16) |> Num.rem range
         value = minimum |> Num.toI64 |> Num.add offset |> Num.toI16
         { value, state: update state }
 
 ## Construct a [Generator] for 16-bit signed integers between two boundaries (inclusive)
-boundedI16 : I16, I16 -> Generator I16
-boundedI16 = \x, y ->
+bounded_i16 : I16, I16 -> Generator I16
+bounded_i16 = \x, y ->
     (minimum, maximum) = sort x y
     # TODO: Remove these `I64` dependencies.
     range = (Num.toI64 maximum) - (Num.toI64 minimum) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute state |> mapToI32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI16) |> Num.rem range
+        offset = permute state |> map_to_i32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI16) |> Num.rem range
         value = minimum |> Num.toI64 |> Num.add offset |> Num.toI16
         { value, state: update state }
 
 ## Construct a [Generator] for 32-bit unsigned integers
 u32 : Generator U32
-u32 = betweenUnsigned Num.minU32 Num.maxU32
+u32 = between_unsigned Num.minU32 Num.maxU32
 
 ## Construct a [Generator] for 32-bit unsigned integers between two boundaries (inclusive)
-boundedU32 : U32, U32 -> Generator U32
-boundedU32 = \x, y -> betweenUnsigned x y
+bounded_u32 : U32, U32 -> Generator U32
+bounded_u32 = \x, y -> between_unsigned x y
 
 ## Construct a [Generator] for 32-bit signed integers
 i32 : Generator I32
@@ -271,25 +271,25 @@ i32 =
     range = (Num.toI64 maximum) - (Num.toI64 minimum) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute state |> mapToI32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI32) |> Num.rem range
+        offset = permute state |> map_to_i32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI32) |> Num.rem range
         value = minimum |> Num.toI64 |> Num.add offset |> Num.toI32
         { value, state: update state }
 
 ## Construct a [Generator] for 32-bit signed integers between two boundaries (inclusive)
-boundedI32 : I32, I32 -> Generator I32
-boundedI32 = \x, y ->
+bounded_i32 : I32, I32 -> Generator I32
+bounded_i32 = \x, y ->
     (minimum, maximum) = sort x y
     # TODO: Remove these `I64` dependencies.
     range = (Num.toI64 maximum) - (Num.toI64 minimum) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute state |> mapToI32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI32) |> Num.rem range
-        value = minimum |> Num.toI64 |> Num.add offset |> Num.toI32
+        offset = permute state |> map_to_i32 |> Num.toI64 |> Num.sub (Num.toI64 Num.minI32) |> Num.rem range
+        value = minimum |> Num.toI64 |> Num.add offset |> Num.to_i32
         { value, state: update state }
 
 # Helpers for the above constructors -------------------------------------------
-betweenUnsigned : Int a, Int a -> Generator (Int a)
-betweenUnsigned = \x, y ->
+between_unsigned : Int a, Int a -> Generator (Int a)
+between_unsigned = \x, y ->
     (minimum, maximum) = sort x y
     range = maximum - minimum |> Num.addChecked 1
 
@@ -303,8 +303,8 @@ betweenUnsigned = \x, y ->
 
         { value, state }
 
-mapToI32 : U32 -> I32
-mapToI32 = \x ->
+map_to_i32 : U32 -> I32
+map_to_i32 = \x ->
     middle = Num.toU32 Num.maxI32
     if x <= middle then
         Num.minI32 + Num.toI32 x
@@ -320,26 +320,26 @@ sort = \x, y ->
 # See `RXS M XS` constants (line 168?)
 # and `_DEFAULT_` constants (line 276?)
 # in the PCG C++ header (see link above).
-defaultU32PermuteMultiplier = 277_803_737
-defaultU32PermuteRandomXorShift = 28
-defaultU32PermuteRandomXorShiftIncrement = 4
-defaultU32PermuteXorShift = 22
-defaultU32UpdateIncrement = 2_891_336_453
-defaultU32UpdateMultiplier = 747_796_405
+default_u32_permute_multiplier = 277_803_737
+default_u32_permute_random_xor_shift = 28
+default_u32_permute_random_xor_shift_increment = 4
+default_u32_permute_xor_shift = 22
+default_u32_update_increment = 2_891_336_453
+default_u32_update_multiplier = 747_796_405
 
 # See `pcg_output_rxs_m_xs_8_8` (on line 170?) in the PCG C++ header (see link above).
 permute : State -> U32
-permute = \@State { s, c } ->
-    pcgRxsMXs s c.permuteRandomXorShift c.permuteRandomXorShiftIncrement c.permuteMultiplier c.permuteXorShift
+permute = \@State({ s, c }) ->
+    pcg_rxs_m_xs s c.permute_random_xor_shift c.permute_random_xor_shift_increment c.permute_multiplier c.permute_xor_shift
 
 # See section 6.3.4 on page 45 in the PCG paper (see link above).
-pcgRxsMXs : U32, U32, U32, U32, U32 -> U32
-pcgRxsMXs = \state, randomXorShift, randomXorShiftIncrement, multiplier, xorShift ->
+pcg_rxs_m_xs : U32, U32, U32, U32, U32 -> U32
+pcg_rxs_m_xs = \state, random_xor_shift, random_xor_shift_increment, multiplier, xor_shift ->
 
     inner =
-        randomXorShift
+        random_xor_shift
         |> Num.shiftRightZfBy (Num.intCast state)
-        |> Num.addWrap randomXorShiftIncrement
+        |> Num.addWrap random_xor_shift_increment
         |> Num.shiftRightZfBy (Num.intCast state)
 
     partial =
@@ -347,11 +347,11 @@ pcgRxsMXs = \state, randomXorShift, randomXorShiftIncrement, multiplier, xorShif
         |> Num.bitwiseXor inner
         |> Num.mulWrap multiplier
 
-    Num.bitwiseXor partial (Num.shiftRightZfBy xorShift (Num.intCast partial))
+    Num.bitwiseXor partial (Num.shiftRightZfBy xor_shift (Num.intCast partial))
 
 # See section 4.1 on page 20 in the PCG paper (see link above).
-pcgStep : U32, U32, U32 -> U32
-pcgStep = \state, multiplier, increment ->
+pcg_step : U32, U32, U32 -> U32
+pcg_step = \state, multiplier, increment ->
     state
     |> Num.mulWrap multiplier
     |> Num.addWrap increment
@@ -360,61 +360,61 @@ pcgStep = \state, multiplier, increment ->
 update : State -> State
 update = \@State { s, c } ->
 
-    sNew : U32
-    sNew = pcgStep s c.updateMultiplier c.updateIncrement
+    s_new : U32
+    s_new = pcg_step s c.update_multiplier c.update_increment
 
-    @State { s: sNew, c }
+    @State { s: s_new, c }
 
 # Test U8 generation
 # TODO confirm this is the right value for this seed
 expect
-    testGenerator = u8
-    testSeed = seed 123
-    actual = testGenerator testSeed
+    test_generator = u8
+    test_seed = seed 123
+    actual = test_generator test_seed
     expected = 65u8
     actual.value == expected
 
 # Test U16 generation
 # TODO confirm this is the right value for this seed
 expect
-    testGenerator = boundedU16 0 250
-    testSeed = seed 123
-    actual = testGenerator testSeed
+    test_generator = bounded_u16 0 250
+    test_seed = seed 123
+    actual = test_generator test_seed
     expected = 182u16
     actual.value == expected
 
 # Test U32 generation
 # TODO confirm this is the right value for this seed
 expect
-    testGenerator = boundedU32 0 250
-    testSeed = seed 123
-    actual = testGenerator testSeed
+    test_generator = bounded_u32 0 250
+    test_seed = seed 123
+    actual = test_generator test_seed
     expected = 143u32
     actual.value == expected
 
 # Test I8 generation
 # TODO confirm this is the right value for this seed
 expect
-    testGenerator = boundedI8 0 9
-    testSeed = seed 6
-    actual = testGenerator testSeed
+    test_generator = bounded_i8 0 9
+    test_seed = seed 6
+    actual = test_generator test_seed
     expected = -8i8
     actual.value == expected
 
 # Test I16 generation
 # TODO confirm this is the right value for this seed
 expect
-    testGenerator = boundedI16 0 9
-    testSeed = seed 6
-    actual = testGenerator testSeed
+    test_generator = bounded_i16 0 9
+    test_seed = seed 6
+    actual = test_generator test_seed
     expected = -8i16
     actual.value == expected
 
 # Test I32 generation
 # TODO confirm this is the right value for this seed
 expect
-    testGenerator = boundedI32 10 9
-    testSeed = seed 6
-    actual = testGenerator testSeed
+    test_generator = bounded_i32 10 9
+    test_seed = seed 6
+    actual = test_generator test_seed
     expected = 9i32
     actual.value == expected
