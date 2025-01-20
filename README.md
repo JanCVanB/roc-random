@@ -10,34 +10,21 @@ This works, but there's much more it could do. Contributions & feedback are very
 
 ## Examples
 
+### Print a list of 10 random numbers in the range 25-75 inclusive
+
 ```roc
-# Print a list of 10 random numbers in the range 25-75 inclusive.
-main =
+# Create a generator for numbers between 25-75 (inclusive).
+generateANumber = Random.boundedU32 25 75
 
-    # Initialise "randomness"
-    initialSeed = Random.seed16 42
+# Create a generator for lists of 10 numbers.
+generateTenNumbers = generateANumber |> Random.list 10
 
-    # Create a generator for values from 25-75 (inclusive)
-    u16 = Random.u16 25 75
-
-    # Create a list of random numbers
-    result =
-        List.range { start: At 0, end: Before 10 }
-        |> List.walk { seed: initialSeed, numbers: [] } \state, _ ->
-
-            random = u16 state.seed
-            seed = random.state
-            numbers = List.append state.numbers random.value
-
-            { seed, numbers }
-
-    # Format as a string
-    numbersListStr =
-        result.numbers
-        |> List.map Num.toStr
-        |> Str.joinWith ","
-
-    Stdout.line! "Random numbers are: \(numbersListStr)"
+# Initialise "randomness". (Bring Your Own source of noise.)
+Random.seed 1234
+|> Random.step generateTenNumbers
+|> .value
+|> Inspect.toStr
+|> Stdout.line
 ```
 
 See the `examples/*.roc` files for more examples.
