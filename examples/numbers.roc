@@ -9,17 +9,17 @@ import rand.Random
 # Print a list of 10 random numbers in the range 25-75 inclusive.
 main! = \_ ->
     random_numbers
-    |> List.map Num.toStr
-    |> Str.joinWith "\n"
-    |> \numbers_list_str -> Stdout.line! "$(numbers_list_str)"
+    |> List.map(Num.toStr)
+    |> Str.joinWith("\n")
+    |> \numbers_list_str -> Stdout.line!("$(numbers_list_str)")
 
 numbers_generator : Random.Generator (List U32)
 numbers_generator =
-    Random.list (Random.bounded_u32 25 75) 10
+    Random.list(Random.bounded_u32(25, 75), 10)
 
 random_numbers : List U32
 random_numbers =
-    { value: numbers } = Random.step (Random.seed 1234) numbers_generator
+    { value: numbers } = Random.step(Random.seed(1234), numbers_generator)
 
     numbers
 
