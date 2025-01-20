@@ -10,7 +10,7 @@ import rand.Random
 seed = Random.seed 1234
 
 # Generate a random number in the range 25-75 inclusive and convert it to a Str
-generator = Random.boundedU32 25 75 |> Random.map Num.toStr
+generator = Random.bounded_u32 25 75 |> Random.map Num.toStr
 
 main! = \_ ->
     { value } = Random.step seed generator

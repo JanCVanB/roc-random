@@ -18,14 +18,14 @@ See the `examples/*.roc` files for various complete examples, but here is a mini
 
 ```roc
 # Create a generator for numbers between 25-75 (inclusive).
-generateANumber = Random.boundedU32 25 75
+generate_a_number = Random.bounded_u32 25 75
 
 # Create a generator for lists of 10 numbers.
-generateTenNumbers = generateANumber |> Random.list 10
+generate_ten_numbers = generate_a_number |> Random.list 10
 
 # Initialise "randomness". (Bring Your Own source of noise.)
 Random.seed 1234
-|> Random.step generateTenNumbers
+|> Random.step generate_ten_numbers
 |> .value
 |> Inspect.toStr
 |> Stdout.line!

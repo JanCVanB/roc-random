@@ -8,8 +8,8 @@ import rand.Random
 
 Color : { red : U8, green : U8, blue : U8, alpha : U8 }
 
-colorGenerator : Random.Generator Color
-colorGenerator =
+color_generator : Random.Generator Color
+color_generator =
     { Random.chain <-
         red: Random.u8,
         green: Random.u8,
@@ -20,5 +20,5 @@ colorGenerator =
 seed = Random.seed 12345
 
 main! = \_ ->
-    { value: color } = Random.step seed colorGenerator
+    { value: color } = Random.step seed color_generator
     Stdout.line! "Color generated: $(Inspect.toStr color)"
