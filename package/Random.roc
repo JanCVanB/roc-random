@@ -193,22 +193,22 @@ list = \generator, length ->
 
 ## Construct a [Generator] for 8-bit unsigned integers
 u8 : Generator U8
-u8 = between_unsigned(Num.minU8, Num.maxU8) |> map(Num.intCast)
+u8 = between_unsigned(Num.min_u8, Num.max_u8) |> map(Num.int_cast)
 
 ## Construct a [Generator] for 8-bit unsigned integers between two boundaries (inclusive)
 bounded_u8 : U8, U8 -> Generator U8
-bounded_u8 = \x, y -> between_unsigned(x, y) |> map(Num.intCast)
+bounded_u8 = \x, y -> between_unsigned(x, y) |> map(Num.int_cast)
 
 ## Construct a [Generator] for 8-bit signed integers
 i8 : Generator I8
 i8 =
-    (minimum, maximum) = (Num.minI8, Num.maxI8)
+    (minimum, maximum) = (Num.min_i8, Num.max_i8)
     # TODO: Remove these `I64` dependencies.
-    range = (Num.toI64(maximum)) - (Num.toI64(minimum)) + 1
+    range = (Num.to_i64(maximum)) - (Num.to_i64(minimum)) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute(state) |> map_to_i32 |> Num.toI64 |> Num.sub(Num.toI64(Num.minI8)) |> Num.rem(range)
-        value = minimum |> Num.toI64 |> Num.add(offset) |> Num.toI8
+        offset = permute(state) |> map_to_i32 |> Num.to_i64 |> Num.sub(Num.to_i64(Num.min_i8)) |> Num.rem(range)
+        value = minimum |> Num.to_i64 |> Num.add(offset) |> Num.to_i8
         { value, state: update(state) }
 
 ## Construct a [Generator] for 8-bit signed integers between two boundaries (inclusive)
@@ -216,31 +216,31 @@ bounded_i8 : I8, I8 -> Generator I8
 bounded_i8 = \x, y ->
     (minimum, maximum) = sort(x, y)
     # TODO: Remove these `I64` dependencies.
-    range = (Num.toI64(maximum)) - (Num.toI64(minimum)) + 1
+    range = (Num.to_i64(maximum)) - (Num.to_i64(minimum)) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute(state) |> map_to_i32 |> Num.toI64 |> Num.sub(Num.toI64(Num.minI8)) |> Num.rem(range)
-        value = minimum |> Num.toI64 |> Num.add(offset) |> Num.toI8
+        offset = permute(state) |> map_to_i32 |> Num.to_i64 |> Num.sub(Num.to_i64(Num.min_i8)) |> Num.rem(range)
+        value = minimum |> Num.to_i64 |> Num.add(offset) |> Num.to_i8
         { value, state: update(state) }
 
 ## Construct a [Generator] for 16-bit unsigned integers
 u16 : Generator U16
-u16 = between_unsigned(Num.minU16, Num.maxU16) |> map(Num.intCast)
+u16 = between_unsigned(Num.min_u16, Num.max_u16) |> map(Num.int_cast)
 
 ## Construct a [Generator] for 16-bit unsigned integers between two boundaries (inclusive)
 bounded_u16 : U16, U16 -> Generator U16
-bounded_u16 = \x, y -> between_unsigned(x, y) |> map(Num.intCast)
+bounded_u16 = \x, y -> between_unsigned(x, y) |> map(Num.int_cast)
 
 ## Construct a [Generator] for 16-bit signed integers
 i16 : Generator I16
 i16 =
-    (minimum, maximum) = (Num.minI16, Num.maxI16)
+    (minimum, maximum) = (Num.min_i16, Num.max_i16)
     # TODO: Remove these `I64` dependencies.
-    range = (Num.toI64(maximum)) - (Num.toI64(minimum)) + 1
+    range = (Num.to_i64(maximum)) - (Num.to_i64(minimum)) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute(state) |> map_to_i32 |> Num.toI64 |> Num.sub(Num.toI64(Num.minI16)) |> Num.rem(range)
-        value = minimum |> Num.toI64 |> Num.add(offset) |> Num.toI16
+        offset = permute(state) |> map_to_i32 |> Num.to_i64 |> Num.sub(Num.to_i64(Num.min_i16)) |> Num.rem(range)
+        value = minimum |> Num.to_i64 |> Num.add(offset) |> Num.to_i16
         { value, state: update(state) }
 
 ## Construct a [Generator] for 16-bit signed integers between two boundaries (inclusive)
@@ -248,16 +248,16 @@ bounded_i16 : I16, I16 -> Generator I16
 bounded_i16 = \x, y ->
     (minimum, maximum) = sort(x, y)
     # TODO: Remove these `I64` dependencies.
-    range = (Num.toI64(maximum)) - (Num.toI64(minimum)) + 1
+    range = (Num.to_i64(maximum)) - (Num.to_i64(minimum)) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute(state) |> map_to_i32 |> Num.toI64 |> Num.sub(Num.toI64(Num.minI16)) |> Num.rem(range)
-        value = minimum |> Num.toI64 |> Num.add(offset) |> Num.toI16
+        offset = permute(state) |> map_to_i32 |> Num.to_i64 |> Num.sub(Num.to_i64(Num.min_i16)) |> Num.rem(range)
+        value = minimum |> Num.to_i64 |> Num.add(offset) |> Num.to_i16
         { value, state: update(state) }
 
 ## Construct a [Generator] for 32-bit unsigned integers
 u32 : Generator U32
-u32 = between_unsigned(Num.minU32, Num.maxU32)
+u32 = between_unsigned(Num.min_u32, Num.max_u32)
 
 ## Construct a [Generator] for 32-bit unsigned integers between two boundaries (inclusive)
 bounded_u32 : U32, U32 -> Generator U32
@@ -266,13 +266,13 @@ bounded_u32 = \x, y -> between_unsigned(x, y)
 ## Construct a [Generator] for 32-bit signed integers
 i32 : Generator I32
 i32 =
-    (minimum, maximum) = (Num.minI32, Num.maxI32)
+    (minimum, maximum) = (Num.min_i32, Num.max_i32)
     # TODO: Remove these `I64` dependencies.
-    range = (Num.toI64(maximum)) - (Num.toI64(minimum)) + 1
+    range = (Num.to_i64(maximum)) - (Num.to_i64(minimum)) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute(state) |> map_to_i32 |> Num.toI64 |> Num.sub(Num.toI64(Num.minI32)) |> Num.rem(range)
-        value = minimum |> Num.toI64 |> Num.add(offset) |> Num.toI32
+        offset = permute(state) |> map_to_i32 |> Num.to_i64 |> Num.sub(Num.to_i64(Num.min_i32)) |> Num.rem(range)
+        value = minimum |> Num.to_i64 |> Num.add(offset) |> Num.to_i32
         { value, state: update(state) }
 
 ## Construct a [Generator] for 32-bit signed integers between two boundaries (inclusive)
@@ -280,36 +280,36 @@ bounded_i32 : I32, I32 -> Generator I32
 bounded_i32 = \x, y ->
     (minimum, maximum) = sort(x, y)
     # TODO: Remove these `I64` dependencies.
-    range = (Num.toI64(maximum)) - (Num.toI64(minimum)) + 1
+    range = (Num.to_i64(maximum)) - (Num.to_i64(minimum)) + 1
     \state ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
-        offset = permute(state) |> map_to_i32 |> Num.toI64 |> Num.sub(Num.toI64(Num.minI32)) |> Num.rem(range)
-        value = minimum |> Num.toI64 |> Num.add(offset) |> Num.toI32
+        offset = permute(state) |> map_to_i32 |> Num.to_i64 |> Num.sub(Num.to_i64(Num.min_i32)) |> Num.rem(range)
+        value = minimum |> Num.to_i64 |> Num.add(offset) |> Num.to_i32
         { value, state: update(state) }
 
 # Helpers for the above constructors -------------------------------------------
 between_unsigned : Int a, Int a -> Generator (Int a)
 between_unsigned = \x, y ->
     (minimum, maximum) = sort(x, y)
-    range = maximum - minimum |> Num.addChecked(1)
+    range = maximum - minimum |> Num.add_checked(1)
 
     \s ->
         # TODO: Analyze this. The mod-ing might be biased towards a smaller offset!
         value =
             when range is
-                Ok(r) -> minimum + (Num.intCast(permute(s))) % r
-                Err(_) -> permute(s) |> Num.intCast
+                Ok(r) -> minimum + (Num.int_cast(permute(s))) % r
+                Err(_) -> permute(s) |> Num.int_cast
         state = update(s)
 
         { value, state }
 
 map_to_i32 : U32 -> I32
 map_to_i32 = \x ->
-    middle = Num.toU32(Num.maxI32)
+    middle = Num.to_u32(Num.max_i32)
     if x <= middle then
-        Num.minI32 + Num.toI32(x)
+        Num.min_i32 + Num.to_i32(x)
     else
-        Num.toI32((x - middle - 1))
+        Num.to_i32((x - middle - 1))
 
 sort = \x, y ->
     if x < y then
@@ -338,23 +338,23 @@ pcg_rxs_m_xs = \state, random_xor_shift, random_xor_shift_increment, multiplier,
 
     inner =
         random_xor_shift
-        |> Num.shiftRightZfBy(Num.intCast(state))
-        |> Num.addWrap(random_xor_shift_increment)
-        |> Num.shiftRightZfBy(Num.intCast(state))
+        |> Num.shift_right_zf_by(Num.int_cast(state))
+        |> Num.add_wrap(random_xor_shift_increment)
+        |> Num.shift_right_zf_by(Num.int_cast(state))
 
     partial =
         state
-        |> Num.bitwiseXor(inner)
-        |> Num.mulWrap(multiplier)
+        |> Num.bitwise_xor(inner)
+        |> Num.mul_wrap(multiplier)
 
-    Num.bitwiseXor(partial, Num.shiftRightZfBy(xor_shift, Num.intCast(partial)))
+    Num.bitwise_xor(partial, Num.shift_right_zf_by(xor_shift, Num.int_cast(partial)))
 
 # See section 4.1 on page 20 in the PCG paper (see link above).
 pcg_step : U32, U32, U32 -> U32
 pcg_step = \state, multiplier, increment ->
     state
-    |> Num.mulWrap(multiplier)
-    |> Num.addWrap(increment)
+    |> Num.mul_wrap(multiplier)
+    |> Num.add_wrap(increment)
 
 # See `pcg_oneseq_8_step_r` (line 409?) in the PCG C++ header (see link above).
 update : State -> State
