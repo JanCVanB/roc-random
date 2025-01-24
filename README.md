@@ -4,40 +4,34 @@ A [Roc](https://github.com/roc-lang/roc) library for random number generation
 
 ## Status
 
-Forked from [JanCVanB/roc-random](https://github.com/JanCVanB/roc-random), updated to build package and documentation, and do some maintenance.
+Forked from [JanCVanB/roc-random](https://github.com/JanCVanB/roc-random), updated to build package and documentation, and do some maintenance -- we will move it back to JanCVanB soon I'm just helping with all the breaking changes.
 
-This works, but there's much more it could do. Contributions & feedback are very welcome!
+This packages has basic functionality, but there's much more it could do. Any contributions & feedback are very welcome!
 
 ## Examples
 
 ```roc
 # Print a list of 10 random numbers in the range 25-75 inclusive.
-main =
+main! = |_args|
+    random_numbers
+    |> List.map(Num.to_str)
+    |> Str.join_with("\n")
+    |> Stdout.line!
 
-    # Initialise "randomness"
-    initialSeed = Random.seed16 42
+numbers_generator : Random.Generator (List U32)
+numbers_generator =
+    Random.list(Random.bounded_u32(25, 75), 10)
 
-    # Create a generator for values from 25-75 (inclusive)
-    u16 = Random.u16 25 75
+random_numbers : List U32
+random_numbers =
+    # we can ignore the updated seed value and just return the generated numbers
+    { value: numbers } = Random.step(Random.seed(1234), numbers_generator)
 
-    # Create a list of random numbers
-    result =
-        List.range { start: At 0, end: Before 10 }
-        |> List.walk { seed: initialSeed, numbers: [] } \state, _ ->
+    numbers
 
-            random = u16 state.seed
-            seed = random.state
-            numbers = List.append state.numbers random.value
-
-            { seed, numbers }
-
-    # Format as a string
-    numbersListStr =
-        result.numbers
-        |> List.map Num.toStr
-        |> Str.joinWith ","
-
-    Stdout.line! "Random numbers are: \(numbersListStr)"
+expect
+    actual = random_numbers
+    actual == [52, 34, 26, 69, 34, 35, 51, 74, 70, 39]
 ```
 
 See the `examples/*.roc` files for more examples.
@@ -49,13 +43,13 @@ for more info about its API.
 
 ## Goals
 
-* An external API that is similar to that of
-[Elm's `Random` library](https://github.com/elm/random)
-* An internal implementation that is similar to that of
-[Rust's `Rand` library](https://github.com/rust-random/rand)
-* Compatible with every Roc platform
-(though some platforms may provide poor/constant [seeding](#seeding))
-* Provides a variety of ergonomic abstractions
+- An external API that is similar to that of
+  [Elm's `Random` library](https://github.com/elm/random)
+- An internal implementation that is similar to that of
+  [Rust's `Rand` library](https://github.com/rust-random/rand)
+- Compatible with every Roc platform
+  (though some platforms may provide poor/constant [seeding](#seeding))
+- Provides a variety of ergonomic abstractions
 
 ## Seeding
 

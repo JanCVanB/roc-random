@@ -1,0 +1,310 @@
+# LLM Prompt for Documentation
+
+## Documentation
+
+### Random
+
+#### Generator
+
+**Type Annotation**
+
+**Description**
+
+A generator that produces pseudorandom `value`s using the PCG algorithm.
+
+```
+rgb_generator : Generator { red: U8, green: U8, blue: U8 }
+rgb_generator =
+    { Random.chain <-
+        red: Random.u8,
+        green: Random.u8,
+        blue: Random.u8,
+    }
+```
+
+#### Generation
+
+**Type Annotation**
+
+**Description**
+
+A pseudorandom value, paired with its [Generator]'s output state.
+
+This is required to chain multiple calls together passing the updated state.
+
+#### State
+
+**Type Annotation**
+
+**Description**
+
+Internal state for Generators
+
+#### seed
+
+**Type Annotation**
+
+```roc
+U32 -> State
+```
+
+**Description**
+
+Construct an initial "seed" [State] for [Generator]s
+
+#### seed_variant
+
+**Type Annotation**
+
+```roc
+U32, U32 -> State
+```
+
+**Description**
+
+Construct a specific "variant" of a "seed" for more advanced use.
+
+A "seed" is an initial [State] for [Generator]s.
+
+A "variant" is a [State] that specifies a `c.updateIncrement` constant,
+to produce a sequence of internal `value`s that shares no consecutive pairs
+with other variants of the same [State].
+
+Odd numbers are recommended for the update increment,
+to double the repetition period of sequences (by hitting odd values).
+
+#### step
+
+**Type Annotation**
+
+```roc
+State, Generator value -> Generation value
+```
+
+**Description**
+
+Generate a [Generation] from a state
+
+#### next
+
+**Type Annotation**
+
+```roc
+Generation *, Generator value -> Generation value
+```
+
+**Description**
+
+Generate a new [Generation] from an old [Generation]'s state
+
+#### static
+
+**Type Annotation**
+
+```roc
+value -> Generator value
+```
+
+**Description**
+
+Create a [Generator] that always returns the same thing.
+
+#### map
+
+**Type Annotation**
+
+```roc
+Generator a, (a -> b) -> Generator b
+```
+
+**Description**
+
+Map over the value of a [Generator].
+
+#### chain
+
+**Type Annotation**
+
+```roc
+
+    Generator a,
+    Generator b,
+    (a, b -> c)
+    -> Generator c
+```
+
+**Description**
+
+Compose two [Generator]s into a single [Generator].
+
+This works well with record builders:
+
+```
+date_generator =
+    { Random.chain <-
+        year: Random.int(1, 2500),
+        month: Random.int(1, 12),
+        day: Random.int(1, 31),
+    }
+```
+
+#### list
+
+**Type Annotation**
+
+```roc
+Generator a, Int * -> Generator (List a)
+```
+
+**Description**
+
+Generate a list of random values.
+```
+generate_10_random_u8s : Generator (List U8)
+generate_10_random_u8s =
+    Random.list(Random.u8, 10)
+```
+
+#### u8
+
+**Type Annotation**
+
+```roc
+Generator U8
+```
+
+**Description**
+
+Construct a [Generator] for 8-bit unsigned integers
+
+#### bounded_u8
+
+**Type Annotation**
+
+```roc
+U8, U8 -> Generator U8
+```
+
+**Description**
+
+Construct a [Generator] for 8-bit unsigned integers between two boundaries (inclusive)
+
+#### i8
+
+**Type Annotation**
+
+```roc
+Generator I8
+```
+
+**Description**
+
+Construct a [Generator] for 8-bit signed integers
+
+#### bounded_i8
+
+**Type Annotation**
+
+```roc
+I8, I8 -> Generator I8
+```
+
+**Description**
+
+Construct a [Generator] for 8-bit signed integers between two boundaries (inclusive)
+
+#### u16
+
+**Type Annotation**
+
+```roc
+Generator U16
+```
+
+**Description**
+
+Construct a [Generator] for 16-bit unsigned integers
+
+#### bounded_u16
+
+**Type Annotation**
+
+```roc
+U16, U16 -> Generator U16
+```
+
+**Description**
+
+Construct a [Generator] for 16-bit unsigned integers between two boundaries (inclusive)
+
+#### i16
+
+**Type Annotation**
+
+```roc
+Generator I16
+```
+
+**Description**
+
+Construct a [Generator] for 16-bit signed integers
+
+#### bounded_i16
+
+**Type Annotation**
+
+```roc
+I16, I16 -> Generator I16
+```
+
+**Description**
+
+Construct a [Generator] for 16-bit signed integers between two boundaries (inclusive)
+
+#### u32
+
+**Type Annotation**
+
+```roc
+Generator U32
+```
+
+**Description**
+
+Construct a [Generator] for 32-bit unsigned integers
+
+#### bounded_u32
+
+**Type Annotation**
+
+```roc
+U32, U32 -> Generator U32
+```
+
+**Description**
+
+Construct a [Generator] for 32-bit unsigned integers between two boundaries (inclusive)
+
+#### i32
+
+**Type Annotation**
+
+```roc
+Generator I32
+```
+
+**Description**
+
+Construct a [Generator] for 32-bit signed integers
+
+#### bounded_i32
+
+**Type Annotation**
+
+```roc
+I32, I32 -> Generator I32
+```
+
+**Description**
+
+Construct a [Generator] for 32-bit signed integers between two boundaries (inclusive)
