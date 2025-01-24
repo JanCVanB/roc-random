@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Random - Documentation</title>
+    <!-- <meta name="description" content="TODO populate this based on the module's description"> -->
+    <meta name="viewport" content="width=device-width" />
+    <base href="/roc-random/0.5.0/" />
+    <script type="text/javascript" src="search.js" defer></script>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="/favicon.svg" />
+    <!-- Safari ignores rel="icon" and only respects rel="mask-icon". It will render the SVG with
+    fill="#000" unless this `color` attribute here is hardcoded (not a CSS `var()`) to override it.
+  -->
+    <link rel="mask-icon" href="/favicon.svg" color="#7d59dd" />
+    <link rel="prefetch" href="Random"/>
+</head>
+
+<body>
+    <nav id="sidebar-nav">
+        <div class="pkg-and-logo">
+            <a class="logo" href="/" aria-labelledby="logo-link">
+                <svg viewBox="0 -6 51 58" fill="none" xmlns="http://www.w3.org/2000/svg" aria-labelledby="logo-link"
+                    role="img">
+                    <title id="logo-link">Return to Roc packages</title>
+                    <polygon role="presentation"
+                        points="0,0 23.8834,3.21052 37.2438,19.0101 45.9665,16.6324 50.5,22 45,22 44.0315,26.3689 26.4673,39.3424 27.4527,45.2132 17.655,53 23.6751,22.7086" />
+                </svg>
+            </a>
+            <h1 class="pkg-full-name" ><a href="/roc-random/0.5.0/" >Documentation</a></h1>
+            <button class="menu-toggle" aria-label="Toggle sidebar">
+                <svg viewBox="0 0 72 72" id="emoji" xmlns="http://www.w3.org/2000/svg" fill="currentcolor">
+                    <g id="SVGRepo_iconCarrier">
+                        <g id="color"></g>
+                        <g id="hair"></g>
+                        <g id="skin"></g>
+                        <g id="skin-shadow"></g>
+                        <g id="line">
+                            <line x1="16" x2="56" y1="26" y2="26" fill="none" stroke="currentColor"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2">
+                            </line>
+                            <line x1="16" x2="56" y1="36" y2="36" fill="none" stroke="currentColor"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2">
+                            </line>
+                            <line x1="16" x2="56" y1="46" y2="46" fill="none" stroke="currentColor"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2">
+                            </line>
+                        </g>
+                    </g>
+                </svg>
+            </button>
+        </div>
+        <div class="module-links-container">
+            <div class="module-links">
+                <div class="sidebar-entry" ><a class="sidebar-module-link" href="Random" data-module-name="Random" ><span >Random</span><button class="entry-toggle" >▶</button></a><div class="sidebar-sub-entries" ><a href="Random#Generator" >Generator</a><a href="Random#Generation" >Generation</a><a href="Random#State" >State</a><a href="Random#seed" >seed</a><a href="Random#seed_variant" >seed_variant</a><a href="Random#step" >step</a><a href="Random#next" >next</a><a href="Random#static" >static</a><a href="Random#map" >map</a><a href="Random#chain" >chain</a><a href="Random#list" >list</a><a href="Random#u8" >u8</a><a href="Random#bounded_u8" >bounded_u8</a><a href="Random#i8" >i8</a><a href="Random#bounded_i8" >bounded_i8</a><a href="Random#u16" >u16</a><a href="Random#bounded_u16" >bounded_u16</a><a href="Random#i16" >i16</a><a href="Random#bounded_i16" >bounded_i16</a><a href="Random#u32" >u32</a><a href="Random#bounded_u32" >bounded_u32</a><a href="Random#i32" >i32</a><a href="Random#bounded_i32" >bounded_i32</a></div></div>
+            </div>
+        </div>
+    </nav>
+    <main>
+        <form id="module-search-form">
+            <button class="menu-toggle" aria-label="Toggle sidebar">
+                <svg viewBox="0 0 72 72" id="emoji" xmlns="http://www.w3.org/2000/svg" fill="currentcolor">
+                    <g id="SVGRepo_iconCarrier">
+                        <g id="color"></g>
+                        <g id="hair"></g>
+                        <g id="skin"></g>
+                        <g id="skin-shadow"></g>
+                        <g id="line">
+                            <line x1="16" x2="56" y1="26" y2="26" fill="none" stroke="currentColor"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2">
+                            </line>
+                            <line x1="16" x2="56" y1="36" y2="36" fill="none" stroke="currentColor"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2">
+                            </line>
+                            <line x1="16" x2="56" y1="46" y2="46" fill="none" stroke="currentColor"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2">
+                            </line>
+                        </g>
+                    </g>
+                </svg>
+            </button>
+            <input id="module-search" aria-labelledby="search-label" type="text"
+                placeholder="Search Documentation" role="combobox" aria-autocomplete="list"
+                aria-expanded="false" aria-controls="search-type-ahead" />
+            <label for="module-search" id="search-label">(press
+                <span id="search-shortcut-key" aria-hidden="true">s</span>)</label>
+            <!-- Magnifying Glass icon -->
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" class="search-icon"
+                xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 512 512"
+                xml:space="preserve">
+                <g>
+                    <path d="M449.803,62.197C408.443,20.807,353.85-0.037,299.646-0.006C245.428-0.037,190.85,20.807,149.49,62.197
+		C108.1,103.557,87.24,158.15,87.303,212.338c-0.047,37.859,10.359,75.766,30.547,109.359L15.021,424.525
+		c-20.016,20.016-20.016,52.453,0,72.469c20,20.016,52.453,20.016,72.453,0L190.318,394.15
+		c33.578,20.203,71.5,30.594,109.328,30.547c54.203,0.047,108.797-20.797,150.156-62.188
+		c41.375-41.359,62.234-95.938,62.188-150.172C512.053,158.15,491.178,103.557,449.803,62.197z M391.818,304.541
+		c-25.547,25.531-58.672,38.125-92.172,38.188c-33.5-0.063-66.609-12.656-92.188-38.188c-25.531-25.578-38.125-58.688-38.188-92.203
+		c0.063-33.484,12.656-66.609,38.188-92.172c25.578-25.531,58.688-38.125,92.188-38.188c33.5,0.063,66.625,12.656,92.188,38.188
+		c25.531,25.563,38.125,58.688,38.188,92.172C429.959,245.854,417.365,278.963,391.818,304.541z"></path>
+                </g>
+            </svg>
+            <ul id="search-type-ahead" role="listbox" aria-label="Search Results" class="hidden">
+                <li role="option" ><a href="Random#Generator" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >Generator</span></a></li><li role="option" ><a href="Random#Generation" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >Generation</span></a></li><li role="option" ><a href="Random#State" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >State</span></a></li><li role="option" ><a href="Random#seed" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >seed</span><span class="type-ahead-signature" > : U32 -> State</span></a></li><li role="option" ><a href="Random#seed_variant" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >seed_variant</span><span class="type-ahead-signature" > : U32, U32 -> State</span></a></li><li role="option" ><a href="Random#step" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >step</span><span class="type-ahead-signature" > : State, Generator value -> Generation value</span></a></li><li role="option" ><a href="Random#next" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >next</span><span class="type-ahead-signature" > : Generation *, Generator value -> Generation value</span></a></li><li role="option" ><a href="Random#static" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >static</span><span class="type-ahead-signature" > : value -> Generator value</span></a></li><li role="option" ><a href="Random#map" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >map</span><span class="type-ahead-signature" > : Generator a, (a -> b) -> Generator b</span></a></li><li role="option" ><a href="Random#chain" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >chain</span><span class="type-ahead-signature" > :
+    Generator a,
+    Generator b,
+    (a, b -> c)
+    -> Generator c</span></a></li><li role="option" ><a href="Random#list" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >list</span><span class="type-ahead-signature" > : Generator a, Int * -> Generator (List a)</span></a></li><li role="option" ><a href="Random#u8" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >u8</span><span class="type-ahead-signature" > : Generator U8</span></a></li><li role="option" ><a href="Random#bounded_u8" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >bounded_u8</span><span class="type-ahead-signature" > : U8, U8 -> Generator U8</span></a></li><li role="option" ><a href="Random#i8" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >i8</span><span class="type-ahead-signature" > : Generator I8</span></a></li><li role="option" ><a href="Random#bounded_i8" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >bounded_i8</span><span class="type-ahead-signature" > : I8, I8 -> Generator I8</span></a></li><li role="option" ><a href="Random#u16" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >u16</span><span class="type-ahead-signature" > : Generator U16</span></a></li><li role="option" ><a href="Random#bounded_u16" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >bounded_u16</span><span class="type-ahead-signature" > : U16, U16 -> Generator U16</span></a></li><li role="option" ><a href="Random#i16" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >i16</span><span class="type-ahead-signature" > : Generator I16</span></a></li><li role="option" ><a href="Random#bounded_i16" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >bounded_i16</span><span class="type-ahead-signature" > : I16, I16 -> Generator I16</span></a></li><li role="option" ><a href="Random#u32" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >u32</span><span class="type-ahead-signature" > : Generator U32</span></a></li><li role="option" ><a href="Random#bounded_u32" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >bounded_u32</span><span class="type-ahead-signature" > : U32, U32 -> Generator U32</span></a></li><li role="option" ><a href="Random#i32" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >i32</span><span class="type-ahead-signature" > : Generator I32</span></a></li><li role="option" ><a href="Random#bounded_i32" class="type-ahead-link" ><span class="type-ahead-module-name" >Random</span><span class="type-ahead-module-dot" >.</span><span class="type-ahead-def-name" >bounded_i32</span><span class="type-ahead-signature" > : I32, I32 -> Generator I32</span></a></li>
+            </ul>
+        </form>
+        <h2 class="module-name" ><a href="/" >Random</a></h2><h2>PCG algorithms, constants, and wrappers</h2>
+<p>For more information about PCG see <a href="https://www.pcg-random.org">www.pcg-random.org</a></p>
+<blockquote>
+<p>PCG is a family of simple fast space-efficient statistically good algorithms for random number generation.</p>
+</blockquote>
+<section><h3 id="Generator" class="entry-name" ><a href="Random#Generator" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="upperident">Generator</span><span class="lowerident"> value</span></code></h3><p>A generator that produces pseudorandom <code>value</code>s using the PCG algorithm.</p>
+<pre><samp><span class="lowerident">rgb</span><span class="lowerident">_</span><span class="lowerident">generator</span><span class="kw"> :</span><span class="upperident"> Generator</span><span class="delimeter"> {</span><span class="lowerident"> red</span><span class="kw">:</span><span class="upperident"> U8</span><span class="delimeter">,</span><span class="lowerident"> green</span><span class="kw">:</span><span class="upperident"> U8</span><span class="delimeter">,</span><span class="lowerident"> blue</span><span class="kw">:</span><span class="upperident"> U8</span><span class="delimeter"> }</span><span class="lowerident">
+rgb</span><span class="lowerident">_</span><span class="lowerident">generator</span><span class="kw"> =</span><span class="delimeter">
+    {</span><span class="upperident"> Random</span><span class="delimeter">.</span><span class="lowerident">chain</span><span class="kw"> &lt;-</span><span class="lowerident">
+        red</span><span class="kw">:</span><span class="upperident"> Random</span><span class="delimeter">.</span><span class="lowerident">u8</span><span class="delimeter">,</span><span class="lowerident">
+        green</span><span class="kw">:</span><span class="upperident"> Random</span><span class="delimeter">.</span><span class="lowerident">u8</span><span class="delimeter">,</span><span class="lowerident">
+        blue</span><span class="kw">:</span><span class="upperident"> Random</span><span class="delimeter">.</span><span class="lowerident">u8</span><span class="delimeter">,</span><span class="delimeter">
+    }</span></samp></pre></code></pre>
+</section><section><h3 id="Generation" class="entry-name" ><a href="Random#Generation" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="upperident">Generation</span><span class="lowerident"> value</span></code></h3><p>A pseudorandom value, paired with its <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a>'s output state.</p>
+<p>This is required to chain multiple calls together passing the updated state.</p>
+</section><section><h3 id="State" class="entry-name" ><a href="Random#State" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="upperident">State</span></code></h3><p>Internal state for Generators</p>
+</section><section><h3 id="seed" class="entry-name" ><a href="Random#seed" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">seed</span><span class="kw"> :</span><span class="upperident"> U32</span><span class="kw"> -&gt;</span><span class="upperident"> State</span></code></h3><p>Construct an initial &quot;seed&quot; <a href="/roc-random/0.5.0/Random#State" title="Docs for Random.State"><code>State</code></a> for <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a>s</p>
+</section><section><h3 id="seed_variant" class="entry-name" ><a href="Random#seed_variant" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">seed</span><span class="lowerident">_</span><span class="lowerident">variant</span><span class="kw"> :</span><span class="upperident"> U32</span><span class="delimeter">,</span><span class="upperident"> U32</span><span class="kw"> -&gt;</span><span class="upperident"> State</span></code></h3><p>Construct a specific &quot;variant&quot; of a &quot;seed&quot; for more advanced use.</p>
+<p>A &quot;seed&quot; is an initial <a href="/roc-random/0.5.0/Random#State" title="Docs for Random.State"><code>State</code></a> for <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a>s.</p>
+<p>A &quot;variant&quot; is a <a href="/roc-random/0.5.0/Random#State" title="Docs for Random.State"><code>State</code></a> that specifies a <code>c.updateIncrement</code> constant,
+to produce a sequence of internal <code>value</code>s that shares no consecutive pairs
+with other variants of the same <a href="/roc-random/0.5.0/Random#State" title="Docs for Random.State"><code>State</code></a>.</p>
+<p>Odd numbers are recommended for the update increment,
+to double the repetition period of sequences (by hitting odd values).</p>
+</section><section><h3 id="step" class="entry-name" ><a href="Random#step" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">step</span><span class="kw"> :</span><span class="upperident"> State</span><span class="delimeter">,</span><span class="upperident"> Generator</span><span class="lowerident"> value</span><span class="kw"> -&gt;</span><span class="upperident"> Generation</span><span class="lowerident"> value</span></code></h3><p>Generate a <a href="/roc-random/0.5.0/Random#Generation" title="Docs for Random.Generation"><code>Generation</code></a> from a state</p>
+</section><section><h3 id="next" class="entry-name" ><a href="Random#next" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">next</span><span class="kw"> :</span><span class="upperident"> Generation</span><span class="op"> *</span><span class="delimeter">,</span><span class="upperident"> Generator</span><span class="lowerident"> value</span><span class="kw"> -&gt;</span><span class="upperident"> Generation</span><span class="lowerident"> value</span></code></h3><p>Generate a new <a href="/roc-random/0.5.0/Random#Generation" title="Docs for Random.Generation"><code>Generation</code></a> from an old <a href="/roc-random/0.5.0/Random#Generation" title="Docs for Random.Generation"><code>Generation</code></a>'s state</p>
+</section><section><h3 id="static" class="entry-name" ><a href="Random#static" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">static</span><span class="kw"> :</span><span class="lowerident"> value</span><span class="kw"> -&gt;</span><span class="upperident"> Generator</span><span class="lowerident"> value</span></code></h3><p>Create a <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> that always returns the same thing.</p>
+</section><section><h3 id="map" class="entry-name" ><a href="Random#map" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">map</span><span class="kw"> :</span><span class="upperident"> Generator</span><span class="lowerident"> a</span><span class="delimeter">,</span><span class="delimeter"> (</span><span class="lowerident">a</span><span class="kw"> -&gt;</span><span class="lowerident"> b</span><span class="delimeter">)</span><span class="kw"> -&gt;</span><span class="upperident"> Generator</span><span class="lowerident"> b</span></code></h3><p>Map over the value of a <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a>.</p>
+</section><section><h3 id="chain" class="entry-name" ><a href="Random#chain" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">chain</span><span class="kw"> :</span><span class="upperident">
+    Generator</span><span class="lowerident"> a</span><span class="delimeter">,</span><span class="upperident">
+    Generator</span><span class="lowerident"> b</span><span class="delimeter">,</span><span class="delimeter">
+    (</span><span class="lowerident">a</span><span class="delimeter">,</span><span class="lowerident"> b</span><span class="kw"> -&gt;</span><span class="lowerident"> c</span><span class="delimeter">)</span><span class="kw">
+    -&gt;</span><span class="upperident"> Generator</span><span class="lowerident"> c</span></code></h3><p>Compose two <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a>s into a single <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a>.</p>
+<p>This works well with record builders:</p>
+<pre><samp><span class="lowerident">date</span><span class="lowerident">_</span><span class="lowerident">generator</span><span class="kw"> =</span><span class="delimeter">
+    {</span><span class="upperident"> Random</span><span class="delimeter">.</span><span class="lowerident">chain</span><span class="kw"> &lt;-</span><span class="lowerident">
+        year</span><span class="kw">:</span><span class="upperident"> Random</span><span class="delimeter">.</span><span class="lowerident">int</span><span class="delimeter">(</span><span class="literal">1</span><span class="delimeter">,</span><span class="literal"> 2500</span><span class="delimeter">)</span><span class="delimeter">,</span><span class="lowerident">
+        month</span><span class="kw">:</span><span class="upperident"> Random</span><span class="delimeter">.</span><span class="lowerident">int</span><span class="delimeter">(</span><span class="literal">1</span><span class="delimeter">,</span><span class="literal"> 12</span><span class="delimeter">)</span><span class="delimeter">,</span><span class="lowerident">
+        day</span><span class="kw">:</span><span class="upperident"> Random</span><span class="delimeter">.</span><span class="lowerident">int</span><span class="delimeter">(</span><span class="literal">1</span><span class="delimeter">,</span><span class="literal"> 31</span><span class="delimeter">)</span><span class="delimeter">,</span><span class="delimeter">
+    }</span></samp></pre></code></pre>
+</section><section><h3 id="list" class="entry-name" ><a href="Random#list" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">list</span><span class="kw"> :</span><span class="upperident"> Generator</span><span class="lowerident"> a</span><span class="delimeter">,</span><span class="upperident"> Int</span><span class="op"> *</span><span class="kw"> -&gt;</span><span class="upperident"> Generator</span><span class="delimeter"> (</span><span class="upperident">List</span><span class="lowerident"> a</span><span class="delimeter">)</span></code></h3><p>Generate a list of random values.</p>
+<pre><samp><span class="lowerident">generate</span><span class="lowerident">_</span><span class="literal">10_random_u8s</span><span class="kw"> :</span><span class="upperident"> Generator</span><span class="delimeter"> (</span><span class="upperident">List</span><span class="upperident"> U8</span><span class="delimeter">)</span><span class="lowerident">
+generate</span><span class="lowerident">_</span><span class="literal">10_random_u8s</span><span class="kw"> =</span><span class="upperident">
+    Random</span><span class="delimeter">.</span><span class="lowerident">list</span><span class="delimeter">(</span><span class="upperident">Random</span><span class="delimeter">.</span><span class="lowerident">u8</span><span class="delimeter">,</span><span class="literal"> 10</span><span class="delimeter">)</span></samp></pre></code></pre>
+</section><section><h3 id="u8" class="entry-name" ><a href="Random#u8" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">u8</span><span class="kw"> :</span><span class="upperident"> Generator</span><span class="upperident"> U8</span></code></h3><p>Construct a <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 8-bit unsigned integers</p>
+</section><section><h3 id="bounded_u8" class="entry-name" ><a href="Random#bounded_u8" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">bounded</span><span class="lowerident">_</span><span class="lowerident">u8</span><span class="kw"> :</span><span class="upperident"> U8</span><span class="delimeter">,</span><span class="upperident"> U8</span><span class="kw"> -&gt;</span><span class="upperident"> Generator</span><span class="upperident"> U8</span></code></h3><p>Construct a <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 8-bit unsigned integers between two boundaries (inclusive)</p>
+</section><section><h3 id="i8" class="entry-name" ><a href="Random#i8" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">i8</span><span class="kw"> :</span><span class="upperident"> Generator</span><span class="upperident"> I8</span></code></h3><p>Construct a <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 8-bit signed integers</p>
+</section><section><h3 id="bounded_i8" class="entry-name" ><a href="Random#bounded_i8" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">bounded</span><span class="lowerident">_</span><span class="lowerident">i8</span><span class="kw"> :</span><span class="upperident"> I8</span><span class="delimeter">,</span><span class="upperident"> I8</span><span class="kw"> -&gt;</span><span class="upperident"> Generator</span><span class="upperident"> I8</span></code></h3><p>Construct a <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 8-bit signed integers between two boundaries (inclusive)</p>
+</section><section><h3 id="u16" class="entry-name" ><a href="Random#u16" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">u16</span><span class="kw"> :</span><span class="upperident"> Generator</span><span class="upperident"> U16</span></code></h3><p>Construct a <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 16-bit unsigned integers</p>
+</section><section><h3 id="bounded_u16" class="entry-name" ><a href="Random#bounded_u16" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">bounded</span><span class="lowerident">_</span><span class="lowerident">u16</span><span class="kw"> :</span><span class="upperident"> U16</span><span class="delimeter">,</span><span class="upperident"> U16</span><span class="kw"> -&gt;</span><span class="upperident"> Generator</span><span class="upperident"> U16</span></code></h3><p>Construct a <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 16-bit unsigned integers between two boundaries (inclusive)</p>
+</section><section><h3 id="i16" class="entry-name" ><a href="Random#i16" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">i16</span><span class="kw"> :</span><span class="upperident"> Generator</span><span class="upperident"> I16</span></code></h3><p>Construct a <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 16-bit signed integers</p>
+</section><section><h3 id="bounded_i16" class="entry-name" ><a href="Random#bounded_i16" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">bounded</span><span class="lowerident">_</span><span class="lowerident">i16</span><span class="kw"> :</span><span class="upperident"> I16</span><span class="delimeter">,</span><span class="upperident"> I16</span><span class="kw"> -&gt;</span><span class="upperident"> Generator</span><span class="upperident"> I16</span></code></h3><p>Construct a <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 16-bit signed integers between two boundaries (inclusive)</p>
+</section><section><h3 id="u32" class="entry-name" ><a href="Random#u32" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">u32</span><span class="kw"> :</span><span class="upperident"> Generator</span><span class="upperident"> U32</span></code></h3><p>Construct a <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 32-bit unsigned integers</p>
+</section><section><h3 id="bounded_u32" class="entry-name" ><a href="Random#bounded_u32" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">bounded</span><span class="lowerident">_</span><span class="lowerident">u32</span><span class="kw"> :</span><span class="upperident"> U32</span><span class="delimeter">,</span><span class="upperident"> U32</span><span class="kw"> -&gt;</span><span class="upperident"> Generator</span><span class="upperident"> U32</span></code></h3><p>Construct a <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 32-bit unsigned integers between two boundaries (inclusive)</p>
+</section><section><h3 id="i32" class="entry-name" ><a href="Random#i32" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">i32</span><span class="kw"> :</span><span class="upperident"> Generator</span><span class="upperident"> I32</span></code></h3><p>Construct a <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 32-bit signed integers</p>
+</section><section><h3 id="bounded_i32" class="entry-name" ><a href="Random#bounded_i32" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor"><!--!
+	Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License -
+	https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+	Copyright 2023 Fonticons, Inc. -->
+	<path
+		d="M562.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L405.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C189.5 251.2 196 330 246 380c56.5 56.5 148 56.5 204.5 0L562.8 267.7zM43.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C57 372 57 321 88.5 289.5L200.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C416.5 260.8 410 182 360 132c-56.5-56.5-148-56.5-204.5 0L43.2 244.3z" />
+</svg></a><code><span class="lowerident">bounded</span><span class="lowerident">_</span><span class="lowerident">i32</span><span class="kw"> :</span><span class="upperident"> I32</span><span class="delimeter">,</span><span class="upperident"> I32</span><span class="kw"> -&gt;</span><span class="upperident"> Generator</span><span class="upperident"> I32</span></code></h3><p>Construct a <a href="/roc-random/0.5.0/Random#Generator" title="Docs for Random.Generator"><code>Generator</code></a> for 32-bit signed integers between two boundaries (inclusive)</p>
+</section>
+        <footer>
+            <p>Made by people who like to make nice things.</p>
+        </footer>
+    </main>
+</body>
+
+</html>
