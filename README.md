@@ -1,6 +1,14 @@
-# Randomness for Roc
+# (Pseudo-)Randomness for Roc
 
-A [Roc](https://github.com/roc-lang/roc) library 🦅 for 🎲 random number generation
+A [Roc](https://github.com/roc-lang/roc) 🦅 library for 🎲 number generation (and more!)
+
+This library aims to provide the Roc ecosystem with all of the
+general-purpose pure functions that app/package developers need
+to manipulate raw randomness into useful inputs for anything -
+from fuzz tests to simulations to video games.
+With no side effects (like reading from a clock or sensor),
+this library processes your own noise sample(s) ("seed(s)")
+into your desired shapes, distributions, and sequences.
 
 Contributions & feedback are very welcome!
 
@@ -52,3 +60,7 @@ for more info about its API.
 In order to receive a different sequence of outputs from this library between executions of your application, your Roc platform of choice must provide a random/pseudorandom/varying seed.
 
 Otherwise, your pure functions will be responsible for providing `Random`'s pure functions with a constant seed that will merely choose which predictable sequence you'll receive.
+
+## TODO
+
+- Support common non-uniform distributions (Gaussian, etc.)
