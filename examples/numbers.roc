@@ -7,7 +7,7 @@ import cli.Stdout
 import rand.Random
 
 # Print a list of 10 random numbers in the range 25-75 inclusive.
-main! = \_ ->
+main! = |_|
     random_numbers
     |> List.map(Num.to_str)
     |> Str.join_with("\n")
