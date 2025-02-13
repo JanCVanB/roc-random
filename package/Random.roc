@@ -127,9 +127,9 @@ map = |generator, mapper|
 ## ```
 ## date_generator =
 ##     { Random.chain <-
-##         year: Random.int 1 2500,
-##         month: Random.int 1 12,
-##         day: Random.int 1 31,
+##         year: Random.int(1, 2500),
+##         month: Random.int(1, 12),
+##         day: Random.int(1, 31),
 ##     }
 ## ```
 chain : Generator a, Generator b, (a, b -> c) -> Generator c
