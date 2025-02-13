@@ -34,7 +34,7 @@ Random.seed 1234
 
 ## Documentation
 
-See [the library documentation site](https://JanCVanB.github.io/roc-random/)
+See [the library documentation site](https://jancvanb.github.io/roc-random/0.5.0/Random/)
 for more info about its API.
 
 ## Goals
