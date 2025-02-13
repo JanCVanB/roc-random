@@ -10,6 +10,10 @@ With no side effects (like reading from a clock or sensor),
 this library processes your own noise sample(s) ("seed(s)")
 into your desired shapes, distributions, and sequences.
 
+If you're an app developer who's unsure how to get a varying seed,
+see what you can sense using the effects provided by your chosen Roc platform.
+`Time.now!`? `Mouse.coordinates!`? `CPU.temperature!`? `Your.choice!`
+
 Contributions & feedback are very welcome!
 
 ### Used By
