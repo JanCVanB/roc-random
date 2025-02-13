@@ -28,7 +28,7 @@ generate_ten_numbers = generate_a_number |> Random.list(10)
 Random.seed 1234
 |> Random.step(generate_ten_numbers)
 |> .value
-|> Inspect.toStr
+|> Inspect.to_str
 |> Stdout.line!
 ```
 
