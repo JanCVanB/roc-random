@@ -7,7 +7,7 @@ import cli.Stdout
 import rand.Random
 
 # Print a list of 10 random numbers in the range 25-75 inclusive.
-main! = |_|
+main! = |_args|
     random_numbers
     |> List.map(Num.to_str)
     |> Str.join_with("\n")
@@ -19,6 +19,7 @@ numbers_generator =
 
 random_numbers : List U32
 random_numbers =
+    # we can ignore the updated seed value and just return the generated numbers
     { value: numbers } = Random.step(Random.seed(1234), numbers_generator)
 
     numbers

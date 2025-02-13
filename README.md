@@ -39,13 +39,13 @@ for more info about its API.
 
 ## Goals
 
-* An external API that is similar to that of
-[Elm's `Random` library](https://github.com/elm/random)
-* An internal implementation that is similar to that of
-[Rust's `Rand` library](https://github.com/rust-random/rand)
-* Compatible with every Roc platform
-(though some platforms may provide poor/constant [seeding](#seeding))
-* Provides a variety of ergonomic abstractions
+- An external API that is similar to that of
+  [Elm's `Random` library](https://github.com/elm/random)
+- An internal implementation that is similar to that of
+  [Rust's `Rand` library](https://github.com/rust-random/rand)
+- Compatible with every Roc platform
+  (though some platforms may provide poor/constant [seeding](#seeding))
+- Provides a variety of ergonomic abstractions
 
 ## Seeding
 
