@@ -1,5 +1,5 @@
 app [main!] {
-    cli: platform "https://github.com/roc-lang/basic-cli/releases/download/0.18.0/0APbwVN1_p1mJ96tXjaoiUCr8NBGamr8G8Ac_DrXR-o.tar.br",
+    cli: platform "https://github.com/roc-lang/basic-cli/releases/download/0.19.0/Hj-J_zxz7V9YurCSTFcFdu6cQJie4guzsPMUi5kBYUk.tar.br",
     rand: "../package/main.roc",
 }
 
@@ -10,7 +10,7 @@ import rand.Random
 seed = Random.seed(1234)
 
 # Generate a random number in the range 25-75 inclusive and convert it to a Str
-generator = Random.bounded_u32(25, 75) |> Random.map(Num.toStr)
+generator = Random.bounded_u32(25, 75) |> Random.map(Num.to_str)
 
 main! = \_ ->
     { value } = Random.step(seed, generator)
