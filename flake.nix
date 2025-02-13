@@ -11,13 +11,7 @@
   };
 
   outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      flake-parts,
-      roc,
-      ...
-    }:
+    inputs@{ flake-parts, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [
         "aarch64-darwin"
@@ -26,21 +20,21 @@
         "x86_64-linux"
       ];
       perSystem =
-        { inputs', pkgs, ... }:
+        {
+          inputs',
+          pkgs,
+          ...
+        }:
         {
           devShells.default = pkgs.mkShell {
-            name = "roc-html";
+            name = "roc-random";
             packages = [
               inputs'.roc.packages.cli
               pkgs.actionlint
-              pkgs.check-jsonschema
-              pkgs.fd
-              pkgs.just
               pkgs.nixfmt-rfc-style
               pkgs.nodePackages.prettier
               pkgs.pre-commit
               pkgs.python312Packages.pre-commit-hooks
-              pkgs.ratchet
             ];
             shellHook = "pre-commit install --overwrite";
           };
