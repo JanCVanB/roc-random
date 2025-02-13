@@ -185,7 +185,7 @@ expect
 ## ```
 ## generate_10_random_u8s : Generator (List U8)
 ## generate_10_random_u8s =
-##     Random.list Random.u8 10
+##     Random.list(Random.u8, 10)
 ## ```
 list : Generator a, Int * -> Generator (List a)
 list = |generator, length|
