@@ -1,5 +1,5 @@
 app [main!] {
-    cli: platform "https://github.com/roc-lang/basic-cli/releases/download/0.18.0/0APbwVN1_p1mJ96tXjaoiUCr8NBGamr8G8Ac_DrXR-o.tar.br",
+    cli: platform "https://github.com/roc-lang/basic-cli/releases/download/0.19.0/Hj-J_zxz7V9YurCSTFcFdu6cQJie4guzsPMUi5kBYUk.tar.br",
     rand: "../package/main.roc",
 }
 
@@ -11,7 +11,7 @@ main! = |_|
     random_numbers
     |> List.map(Num.to_str)
     |> Str.join_with("\n")
-    |> |numbers_list_str| Stdout.line!("${numbers_list_str}")
+    |> Stdout.line!
 
 numbers_generator : Random.Generator (List U32)
 numbers_generator =
